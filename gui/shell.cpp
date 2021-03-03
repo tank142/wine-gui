@@ -12,7 +12,7 @@ shell::shell(QString e,QStringList o){
 }
 shell::~shell(){
 	env->~QProcessEnvironment();
-	proc->~QProcess();
+	proc->deleteLater();
 }
 void shell::run(){
 	proc->setProcessChannelMode(QProcess::MergedChannels);
