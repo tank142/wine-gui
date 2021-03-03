@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QComboBox>
+#include <QGridLayout>
 #include "main_target.h"
 class tabTools : public QWidget
 {
@@ -14,6 +15,7 @@ public:
 private:
 	main_target *target;
 	QString prefix();
+	QGridLayout *gbox;
 private slots:
 	void regedit();
 	void winecfg();

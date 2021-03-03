@@ -21,6 +21,9 @@ public:
 	explicit ToolsTab(main_target*,QWidget *parent = nullptr);
 	tabLabels *l;
 	tabTools *t;
+public slots:
+	void hide();
+	void unhide();
 };
 class dllTab : public QWidget
 {

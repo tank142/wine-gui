@@ -14,7 +14,7 @@ class main_target : public QObject {
 		QStringList model_storages;
 		QString arch;
 		QString home;
-		QString ICON = "/home/tank/icons/";
+		QString ICON = "/usr/share/wine-gui/icons/";
 		QString CONF;
 		QString DXVK;
 		QString NINE;

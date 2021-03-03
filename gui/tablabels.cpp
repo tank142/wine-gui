@@ -1,7 +1,6 @@
 #include "findlink.h"
 #include "shortcutread.h"
 #include "tablabels.h"
-#include "filedesktopwidget.h"
 #include "shell.h"
 #include "shelloutput.h"
 #include <QGridLayout>
@@ -29,6 +28,9 @@ tabLabels::tabLabels(main_target *t,QWidget *parent) : QWidget(parent)
 	vbox->addWidget(labels);
 	setLayout(vbox);
 	connect(labels,	&QTreeView::doubleClicked , this , &tabLabels::clicked2);
+	connect(labels,	&QTreeView::customContextMenuRequested, this, &tabLabels::rightClicked);
+}
+void tabLabels::labels_connect(){
 	connect(labels,	&QTreeView::customContextMenuRequested, this, &tabLabels::rightClicked);
 }
 void tabLabels::rightClicked()
@@ -247,11 +249,12 @@ void tabLabels::del_desktop_slot(){
 			 QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)).rm();
 }
 void tabLabels::add_slot(){
-	fileDesktopWidget *file;
 	file = new fileDesktopWidget(prefixPath(), "");
 	vbox->addWidget(file);
 	connect(file, &fileDesktopWidget::shortcuts_update , this , &tabLabels::shortcuts);
-	//connect(file, &fileDesktopWidget::destroyed , this , &tabLabels::hide_slot);
+	disconnect(labels,	&QTreeView::customContextMenuRequested, this, &tabLabels::rightClicked);
+	connect(file,	&fileDesktopWidget::destroyed, this, &tabLabels::labels_connect);
+	emit hide();
 }
 void tabLabels::editor_slot(){
 	fileDesktopWidget *file;

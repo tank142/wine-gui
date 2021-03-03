@@ -91,7 +91,6 @@ fileDesktopWidget::fileDesktopWidget(QString t,QString f,QWidget *parent) : QWid
 		name->setText(target->Name);
 		comment->setText(target->Comment);
 		path->setText(shell->WORKDIR);
-		//categories->setText(target->Categories);
 		wmclass->setText(target->StartupWMClass);
 		esyncCheck->setChecked(shell->WINEESYNC);
 		fsyncCheck->setChecked(shell->WINEFSYNC);
@@ -175,5 +174,6 @@ void fileDesktopWidget::set_dir(){
 		icon->setText(name->text().left( name->text().lastIndexOf(".")));
 		wmclass->setText(icon->text());
 		shortcut->setText(wmclass->text());
+		name->setText(icon->text());
 	}
 }

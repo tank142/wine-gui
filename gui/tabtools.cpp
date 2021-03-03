@@ -5,14 +5,13 @@
 #include <QFileSystemWatcher>
 #include <QSettings>
 #include <QVBoxLayout>
-#include <QGridLayout>
 #include <QLabel>
 #include <QDir>
 tabTools::tabTools(main_target *t,QWidget *parent) : QWidget(parent)
 {
 	target = t;
 	QVBoxLayout *vbox = new QVBoxLayout;vbox->setAlignment(Qt::AlignTop);
-	QGridLayout *gbox = new QGridLayout;gbox->setAlignment(Qt::AlignTop);
+	gbox = new QGridLayout;gbox->setAlignment(Qt::AlignTop);
 	QPushButton *button0 = new QPushButton("Редактор реестра");
 	QPushButton *button1 = new QPushButton("Настройка Wine");
 	QPushButton *button2 = new QPushButton("Панель управления");
@@ -187,4 +186,3 @@ void tabTools::clear(){QString path;
 	wine->envSetup(target);
 	wine->start();
 }
-

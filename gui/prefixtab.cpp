@@ -56,9 +56,18 @@ ToolsTab::ToolsTab(main_target *target,QWidget *parent) : QWidget(parent)
 	l = new tabLabels(target,this);
 	vbox->addWidget(t);
 	vbox->addWidget(l);
+	connect(l, &tabLabels::hide , this , &ToolsTab::hide);
 	setLayout(vbox);
 }
-
+void ToolsTab::hide(){
+	if(height() < 800){
+		t->setHidden(true);l->labels->setHidden(true);
+		connect(l->file, &fileDesktopWidget::destroyed , this , &ToolsTab::unhide);
+	}
+}
+void ToolsTab::unhide(){
+	t->setHidden(false);l->labels->setHidden(false);
+}
 dllTab::dllTab(QWidget *parent) : QWidget(parent)
 {
 	dll = new tabDll(this);

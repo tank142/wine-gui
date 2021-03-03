@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Wine GUI
+Exec=wine-gui %f
+MimeType=application/x-ms-dos-executable;application/x-msi;application/x-ms-shortcut;
+Icon=wine
+Categories=Utility;
