@@ -28,17 +28,17 @@ tabdxSettings::tabdxSettings(main_target *t)
 	DX11->addWidget(dx11dxvk);
 	dx11->setLayout(DX11);
 	addWidget(dx11);
-	if(QFile(target->NINE + "/lib/wine/fakedlls/d3d9-nine.dll").exists()){
-		nine = target->NINE + "/lib/wine/fakedlls/d3d9-nine.dll";
-		if(QFile(target->NINE + "/lib32/wine/fakedlls/d3d9-nine.dll").exists()){
-			nine32 = target->NINE + "/lib32/wine/fakedlls/d3d9-nine.dll";
+	if(QFile(target->NINE + "/lib/wine/d3d9-nine.dll.so").exists()){
+		nine = target->NINE + "/lib/wine/d3d9-nine.dll.so";
+		if(QFile(target->NINE + "/lib32/wine/d3d9-nine.dll.so").exists()){
+			nine32 = target->NINE + "/lib32/wine/d3d9-nine.dll.so";
 		}
 	}else{
-		if(QFile(target->NINE + "/lib64/d3d9-nine.dll").exists()){
-			nine = target->NINE + "/lib64/d3d9-nine.dll";
+		if(QFile(target->NINE + "/lib64/d3d9-nine.dll.so").exists()){
+			nine = target->NINE + "/lib64/d3d9-nine.dll.so";
 		}else{
-			if(QFile(target->NINE + "/lib64/d3d9-nine.dll").exists()){
-				nine32 = target->NINE + "/lib32/d3d9-nine.dll";
+			if(QFile(target->NINE + "/lib64/d3d9-nine.dll.so").exists()){
+				nine32 = target->NINE + "/lib32/d3d9-nine.dll.so";
 			}
 		}
 	}
