@@ -8,6 +8,7 @@
 #include <QGroupBox>
 #include <QDir>
 #include <QFile>
+#include <QTimer>
 class tabdxSettings : public QHBoxLayout
 {
 	Q_OBJECT

@@ -18,6 +18,7 @@ void shell::run(){
 	proc->setProcessChannelMode(QProcess::MergedChannels);
 	proc->setProcessEnvironment(*env);
 	proc->start(exec,opt);
+	proc->waitForStarted(-1);
 	proc->waitForFinished(-1);
 	emit exit(proc);
 	this->deleteLater();

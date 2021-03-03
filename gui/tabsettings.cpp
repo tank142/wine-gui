@@ -1,9 +1,11 @@
 #include <QLabel>
 #include "tabsettings.h"
+#include "shell.h"
 #include <iostream>
 using namespace std;
-tabSettings::tabSettings(main_target *target,QWidget *parent) : QWidget(parent)
+tabSettings::tabSettings(main_target *t,QWidget *parent) : QWidget(parent)
 {
+	target = t;
 	QVBoxLayout *MAIN = new QVBoxLayout;
 	DX = new tabdxSettings(target);
 	//Найстройки реестра
@@ -81,6 +83,11 @@ void tabSettings::cancel_slot(){
 }
 void tabSettings::ok_slot(){
 	cancel->setHidden(true);ok->setHidden(true);
+	shell *wine = new shell("wineserver",QStringList() << "-k" << "-w");
+	wine->envSetup(target);
+	wine->exec = "wineserver";
+	wine->start();
+	wine->wait(-1);
 	foreach(tabSettingsRegkey *r,regWidgets){r->setValue();}
 	emit write();
 }

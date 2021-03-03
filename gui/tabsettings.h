@@ -7,6 +7,7 @@
 #include <QRadioButton>
 #include <QPushButton>
 #include <QGroupBox>
+#include <QEventLoop>
 #include "main_target.h"
 #include "fileregistry.h"
 #include "tabsettingsregkey.h"
@@ -25,6 +26,7 @@ public slots:
 	void cancelOkEnable();
 	static QVector<tabSettingsRegkey*> regSearch(QString,int,fileRegistry*,QVector<tabSettingsRegkey*>,QStringList);
 private:
+	main_target *target;
 	QPushButton *cancel;
 	QPushButton *ok;
 	QVector<tabSettingsRegkey*> regWidgets;

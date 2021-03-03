@@ -118,6 +118,11 @@ void tabdxSettings::updateDX11(){
 }
 void tabdxSettings::setDX9wine(bool enable){
 	if(!enable){return;}
+	shell *wine = new shell("wineserver",QStringList("-k"));
+	wine->envSetup(target);
+	wine->exec = "wineserver";
+	wine->start();
+	wine->wait(-1);
 	bool *winebootUpdate = new bool; *winebootUpdate = false;
 	wineDll("d3d9.dll",winebootUpdate);
 	if(*winebootUpdate){
@@ -126,9 +131,17 @@ void tabdxSettings::setDX9wine(bool enable){
 		wine->start();
 	}
 	delete winebootUpdate;
+	fileRegistry reg( target->prefix_path + "/user.reg" ,QStringList()<< "\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]" );
+	reg.remove("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","d3d9");
+	reg.write();
 }
 void tabdxSettings::setDX11wine(bool enable){
 	if(!enable){return;}
+	shell *wine = new shell("wineserver",QStringList("-k"));
+	wine->envSetup(target);
+	wine->exec = "wineserver";
+	wine->start();
+	wine->wait(-1);
 
 	bool *winebootUpdate = new bool; *winebootUpdate = false;
 	wineDll("dxgi.dll",winebootUpdate);
@@ -141,6 +154,13 @@ void tabdxSettings::setDX11wine(bool enable){
 		//wine->envSetup(target);
 		wine->start();
 	}
+	fileRegistry reg( target->prefix_path + "/user.reg" ,QStringList()<< "\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]" );
+	reg.remove("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","dxgi");
+	reg.remove("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","d3d10");
+	reg.remove("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","d3d10core");
+	reg.remove("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","d3d10_1");
+	reg.remove("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","d3d11");
+	reg.write();
 	delete winebootUpdate;
 }
 QString tabdxSettings::winedirBit(QString dir,QString bit){
@@ -222,6 +242,11 @@ void tabdxSettings::old(QString path){
 }
 void tabdxSettings::setDX9nine(bool enable){
 	if(!enable){return;}
+	shell *wine = new shell("wineserver",QStringList("-k"));
+	wine->envSetup(target);
+	wine->exec = "wineserver";
+	wine->start();
+	wine->wait(-1);
 	old(target->prefix_path + "/drive_c/windows/system32/d3d9.dll");
 	if(x64){
 		QFile::link(nine,target->prefix_path + "/drive_c/windows/system32/d3d9.dll");
@@ -232,9 +257,17 @@ void tabdxSettings::setDX9nine(bool enable){
 	}else{
 		QFile::link(nine32,target->prefix_path + "/drive_c/windows/system32/d3d9.dll");
 	}
+	fileRegistry reg( target->prefix_path + "/user.reg" ,QStringList()<< "\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]" );
+	reg.setValue("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","d3d9","native");
+	reg.write();
 }
 void tabdxSettings::setDX9dxvk(bool enable){
 	if(!enable){return;}
+	shell *wine = new shell("wineserver",QStringList("-k"));
+	wine->envSetup(target);
+	wine->exec = "wineserver";
+	wine->start();
+	wine->wait(-1);
 	if(x64){
 		old(target->prefix_path + "/drive_c/windows/system32/d3d9.dll");
 		QFile::link(target->DXVK + "/x64/d3d9.dll",target->prefix_path + "/drive_c/windows/system32/d3d9.dll");
@@ -255,15 +288,25 @@ void tabdxSettings::setDX9dxvk(bool enable){
 		old(target->prefix_path + "/drive_c/windows/system32/d3d9.dll");
 		QFile::link(target->DXVK + "/x32/d3d9.dll",target->prefix_path + "/drive_c/windows/system32/d3d9.dll");
 	}
+	fileRegistry reg( target->prefix_path + "/user.reg" ,QStringList()<< "\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]" );
+	reg.setValue("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","d3d9","native");
+	reg.write();
 }
 void tabdxSettings::setDX11dxvk(bool enable){
+	shell *wine = new shell("wineserver",QStringList("-k"));
+	wine->envSetup(target);
+	wine->exec = "wineserver";
+	wine->start();
+	wine->wait(-1);
 	if(!enable){return;}
+	fileRegistry reg( target->prefix_path + "/user.reg" ,QStringList()<< "\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]"  );
 	if(x64){
 		QDir dxvk64(target->DXVK + "/x64");dxvk64.setFilter(QDir::NoDotAndDotDot | QDir::Files);
 		foreach(QString file,dxvk64.entryList()){
 			if(file != "d3d9.dll"){
 				old(target->prefix_path + "/drive_c/windows/system32/" + file);
 				QFile::link(target->DXVK + "/x64/" + file,target->prefix_path + "/drive_c/windows/system32/" + file);
+				reg.setValue("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]",file.remove(file.size() - 4,4),"native");
 			}
 		}
 		if(QDir(target->prefix_path + "/drive_c/windows/syswow64").exists()){
@@ -281,7 +324,9 @@ void tabdxSettings::setDX11dxvk(bool enable){
 			if(file != "d3d9.dll"){
 				old(target->prefix_path + "/drive_c/windows/system32/" + file);
 				QFile::link(target->DXVK + "/x32/" + file,target->prefix_path + "/drive_c/windows/system32/" + file);
+				reg.setValue("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]",file.remove(file.size() - 4,4),"native");
 			}
 		}
 	}
+	reg.write();
 }
