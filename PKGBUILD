@@ -11,11 +11,13 @@ source=('wine-gui::git+https://github.com/tank142/wine-gui.git')
 sha256sums=('SKIP')
 
 build() {
-  cd "$srcdir/$pkgname"
-  qmake
+  mkdir "$srcdir/wine-gui/gui/build"
+  cd "$srcdir/wine-gui/gui/build"
+  qmake ..
   make
 }
 
 package() {
-  make -C "$pkgname" INSTALL_ROOT="$pkgdir/" install
+  cd "$srcdir/wine-gui/gui/build"
+  make -C ./ INSTALL_ROOT="$pkgdir/" install
 }
