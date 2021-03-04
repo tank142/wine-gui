@@ -102,20 +102,17 @@ prefixAdd::prefixAdd(QIcon i,QStandardItemModel *m,main_target *t,QWidget *paren
 	}
 }
 void prefixAdd::create_check(){
+	if(work){return;}
 	if(edit->text() == ""){button->setEnabled(false);return;}
 	if(move->isChecked()){
-		if(storage != storage_target){
+		if(storage != storage_target -1){
 			button->setEnabled(true);
 		}else{
 			button->setEnabled(false);return;
 		}
 	}
 	if(copy->isChecked()){
-		if(storage != storage_target){
 			button->setEnabled(true);
-		}else{
-			button->setEnabled(false);return;
-		}
 	}
 	for(int short unsigned i = 0; model->item(storage_target)->rowCount() > i;i++){
 		if(model->item(storage_target)->child(i)->text() == edit->text()){
@@ -125,7 +122,7 @@ void prefixAdd::create_check(){
 	button->setEnabled(true);
 }
 void prefixAdd::update_slot(QModelIndex storage_index){
-	if(storage_index.parent().row() != -1){
+	if(storage_index.parent().row() != -1 && !work){
 		storage = storage_index.parent().row() -1;
 		text_target->setText(model->item(storage_index.parent().row(),0)->child(storage_index.row(),0)->text());
 		if(move->isChecked() || copy->isChecked() ){
@@ -141,6 +138,7 @@ void prefixAdd::create_slot(){
 	for(int short l = 0;l < box_storage->count();l++){
 		box_storage->itemAt(l)->widget()->deleteLater();
 	}box_storage->deleteLater();
+	work = true;
 	QDir().mkpath(target->model_storages.at(storage_target) + "/" + edit->text());
 	if(create->isChecked()){
 		shell *wine;

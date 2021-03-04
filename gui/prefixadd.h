@@ -47,6 +47,7 @@ class prefixAdd : public QWidget
 		void cp();
 		void mv();
 		void find_links();
+		bool work = false;
 	public slots:
 		void create_check();
 		void create_slot();
