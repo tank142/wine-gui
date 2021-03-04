@@ -38,8 +38,8 @@ mainwindow::mainwindow(main_target *t,QWidget *parent) : QWidget(parent)
 		QSettings settings_conf(target->CONF,QSettings::IniFormat);settings_conf.setIniCodec( "UTF-8" );
 		target->DXVK = settings_conf.value("main/dxvk").toString();
 		target->WINE_VER = settings_conf.value("main/wine").toString();
-		table->model_update();
 	}
+	table->model_update();
 	VBOX = new QVBoxLayout;
 	HBOX1 = new QHBoxLayout;
 	QHBoxLayout *HBOX = new QHBoxLayout;

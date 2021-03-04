@@ -10,20 +10,23 @@
 tabTools::tabTools(main_target *t,QWidget *parent) : QWidget(parent)
 {
 	target = t;
+
 	QVBoxLayout *vbox = new QVBoxLayout;vbox->setAlignment(Qt::AlignTop);
 	gbox = new QGridLayout;gbox->setAlignment(Qt::AlignTop);
 	QPushButton *button0 = new QPushButton("Редактор реестра");
-	QPushButton *button1 = new QPushButton("Настройка Wine");
-	QPushButton *button2 = new QPushButton("Панель управления");
-	QPushButton *button10 = new QPushButton("Терминал");
-	QPushButton *button11 = new QPushButton("Диспетчер задач");
-	QPushButton *button12 = new QPushButton("Завершить процессы");
-	QPushButton *button20 = new QPushButton("Открыть");
-	QPushButton *button21 = new QPushButton("Обновить");
-	QPushButton *button22 = new QPushButton("Очистить");
+	QFont font = button0->font();
+	font.setPointSize(9);button0->setFont(font);
+	QPushButton *button1 = new QPushButton("Настройка Wine");button1->setFont(font);
+	QPushButton *button2 = new QPushButton("Панель управления");button2->setFont(font);
+	QPushButton *button10 = new QPushButton("Терминал");button10->setFont(font);
+	QPushButton *button11 = new QPushButton("Диспетчер задач");button11->setFont(font);
+	QPushButton *button12 = new QPushButton("Завершить процессы");button12->setFont(font);
+	QPushButton *button20 = new QPushButton("Открыть");button20->setFont(font);
+	QPushButton *button21 = new QPushButton("Обновить");button21->setFont(font);
+	QPushButton *button22 = new QPushButton("Очистить");button22->setFont(font);
 	QHBoxLayout *hbox = new QHBoxLayout;
-	QPushButton *installComponents = new QPushButton("Установка компонентов");
-	QPushButton *installFonts = new QPushButton("Установка шрифтов");
+	QPushButton *installComponents = new QPushButton("Установка компонентов");installComponents->setFont(font);
+	QPushButton *installFonts = new QPushButton("Установка шрифтов");installFonts->setFont(font);
 	QHBoxLayout *hbox2 = new QHBoxLayout;
 	wine = new QComboBox(this);updateWineDir();
 	QFileSystemWatcher *wineD = new QFileSystemWatcher(this);
@@ -32,7 +35,6 @@ tabTools::tabTools(main_target *t,QWidget *parent) : QWidget(parent)
 	wineButton->setIcon(QIcon::fromTheme("folder"));
 	QLabel *x = new QLabel("Версия Wine");
 	x->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
-	wine->setMaximumWidth(300);
 	hbox2->addWidget(x);
 	hbox2->addWidget(wine);
 	hbox2->addWidget(wineButton);
