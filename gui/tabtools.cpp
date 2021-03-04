@@ -98,7 +98,7 @@ void tabTools::control(){
 	wine->start();
 }
 void tabTools::wineconsole(){
-	shell *wine = new shell("wineconsole",QStringList("cmd"));
+	shell *wine = new shell("wineconsole",QStringList());
 	wine->envSetup(target);
 	wine->start();
 }

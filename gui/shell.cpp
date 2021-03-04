@@ -40,5 +40,4 @@ void shell::envSetup(main_target *target){
 			return;
 		}
 	}
-	exec = "wine";
 }
