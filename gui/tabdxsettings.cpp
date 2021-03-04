@@ -151,7 +151,7 @@ void tabdxSettings::setDX11wine(bool enable){
 	wineDll("d3d11.dll",winebootUpdate);
 	if(*winebootUpdate){
 		shell *wine = new shell("wineboot",QStringList("-u"));
-		//wine->envSetup(target);
+		wine->envSetup(target);
 		wine->start();
 	}
 	fileRegistry reg( target->prefix_path + "/user.reg" ,QStringList()<< "\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]" );
