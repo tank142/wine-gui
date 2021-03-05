@@ -164,7 +164,7 @@ void tabLabels::shortcuts(){
 	d.setPath(prefix + "/shortcuts");
 	QSettings conf(prefix + "/WINE.cfg",QSettings::IniFormat);conf.setIniCodec( "UTF-8" );
 	QString wine = conf.value("WINE").toString();
-	if(wine == "System"){
+	if(wine == "System" || wine.size() == 0){
 		wine = "wine";
 	}else{
 		wine = (target->WINE_VER + "/" + wine + "/bin/wine");
