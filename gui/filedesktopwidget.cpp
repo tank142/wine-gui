@@ -65,11 +65,11 @@ fileDesktopWidget::fileDesktopWidget(QString t,QString f,QWidget *parent) : QWid
 
 	QPushButton *ok = new QPushButton("Ок",this);
 	QPushButton *cancel = new QPushButton("Отмена",this);
-	QToolButton *help = new QToolButton(this);help->setText("Помощь");
+	//QToolButton *help = new QToolButton(this);help->setText("Помощь");
 	QHBoxLayout *main_battons = new QHBoxLayout(this);
 	main_battons->addWidget(ok);
 	main_battons->addWidget(cancel);
-	main_battons->addWidget(help);
+	//main_battons->addWidget(help);
 
 	QGridLayout *layout = new QGridLayout(this);
 	command = new QLineEdit(this);layout->addWidget(command,2,1);layout->addWidget(new QLabel("Command"),2,0);
