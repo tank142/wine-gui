@@ -7,7 +7,7 @@
 #include <QProcess>
 #include <QProcessEnvironment>
 
-class shell : public QThread
+class shell : public QObject
 {
 	Q_OBJECT
 public:
@@ -17,9 +17,11 @@ public:
 	QStringList opt;
 	shell(QString,QStringList);
 	~shell();
-	void run()override;
+	void start();
+	void wait(int);
 	void envSetup(main_target*);
-private:
+private slots:
+	void exitShell();
 signals:
 	void exit(QProcess*);
 };

@@ -26,10 +26,11 @@ public:
 	explicit shellOutputDebugging(QString,QStringList,QWidget *parent = nullptr);
 	shell *exec;
 	void start();
+public slots:
+	void exit(int);
 private:
 	QTextEdit *text;
 	QTextCursor *cursor;
-	void exit();
 private slots:
 	void addText();
 signals:

@@ -32,7 +32,7 @@ void shellOutputErrCk::output(QProcess *proc){
 }
 shellOutputDebugging::shellOutputDebugging(QString e,QStringList o,QWidget *parent) : QWidget(parent){
 	exec = new shell(e,o);
-	connect(exec, &shell::exit , this , &shellOutputDebugging::exit);
+	connect(exec->proc, &QProcess::finished , this , &shellOutputDebugging::exit);
 }
 void shellOutputDebugging::start(){
 	QVBoxLayout *vbox = new QVBoxLayout(this);
@@ -51,7 +51,7 @@ void shellOutputDebugging::addText(){
 	text->insertPlainText(exec->proc->readAllStandardOutput());
 	text->moveCursor(QTextCursor::End);
 }
-void shellOutputDebugging::exit(){
-	text->insertPlainText("Код завершения: " + QString::number(exec->proc->exitCode()));
+void shellOutputDebugging::exit(int code){
+	text->insertPlainText("Код завершения: " + QString::number(code));
 	text->moveCursor(QTextCursor::End);
 }

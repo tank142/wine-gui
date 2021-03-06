@@ -9,19 +9,20 @@ shell::shell(QString e,QStringList o){
 	proc = new QProcess();
 	env  = new QProcessEnvironment(QProcessEnvironment::systemEnvironment());
 	exec = e; opt = o;
+	connect(proc, &QProcess::finished , this , &shell::exitShell);
 }
 shell::~shell(){
 	env->~QProcessEnvironment();
 	proc->deleteLater();
 }
-void shell::run(){
+void shell::start(){
 	proc->setProcessChannelMode(QProcess::MergedChannels);
 	proc->setProcessEnvironment(*env);
 	proc->start(exec,opt);
-	proc->waitForStarted(-1);
-	proc->waitForFinished(-1);
-	emit exit(proc);
-	this->deleteLater();
+}
+void shell::wait(int t){
+	proc->waitForStarted(t);
+	proc->waitForFinished(t);
 }
 void shell::envSetup(main_target *target){
 	if(target->storage > 0 && target->prefix != ""){
@@ -40,4 +41,7 @@ void shell::envSetup(main_target *target){
 			return;
 		}
 	}
+}
+void shell::exitShell(){
+	deleteLater();
 }
