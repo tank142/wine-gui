@@ -1,5 +1,5 @@
 pkgname=wine-gui
-pkgver=1
+pkgver=0.11alpha
 pkgrel=1
 #pkgdesc=""
 arch=('x86_64')
@@ -7,7 +7,7 @@ url="https://github.com/tank142/wine-gui"
 license=('GPL3')
 depends=('qt6-base' 'winetricks' 'icoutils' 'imagemagick')
 makedepends=('git')
-source=('wine-gui::git+https://github.com/tank142/wine-gui.git')
+source=('wine-gui::git+https://github.com/tank142/wine-gui.git#branch=qt6')
 sha256sums=('SKIP')
 
 build() {
