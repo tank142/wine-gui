@@ -1,7 +1,7 @@
 #include "shortcutread.h"
 #include <QFile>
 #include <QTextStream>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <iostream>
 using namespace std;
 shortcutRead::shortcutRead(QString dir,QString wine,main_target *t,QObject *parent) : QObject(parent)
@@ -23,8 +23,8 @@ void shortcutRead::fixWinePath(QString dir,QString wine){
 		QTextStream t(&FILE);
 		while(!t.atEnd()){
 			QString l(t.readLine());
-			if(QRegExp("^WINE=").indexIn(l) > -1){
-				if(QRegExp("\"" + wine + "\"").indexIn(l) > -1){
+			if(QRegularExpression("^WINE=").match(l).hasMatch()){
+				if(QRegularExpression("\"" + wine + "\"").match(l).hasMatch()){
 					FILE.close();list.clear();
 					break;
 				}else{
@@ -55,8 +55,8 @@ void shortcutRead::fixWinePathDesktop(QString dir){
 		QTextStream t(&FILE);
 		while(!t.atEnd()){
 			QString l(t.readLine());
-			if(QRegExp("^Path=").indexIn(l) > -1){
-				if(QRegExp(dir).indexIn(l) > -1){
+			if(QRegularExpression("^Path=").match(l).hasMatch()){
+				if(QRegularExpression(dir).match(l).hasMatch()){
 					FILE.close();list.clear();
 					break;
 				}else{

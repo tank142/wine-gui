@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QVector>
 #include <QTextStream>
+#include <QMap>
 class fileRegistry : public QObject
 {
 	Q_OBJECT

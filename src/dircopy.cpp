@@ -1,6 +1,6 @@
 #include "dircopy.h"
 #include "findlink.h"
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStandardPaths>
 void dirCopy::run(){
 	dirRecurse(dir_source.path());

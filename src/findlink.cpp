@@ -1,13 +1,13 @@
 #include "findlink.h"
 #include <QDir>
-#include <QRegExp>
+#include <QRegularExpression>
 findLink::findLink(QString t,QString d,QObject *parent) : QObject(parent){
 target = t; dir = d;}
 bool findLink::ck(){
 	QDir d(dir);d.setFilter(QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs);
 	foreach(QString file,d.entryList()){
 		QString link = QFile(dir + "/" + file).symLinkTarget();
-		if(QRegExp(target).indexIn(link)  > -1){
+		if(QRegularExpression(target).match(link).hasMatch()){
 			return true;
 		}
 	}
@@ -24,7 +24,7 @@ bool findLink::ckrc(QString dir){
 	QDir d(dir);d.setFilter(QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs);
 	foreach(QString file,d.entryList()){
 		QString link = QFile(dir + "/" + file).symLinkTarget();
-		if(QRegExp(target).indexIn(link)  > -1){
+		if(QRegularExpression(target).match(link).hasMatch()){
 			return true;
 		}
 		if(link == "" && QDir(dir + "/" + file).exists() ){
@@ -40,7 +40,7 @@ void findLink::rm(){
 	QDir d(dir);d.setFilter(QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs);
 	foreach(QString file,d.entryList()){
 		QString link = QFile(dir + "/" + file).symLinkTarget();
-		if(QRegExp(target).indexIn(link)  > -1){
+		if(QRegularExpression(target).match(link).hasMatch()){
 			links.append(dir + "/" + file);
 			continue;
 		}
@@ -55,7 +55,7 @@ void findLink::rmRc(){
 void findLink::lnMove(QString mv){
 	for(int i = 0;links.size() > i;i++){
 		QFile(links.at(i)).remove();
-		QFile().link( QString(linksTargets.at(i)).replace(QRegExp(target) ,mv), links.at(i) );
+		QFile().link( QString(linksTargets.at(i)).replace(QRegularExpression(target) ,mv), links.at(i) );
 	}
 }
 void findLink::lnFind(){
@@ -63,7 +63,7 @@ void findLink::lnFind(){
 	QDir d(dir);d.setFilter(QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs);
 	foreach(QString file,d.entryList()){
 		QString link = QFile(dir + "/" + file).symLinkTarget();
-		if(QRegExp(target).indexIn(link) > -1){
+		if(QRegularExpression(target).match(link).hasMatch()){
 			links.append(dir + "/" + file);
 			linksTargets.append(link);
 		}
@@ -77,7 +77,7 @@ void findLink::findLn(QString dd){
 	QDir d(dd);d.setFilter(QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs);
 	foreach(QString file,d.entryList()){
 		QString link = QFile(dd + "/" + file).symLinkTarget();
-		if(QRegExp(target).indexIn(link) > -1){
+		if(QRegularExpression(target).match(link).hasMatch()){
 			links.append(dd + "/" + file);
 			linksTargets.append(link);
 		}
@@ -90,7 +90,7 @@ void findLink::find(QString dir){
 	QDir d(dir);d.setFilter(QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs);
 	foreach(QString file,d.entryList()){
 		QString link = QFile(dir + "/" + file).symLinkTarget();
-		if(QRegExp(target).indexIn(link)  > -1){
+		if(QRegularExpression(target).match(link).hasMatch()){
 			links.append(dir + "/" + file);
 			continue;
 		}

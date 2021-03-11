@@ -39,7 +39,7 @@ void prefixTable::model_update(){
 	QList<QStandardItem *> *item = new QList<QStandardItem *>;
 	item->append(new QStandardItem("System"));
 	if(QFile::exists(target->home + "/.wine/WINE.cfg")){
-		QSettings settings(target->home + "/.wine/WINE.cfg", QSettings::IniFormat);settings.setIniCodec( "UTF-8" );
+		QSettings settings(target->home + "/.wine/WINE.cfg", QSettings::IniFormat);
 		item->append(new QStandardItem(settings.value("WINE").toString()));
 	}else{
 		item->append(new QStandardItem("System"));
@@ -47,8 +47,7 @@ void prefixTable::model_update(){
 	model->appendRow(*item);
 	item->~QList();
 	for (int i = 0; i < target->storages.size(); i++){
-			QStandardItem *item = new QStandardItem(QIcon(target->ICON + get<0>(target->storages.at(i))),
-																		get<1>(target->storages.at(i)));
+						QStandardItem *item = new QStandardItem(QIcon(target->ICON + get<0>(target->storages.at(i))),get<1>(target->storages.at(i)));
 			storageRead *branch = new storageRead(item,get<2>(target->storages.at(i)));
 			target->model_storages.append(get<2>(target->storages.at(i)));
 			model->appendRow(item);

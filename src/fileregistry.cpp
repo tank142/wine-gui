@@ -1,5 +1,5 @@
 #include "fileregistry.h"
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QMap>
 #include <iostream>
 using namespace std;
@@ -17,17 +17,18 @@ fileRegistry::fileRegistry(QString reg,QStringList branchs,QObject *parent) : QO
 		while(!t.atEnd()){
 			br = false;
 			for (QMap<QString, QMap<QString, QString>*>::iterator I = registryBranchs.begin(); I != registryBranchs.end();I++){
-				if(QRegExp(I.key()).indexIn(line) > -1){
+
+				if(QRegularExpression(I.key()).match(line).hasMatch()){
 					line = t.readLine();
-					while(!t.atEnd() && QRegExp("^\\[").indexIn(line) < 0){
-						if(QRegExp("\"").indexIn(line) > -1){
+					while(!t.atEnd() && QRegularExpression("^\\[").match(line).hasMatch()){
+						if(QRegularExpression("\"").match(line).hasMatch()){
 							QString keyL = line;
-							keyL.remove(QRegExp("^\""));
+							keyL.remove(QRegularExpression("\""));
 							keyL.remove(keyL.indexOf("\""),keyL.size() - 1);
 							QString keyX = line;
 							keyX.remove(0,keyX.indexOf("=") + 1);
-							keyX.remove(QRegExp("^\""));
-							keyX.remove(QRegExp("\"$"));
+							keyX.remove(QRegularExpression("^\""));
+							keyX.remove(QRegularExpression("\"$"));
 							I.value()->insert(keyL,keyX);
 						}
 						line = t.readLine();
@@ -74,9 +75,9 @@ void fileRegistry::write(){
 	while(!t.atEnd()){
 		br = false;
 		for (QMap<QString, QMap<QString, QString>*>::iterator I = registryBranchs.begin(); I != registryBranchs.end();I++){
-			if(QRegExp(I.key()).indexIn(line) > -1){
+			if(QRegularExpression(I.key()).match(line).hasMatch()){
 				line = t.readLine();
-				while(!t.atEnd() && QRegExp("^\\[").indexIn(line) < 0){
+				while(!t.atEnd() && !QRegularExpression("^\\[").match(line).hasMatch()){
 					line = t.readLine();
 				}
 				br = true;break;

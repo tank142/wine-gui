@@ -6,7 +6,7 @@
 #include <QSizePolicy>
 #include <QFileDialog>
 #include <QSettings>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QModelIndex>
 #include <QHeaderView>
 #include <iostream>
@@ -23,8 +23,8 @@ openEXE::openEXE(main_target *t,QStringList arg,QWidget *parent) : QWidget(paren
 		foreach(QString a,arg){
 			argf = argf + a;
 		}
-		argf.replace(QRegExp("^~/"),QDir::homePath() + "/");
-		argf.replace(QRegExp("^./"),QDir::currentPath() + "/");
+		argf.replace(QRegularExpression("^~/"),QDir::homePath() + "/");
+		argf.replace(QRegularExpression("^./"),QDir::currentPath() + "/");
 		if(QFile(argf).exists()){open->setText(argf);}
 	}
 	setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding );
@@ -51,7 +51,7 @@ void openEXE::key_return(){
 	run(table->treeView->currentIndex());
 }
 void openEXE::tableRestore(){
-	QSettings settings_conf(target->CONF,QSettings::IniFormat);settings_conf.setIniCodec( "UTF-8" );
+	QSettings settings_conf(target->CONF,QSettings::IniFormat);
 	debug->setChecked(settings_conf.value("main/saveDebug").toBool());
 	QStringList wine_storages = settings_conf.childGroups();
 	saveStorage = settings_conf.value("main/saveStorage").toString();
@@ -114,7 +114,7 @@ QString openEXE::findWinePrefix(QModelIndex storage_index){
 	return "";
 }
 void openEXE::run(QModelIndex storage_index){
-	QSettings settings_conf(target->CONF,QSettings::IniFormat);settings_conf.setIniCodec( "UTF-8" );
+	QSettings settings_conf(target->CONF,QSettings::IniFormat);
 	if(storage_index.parent().row() > -1){
 		settings_conf.setValue("main/saveStorage",get<2>(target->storages.at(storage_index.parent().row() - 1)));
 		settings_conf.setValue("main/savePrefix",table->model->item(storage_index.parent().row())->child(storage_index.row())->text());

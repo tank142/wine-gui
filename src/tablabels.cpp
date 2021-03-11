@@ -12,6 +12,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <iostream>
+#include <QRegularExpression>
 using namespace std;
 tabLabels::tabLabels(main_target *t,QWidget *parent) : QWidget(parent)
 {
@@ -109,15 +110,15 @@ void tabLabels::runOpen(){
 	if (FILE.exists()){
 		FILE.open(QFile::ReadOnly);
 		QTextStream t(&FILE);
-		QRegExp rx("WORKDIR=");
+		QRegularExpression rx("WORKDIR=");
 		while(!t.atEnd()){
 		  QString l = t.readLine();
-		  if(!rx.indexIn(l)){
+		  if(rx.match(l).hasMatch()){
 			  FILE.close();
 			  l.replace(rx,"");
-			  l.replace(QRegExp("\\$WINEPREFIX"),prefix);
-			  l.remove(QRegExp("^\""));
-			  l.remove(QRegExp("\"$"));
+			  l.replace(QRegularExpression("\\$WINEPREFIX"),prefix);
+			  l.remove(QRegularExpression("^\""));
+			  l.remove(QRegularExpression("\"$"));
 			  shell *open = new shell("xdg-open",QStringList() << l);
 			  open->start();
 		  }
@@ -144,8 +145,8 @@ QString tabLabels::read_name(QString s){
 		QTextStream t(&FILE);
 		while(!t.atEnd()){
 		  QString l = t.readLine();
-		  QRegExp rx("^Name=");
-		  if(!rx.indexIn(l)){
+		  QRegularExpression rx("^Name=");
+		  if(rx.match(l).hasMatch()){
 			  FILE.close();
 			  return l.remove(rx);
 		  }
@@ -162,7 +163,7 @@ void tabLabels::shortcuts(){
 	QDir d;d.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
 	QString prefix = prefixPath();
 	d.setPath(prefix + "/shortcuts");
-	QSettings conf(prefix + "/WINE.cfg",QSettings::IniFormat);conf.setIniCodec( "UTF-8" );
+	QSettings conf(prefix + "/WINE.cfg",QSettings::IniFormat);
 	QString wine = conf.value("WINE").toString();
 	if(wine == "System" || wine.size() == 0){
 		wine = "wine";

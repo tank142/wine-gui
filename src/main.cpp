@@ -22,7 +22,6 @@ using namespace std;
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	//QIcon::setThemeName("Faenza-Dark");
 	qApp->setWindowIcon(QIcon::fromTheme("wine"));
 	main_target *target = new main_target;
 	target->home = QDir::homePath();
@@ -30,7 +29,7 @@ int main(int argc, char *argv[])
 	target->model_storages.append("");
 	QApplication::setStyle(QStyleFactory::create("Fusion"));
 	if(QFile::exists(target->CONF)){
-		QSettings settings_conf(target->CONF,QSettings::IniFormat);settings_conf.setIniCodec( "UTF-8" );
+		QSettings settings_conf(target->CONF,QSettings::IniFormat);
 		target->DXVK = settings_conf.value("main/dxvk").toString();
 		target->NINE = settings_conf.value("main/nine").toString();
 		target->WINE_VER = settings_conf.value("main/wine").toString();

@@ -11,7 +11,7 @@
 #include <QCheckBox>
 #include <QSplitter>
 #include <QAction>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <iostream>
 using namespace std;
 fileDesktopWidget::fileDesktopWidget(QString t,QString f,QWidget *parent) : QWidget(parent)
@@ -120,7 +120,7 @@ fileDesktopWidget::fileDesktopWidget(QString t,QString f,QWidget *parent) : QWid
 }
 void fileDesktopWidget::icon_extract(){
 	QString t = exec->text();
-	if(!QRegExp("\\$WINEPREFIX").indexIn(t)){
+	if(QRegularExpression("\\$WINEPREFIX").match(t).hasMatch()){
 		t.replace("$WINEPREFIX",prefix);
 	}
 	iconExtract(icon->text(), t , prefix + "/shortcuts/" + shortcut->text()).start();
@@ -163,7 +163,7 @@ void fileDesktopWidget::set_dir(){
 				QString::fromUtf8("Выбор файла"),
 				prefix + "/drive_c"));
 	if(d != "" ){
-		if(!QRegExp(prefix).indexIn(d)){
+		if(QRegularExpression(prefix).match(d).hasMatch()){
 			exec->setText("$WINEPREFIX" + d.remove(prefix));
 			path->setText("$WINEPREFIX" + d.left(d.lastIndexOf("/")));
 		}else{

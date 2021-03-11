@@ -1,6 +1,7 @@
 #include "tabdxsettings.h"
 #include "shelloutput.h"
 #include <iostream>
+#include <QRegularExpression>
 using namespace std;
 tabdxSettings::tabdxSettings(main_target *t)
 {
@@ -68,14 +69,14 @@ void tabdxSettings::check64(){
 		reg->open(QFile::ReadOnly);
 		QTextStream t(reg);
 		QString line = t.readLine();
-		QRegExp a("^#arch=win64");
-		QRegExp b("^#arch=win32");
+		QRegularExpression a("^#arch=win64");
+		QRegularExpression b("^#arch=win32");
 		while(!t.atEnd()){
-			if(a.indexIn(line) > -1){
+			if(a.match(line).hasMatch()){
 				x64 = true;
 				break;
 			}
-			if(b.indexIn(line) > -1){
+			if(a.match(line).hasMatch()){
 				x64 = false;
 				break;
 			}

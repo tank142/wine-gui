@@ -142,7 +142,7 @@ void prefixAdd::create_slot(){
 	QDir().mkpath(target->model_storages.at(storage_target) + "/" + edit->text());
 	if(create->isChecked()){
 		shell *wine;
-		QSettings conf(target->model_storages.at(storage_target) + "/" + edit->text() + "/WINE.cfg",QSettings::IniFormat);conf.setIniCodec( "UTF-8" );
+		QSettings conf(target->model_storages.at(storage_target) + "/" + edit->text() + "/WINE.cfg",QSettings::IniFormat);
 		if(wine_ver->currentIndex() == 0 ){
 			wine = new shell("wineboot",QStringList());
 		}else{

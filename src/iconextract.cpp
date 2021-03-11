@@ -2,7 +2,7 @@
 #include "shelloutput.h"
 #include <QProcess>
 #include <QDir>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <iostream>
 using namespace std;
 #include <QPixmap>
@@ -17,21 +17,21 @@ void iconExtract::mv(QString s,QString o,QString name){
 }
 void iconExtract::move(QString x){
 	QStringList list = QDir(dir).entryList(QDir::Files);
-	QRegExp r;r.setPattern("_" + x + "x");
-	QRegExp rx;rx.setPattern( "_" + x + "x32");
+	QRegularExpression r;r.setPattern("_" + x + "x");
+	QRegularExpression rx;rx.setPattern( "_" + x + "x32");
 	foreach(QString ico, list){
-		if(rx.indexIn(ico) > -1){
+		if(rx.match(ico).hasMatch()){
 			mv(dir + ico,dir + x + "/",name);return;
 		}
 	}
 	rx.setPattern("_" + x + "x24");
 	foreach(QString ico, list){
-		if(rx.indexIn(ico) > -1){
+		if(rx.match(ico).hasMatch()){
 			mv(dir + ico,dir + x + "/",name);return;
 		}
 	}
 	foreach(QString ico, list){
-		if(r.indexIn(ico) > -1){
+		if(r.match(ico).hasMatch()){
 			mv(dir + ico,dir + x + "/",name);return;
 		}
 	}
