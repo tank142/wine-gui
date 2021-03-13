@@ -1,7 +1,8 @@
-pkgname=wine-gui
-pkgver=1
+pkgname=wine-gui-qt5
+pkgver=0.11alpha
 pkgrel=1
-#pkgdesc=""
+pkgdesc="GUI for managing Windows programs under linux"
+provides=(wine-gui)
 arch=('x86_64')
 url="https://github.com/tank142/wine-gui"
 license=('GPL3')
@@ -13,7 +14,7 @@ sha256sums=('SKIP')
 build() {
   mkdir "$srcdir/wine-gui/gui/build"
   cd "$srcdir/wine-gui/gui/build"
-  qmake ..
+  qmake-qt5 ..
   make
 }
 
