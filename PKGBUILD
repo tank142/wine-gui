@@ -1,7 +1,7 @@
 pkgname=wine-gui
 pkgver=0.11alpha
 pkgrel=1
-#pkgdesc=""
+pkgdesc="GUI for managing Windows programs under linux"
 arch=('x86_64')
 url="https://github.com/tank142/wine-gui"
 license=('GPL3')
