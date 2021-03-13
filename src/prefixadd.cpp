@@ -158,7 +158,7 @@ void prefixAdd::create_slot(){
 			}
 		}
 		conf.sync();conf.deleteLater();
-		connect(wine, &shell::exit , this , &prefixAdd::cancel_slot);
+		connect(wine, &shell::destroyed , this , &prefixAdd::cancel_slot);
 		wine->start();
 	}
 	if(copy->isChecked()){

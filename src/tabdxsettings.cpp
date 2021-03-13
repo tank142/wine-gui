@@ -121,7 +121,7 @@ void tabdxSettings::updateDX11(){
 }
 void tabdxSettings::setDX9wine(bool enable){
 	if(!enable){return;}
-	shell *wine = new shell("wineserver",QStringList("-k"));
+	shell *wine = new shell("wineserver",QStringList() << "-k" << "-w");
 	wine->envSetup(target);
 	wine->exec = "wineserver";
 	wine->start();
@@ -140,7 +140,7 @@ void tabdxSettings::setDX9wine(bool enable){
 }
 void tabdxSettings::setDX11wine(bool enable){
 	if(!enable){return;}
-	shell *wine = new shell("wineserver",QStringList("-k"));
+	shell *wine = new shell("wineserver",QStringList() << "-k" << "-w");
 	wine->envSetup(target);
 	wine->exec = "wineserver";
 	wine->start();
@@ -245,7 +245,7 @@ void tabdxSettings::old(QString path){
 }
 void tabdxSettings::setDX9nine(bool enable){
 	if(!enable){return;}
-	shell *wine = new shell("wineserver",QStringList("-k"));
+	shell *wine = new shell("wineserver",QStringList() << "-k" << "-w");
 	wine->envSetup(target);
 	wine->exec = "wineserver";
 	wine->start();
@@ -266,7 +266,7 @@ void tabdxSettings::setDX9nine(bool enable){
 }
 void tabdxSettings::setDX9dxvk(bool enable){
 	if(!enable){return;}
-	shell *wine = new shell("wineserver",QStringList("-k"));
+	shell *wine = new shell("wineserver",QStringList() << "-k" << "-w");
 	wine->envSetup(target);
 	wine->exec = "wineserver";
 	wine->start();
@@ -296,7 +296,7 @@ void tabdxSettings::setDX9dxvk(bool enable){
 	reg.write();
 }
 void tabdxSettings::setDX11dxvk(bool enable){
-	shell *wine = new shell("wineserver",QStringList("-k"));
+	shell *wine = new shell("wineserver",QStringList() << "-k" << "-w");
 	wine->envSetup(target);
 	wine->exec = "wineserver";
 	wine->start();

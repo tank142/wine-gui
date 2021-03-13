@@ -17,14 +17,13 @@ fileRegistry::fileRegistry(QString reg,QStringList branchs,QObject *parent) : QO
 		while(!t.atEnd()){
 			br = false;
 			for (QMap<QString, QMap<QString, QString>*>::iterator I = registryBranchs.begin(); I != registryBranchs.end();I++){
-
 				if(QRegularExpression(I.key()).match(line).hasMatch()){
 					line = t.readLine();
-					while(!t.atEnd() && QRegularExpression("^\\[").match(line).hasMatch()){
-						if(QRegularExpression("\"").match(line).hasMatch()){
+					while(!t.atEnd() && !QRegularExpression("^\\[").match(line).hasMatch()){
+						if(!QRegularExpression("^#").match(line).hasMatch() && QRegularExpression("\\=").match(line).hasMatch()){
 							QString keyL = line;
-							keyL.remove(QRegularExpression("\""));
-							keyL.remove(keyL.indexOf("\""),keyL.size() - 1);
+							keyL.remove(QRegularExpression("^\""));
+							keyL.remove(QRegularExpression("\".*$"));
 							QString keyX = line;
 							keyX.remove(0,keyX.indexOf("=") + 1);
 							keyX.remove(QRegularExpression("^\""));

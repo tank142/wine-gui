@@ -48,7 +48,7 @@ void tabLabels::rightClicked()
 		m_menu->addAction(editorOpen);
 		connect(editorOpen, &QAction::triggered, this, &tabLabels::editor_slot);
 		if(!findLink(prefixPath() + + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text(),
-					target->home + "/.local/share/applications/wine/").ckRc()){
+					target->home + "/.local/share/applications/").ckRc()){
 			QAction *action = new QAction("Добавить в главное меню");
 			connect(action, &QAction::triggered , this , &tabLabels::add_menu_slot);
 			m_menu->addAction(action);
@@ -258,10 +258,12 @@ void tabLabels::add_slot(){
 	emit hide();
 }
 void tabLabels::editor_slot(){
-	fileDesktopWidget *file;
 	file = new fileDesktopWidget(prefixPath(), model->item(labels->currentIndex().row(),1)->text());
 	vbox->addWidget(file);
 	connect(file, &fileDesktopWidget::shortcuts_update , this , &tabLabels::shortcuts);
+	disconnect(labels,	&QTreeView::customContextMenuRequested, this, &tabLabels::rightClicked);
+	connect(file, &fileDesktopWidget::shortcuts_update , this , &tabLabels::shortcuts);
+	emit hide();
 }
 void tabLabels::del_slot(){
 	QString prefix = prefixPath();

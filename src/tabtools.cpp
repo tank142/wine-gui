@@ -120,6 +120,11 @@ QString tabTools::prefix(){
 	return (target->home + "/.wine/");
 }
 void tabTools::updateWineVer(QString t){
+	shell *wineShell = new shell("wineserver",QStringList() << "-k" << "-w");
+	wineShell->envSetup(target);
+	wineShell->exec = "wineserver";
+	wineShell->start();
+	wineShell->wait(-1);
 	QString prefix;
 	if(target->storage > 0 && target->prefix != ""){
 		prefix = (target->model_storages.at(target->storage) + "/" + target->prefix + "/");
@@ -171,9 +176,14 @@ void tabTools::open(){QStringList path;
 	wine->start();
 }
 void tabTools::update(){
-	shell *wine = new shell("wineboot",QStringList("-u"));
+	shell *wine = new shell("wineserver",QStringList() << "-k" << "-w");
 	wine->envSetup(target);
+	wine->exec = "wineserver";
 	wine->start();
+	wine->wait(-1);
+	shell *wine2 = new shell("wineboot",QStringList("-u"));
+	wine2->envSetup(target);
+	wine2->start();
 }
 void tabTools::clear(){QString path;
 	if(target->storage > 0 && target->prefix != ""){
@@ -181,10 +191,15 @@ void tabTools::clear(){QString path;
 	}else{
 		path.append(target->home + "/.wine");
 	}
+	shell *wine = new shell("wineserver",QStringList() << "-k" << "-w");
+	wine->envSetup(target);
+	wine->exec = "wineserver";
+	wine->start();
+	wine->wait(-1);
 	QDir(path + "/drive_c/windows").removeRecursively();
 	QFile(path + "/system.reg").remove();
 	QFile(path + "/user.reg").remove();
-	shell *wine = new shell("wineboot",QStringList("-u"));
-	wine->envSetup(target);
-	wine->start();
+	shell *wine2 = new shell("wineboot",QStringList("-u"));
+	wine2->envSetup(target);
+	wine2->start();
 }
