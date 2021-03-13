@@ -1,4 +1,5 @@
 # wine-gui
+GUI for managing Windows programs under linux.
 Depends: qt5-base>=5.15 winetricks icoutils imagemagick
 # Screenshots
 ![Image alt](https://github.com/tank142/wine-gui/raw/master/screenshot1.jpg)
