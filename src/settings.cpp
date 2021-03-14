@@ -112,7 +112,7 @@ settings::settings(QStandardItemModel *m, main_target *t, QWidget *parent) : QWi
 	}
 	if(target->DXVK == ""){
 		if(QDir("/usr/share/dxvk").exists()){
-			nine_b->setText("/usr/share/dxvk");
+			dxvk_b->setText("/usr/share/dxvk");
 		}
 	}
 	QSettings conf(target->CONF,QSettings::IniFormat);
