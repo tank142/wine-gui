@@ -6,8 +6,8 @@ Depends: qt>=5.15 winetricks icoutils imagemagick
 # Installation in Ubuntu 20.04
 Add repository with Qt 5.15
 ```
-add-apt-repository ppa:beineri/opt-qt-5.15.2-focal
-apt-get update
+sudo add-apt-repository ppa:beineri/opt-qt-5.15.2-focal
+sudo apt-get update
 ```
 Install deb package: https://github.com/tank142/wine-gui/releases
 
