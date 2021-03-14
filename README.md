@@ -10,8 +10,11 @@ add-apt-repository ppa:beineri/opt-qt-5.15.2-focal
 apt-get update
 ```
 Install deb package: https://github.com/tank142/wine-gui/releases
+
 Recomented instaall wine and winetricks not necro version:
+
 https://wiki.winehq.org/Ubuntu
+
 https://wiki.winehq.org/Winetricks
 
 # Screenshots
