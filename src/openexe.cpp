@@ -48,6 +48,7 @@ openEXE::openEXE(main_target *t,QStringList arg,QWidget *parent) : QWidget(paren
 	connect(table->treeView, &QTreeView::clicked , this , &openEXE::run);
 	connect(Key_Return, &QShortcut::activated , this , &openEXE::key_return);
 	sizeWin(this,"winOpenEXE").restore();
+	setAttribute(Qt::WA_DeleteOnClose);
 }
 openEXE::~openEXE(){
 	sizeWin(this,"winOpenEXE").save();
