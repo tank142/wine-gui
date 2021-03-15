@@ -1,11 +1,33 @@
 # wine-gui
 GUI for managing Windows programs under linux.
 
-Depends: qt6-base winetricks icoutils imagemagick
+Depends: qt>=5.15 winetricks icoutils imagemagick
+
+### Installation in Ubuntu 20.04
+Add repository with Qt 5.15
+```
+sudo add-apt-repository ppa:beineri/opt-qt-5.15.2-focal
+sudo apt-get update
+```
+Install deb package: https://github.com/tank142/wine-gui/releases
+
+Recommended install wine and winetricks not necro version:
+
+https://wiki.winehq.org/Ubuntu
+
+https://wiki.winehq.org/Winetricks
+
 # Screenshots
-![Image alt](https://github.com/tank142/wine-gui/raw/master/screenshot1.jpg)
-![Image alt](https://github.com/tank142/wine-gui/raw/master/screenshot6.jpg)
-![Image alt](https://github.com/tank142/wine-gui/raw/master/screenshot3.jpg)
-![Image alt](https://github.com/tank142/wine-gui/raw/master/screenshot2.jpg)
-![Image alt](https://github.com/tank142/wine-gui/raw/master/screenshot4.jpg)
-![Image alt](https://github.com/tank142/wine-gui/raw/master/screenshot5.jpg)
+![Image alt](https://github.com/tank142/wine-gui/raw/qt6/screenshot1.jpg)
+![Image alt](https://github.com/tank142/wine-gui/raw/qt6/screenshot6.jpg)
+![Image alt](https://github.com/tank142/wine-gui/raw/qt6/screenshot3.jpg)
+![Image alt](https://github.com/tank142/wine-gui/raw/qt6/screenshot2.jpg)
+![Image alt](https://github.com/tank142/wine-gui/raw/qt6/screenshot4.jpg)
+![Image alt](https://github.com/tank142/wine-gui/raw/qt6/screenshot5.jpg)
+
+# Donate
+VISA: 4890494710845090
+
+YooMoney: 4100112399871490
+
+Bitcoin: 38AhGAuBf8hmgXMUsuQVtDFGDF6eUmHJdF
