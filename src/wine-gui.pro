@@ -32,6 +32,7 @@ SOURCES += \
     shell.cpp \
     shelloutput.cpp \
     shortcutread.cpp \
+    sizewin.cpp \
     storageread.cpp \
     tabdll.cpp \
     tabdxsettings.cpp \
@@ -62,6 +63,7 @@ HEADERS += \
     shell.h \
     shelloutput.h \
     shortcutread.h \
+    sizewin.h \
     storageread.h \
     tabdll.h \
     tabdxsettings.h \

@@ -23,6 +23,7 @@
 #include <fstream>
 #include <filesystem>
 #include "filedesktop.h"
+#include "sizewin.h"
 mainwindow::mainwindow(main_target *t,QWidget *parent) : QWidget(parent)
 {
 	target = t;
@@ -74,8 +75,12 @@ mainwindow::mainwindow(main_target *t,QWidget *parent) : QWidget(parent)
 	table->treeView->header()->setSectionResizeMode(0,QHeaderView::Stretch);
 	button->setEnabled(false);button2->setEnabled(false);
 	target->prefix_wine = table->model->item(0,1)->text();
+	setAttribute(Qt::WA_DeleteOnClose);
+	sizeWin(this,"winMain").restore();
 }
-
+mainwindow::~mainwindow(){
+	sizeWin(this,"winMain").save();
+}
 void mainwindow::button_slot(){
 	if(table->treeView->currentIndex().parent().row() == -1 && table->treeView->currentIndex().row() < 1 ){return;};
 	prefixAdd *add = new prefixAdd(	table->model->item(target->storage)->icon(),

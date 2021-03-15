@@ -15,6 +15,7 @@ class openEXE : public QWidget
 	Q_OBJECT
 public:
 	explicit openEXE(main_target*,QStringList,QWidget *parent = nullptr);
+	~openEXE();
 	QTreeView *treeView;
 private:
 	QPushButton *open;

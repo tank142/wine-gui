@@ -5,7 +5,7 @@ void dirWork::dirRecurse(QString d) {
 	QDir dir(d);dir.setSorting(QDir::Name);dir.setFilter(QDir::NoDotAndDotDot | QDir::AllDirs | QDir::System | QDir::Hidden | QDir::AllEntries);
 	foreach(QString p,dir.entryList()){
 		QFileInfo finfo(QString( d + "/" + p ));
-		if (finfo.isSymbolicLink()){
+		if (finfo.isSymLink()){
 			if(dir_source.relativeFilePath(d) == "."){
 				files.append(tuple("",p,0));
 			}else{

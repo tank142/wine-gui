@@ -1,4 +1,5 @@
 #include "openexe.h"
+#include "sizewin.h"
 #include "main_target.h"
 #include "shelloutput.h"
 #include <QVBoxLayout>
@@ -46,6 +47,10 @@ openEXE::openEXE(main_target *t,QStringList arg,QWidget *parent) : QWidget(paren
 	connect(table, &prefixTable::readFinished , this , &openEXE::tableRestore);
 	connect(table->treeView, &QTreeView::clicked , this , &openEXE::run);
 	connect(Key_Return, &QShortcut::activated , this , &openEXE::key_return);
+	sizeWin(this,"winOpenEXE").restore();
+}
+openEXE::~openEXE(){
+	sizeWin(this,"winOpenEXE").save();
 }
 void openEXE::key_return(){
 	run(table->treeView->currentIndex());

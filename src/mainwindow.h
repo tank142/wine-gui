@@ -34,6 +34,7 @@ public:
 		QHBoxLayout *HBOX1;
 		main_target *target;
 		explicit mainwindow(main_target*,QWidget *parent = nullptr);
+		~mainwindow();
 		void model_clear();
 		QVBoxLayout *VBOX;
 public slots:

@@ -1,5 +1,6 @@
 #include "settings.h"
 #include "settings_storage_slots.h"
+#include "sizewin.h"
 #include <QtWidgets>
 #include <QDir>
 #include <QFileSystemModel>
@@ -28,6 +29,8 @@ settings::settings(QStandardItemModel *m, main_target *t, QWidget *parent) : QWi
 {
 	target = t;
 	model = m;
+	setMinimumWidth(690);
+	setFixedHeight(452);
 	s_ui = new QVector<tuple<QHBoxLayout*,QComboBox *,QPushButton *,QToolButton *,QToolButton *,QToolButton *>>;
 	QGroupBox *storage = new QGroupBox(this);
 	QVBoxLayout *vbox = new QVBoxLayout(this);
@@ -135,6 +138,10 @@ settings::settings(QStandardItemModel *m, main_target *t, QWidget *parent) : QWi
 		qApp->setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
 		dark_theme->setChecked(true);
 	}
+	sizeWin(this,"winSettings").restore();
+}
+settings::~settings(){
+	sizeWin(this,"winSettings").save();
 }
 void settings::del(){
 	short int size = s_ui->size();

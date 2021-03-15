@@ -262,7 +262,7 @@ void tabLabels::editor_slot(){
 	vbox->addWidget(file);
 	connect(file, &fileDesktopWidget::shortcuts_update , this , &tabLabels::shortcuts);
 	disconnect(labels,	&QTreeView::customContextMenuRequested, this, &tabLabels::rightClicked);
-	connect(file, &fileDesktopWidget::shortcuts_update , this , &tabLabels::shortcuts);
+	connect(file, &fileDesktopWidget::destroyed , this , &tabLabels::labels_connect);
 	emit hide();
 }
 void tabLabels::del_slot(){

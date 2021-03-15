@@ -27,6 +27,7 @@ class settings : public QWidget {
 		QComboBox* icons(QString);
 		QVector<tuple<QHBoxLayout*,QComboBox *,QPushButton *,QToolButton *,QToolButton *,QToolButton *>> *s_ui;
 		explicit settings(QStandardItemModel*, main_target*, QWidget *parent = nullptr);
+		~settings();
 	public slots:
 		void ok_s();
 	private slots:
