@@ -1,7 +1,13 @@
 #include "shelloutput.h"
+#include "sizewin.h"
 #include <QLabel>
 shellOutputErrCk::shellOutputErrCk(QString e,QStringList o,QWidget *parent) : QWidget(parent){
+	setAttribute(Qt::WA_DeleteOnClose);
 	exec = new shell(e,o);
+	sizeWin(this,"winOutputDebugging").restore();
+}
+shellOutputErrCk::~shellOutputErrCk(){
+	sizeWin(this,"winOutputDebugging").save();
 }
 void shellOutputErrCk::start(){
 	vbox = new QVBoxLayout(this);
@@ -31,8 +37,13 @@ void shellOutputErrCk::output(QProcess *proc){
 	}
 }
 shellOutputDebugging::shellOutputDebugging(QString e,QStringList o,QWidget *parent) : QWidget(parent){
+	setAttribute(Qt::WA_DeleteOnClose);
 	exec = new shell(e,o);
 	connect(exec->proc, &QProcess::finished , this , &shellOutputDebugging::exit);
+	sizeWin(this,"winOutputDebugging").restore();
+}
+shellOutputDebugging::~shellOutputDebugging(){
+	sizeWin(this,"winOutputDebugging").save();
 }
 void shellOutputDebugging::start(){
 	QVBoxLayout *vbox = new QVBoxLayout(this);

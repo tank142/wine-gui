@@ -10,6 +10,7 @@ class shellOutputErrCk : public QWidget
 	Q_OBJECT
 public:
 	explicit shellOutputErrCk(QString,QStringList,QWidget *parent = nullptr);
+	~shellOutputErrCk();
 	shell *exec;
 	void start();
 private:
@@ -24,6 +25,7 @@ class shellOutputDebugging : public QWidget
 	Q_OBJECT
 public:
 	explicit shellOutputDebugging(QString,QStringList,QWidget *parent = nullptr);
+	~shellOutputDebugging();
 	shell *exec;
 	void start();
 public slots:
