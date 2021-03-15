@@ -30,6 +30,18 @@ void sizeWin::restore(){
 	}
 }
 void sizeWin::save(){
+	if(win->windowState() != 0){
+		if(!settings_conf->contains("main/" + name)){return;}
+		QList size = settings_conf->value("main/" + name).toList();
+		settings_conf->setValue("main/" + name,QVariant(QStringList()
+			<< QString::number(size.at(0).toInt())
+			<< QString::number(size.at(1).toInt())
+			<< QString::number(size.at(2).toInt())
+			<< QString::number(size.at(3).toInt())
+			<< QString::number(win->windowState())
+		));
+		return;
+	}
 	settings_conf->setValue("main/" + name,QVariant(QStringList()
 		<< QString::number(win->pos().x())
 		<< QString::number(win->pos().y())
@@ -37,5 +49,4 @@ void sizeWin::save(){
 		<< QString::number(win->size().height())
 		<< QString::number(win->windowState())
 	));
-	cout << win->windowState() << endl;
 }
