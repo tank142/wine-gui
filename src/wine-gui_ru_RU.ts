@@ -2,6 +2,43 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
+    <name>dirMove</name>
+    <message>
+        <source>del_original</source>
+        <translation>Удаление оригинала...</translation>
+    </message>
+</context>
+<context>
+    <name>dirWidget</name>
+    <message>
+        <source>close</source>
+        <translation>Отмена</translation>
+    </message>
+    <message>
+        <source>find_files</source>
+        <translation>Поиск файлов...</translation>
+    </message>
+</context>
+<context>
+    <name>dirWork</name>
+    <message>
+        <source>err_create_dir</source>
+        <translation>Ошибка создания папки: </translation>
+    </message>
+    <message>
+        <source>err_create_ln</source>
+        <translation>Ошибка создания ссылки: </translation>
+    </message>
+    <message>
+        <source>err_create_file</source>
+        <translation>Ошибка создания файла: </translation>
+    </message>
+    <message>
+        <source>cleaning_files</source>
+        <translation>Очистка созданных файлов...</translation>
+    </message>
+</context>
+<context>
     <name>mainwindow</name>
     <message>
         <source>add</source>

@@ -3,6 +3,7 @@
 
 #include "filedesktop.h"
 #include "fileshell.h"
+#include "main_target.h"
 #include <QWidget>
 #include <QLineEdit>
 #include <QPushButton>
@@ -13,8 +14,9 @@ class fileDesktopWidget : public QWidget
 {
 	Q_OBJECT
 public:
-	explicit fileDesktopWidget(QString,QString,QWidget *parent = nullptr);
+	explicit fileDesktopWidget(QString,QString,main_target*,QWidget *parent = nullptr);
 private:
+	main_target *Target;
 	fileDesktop *target;
 	fileShell *shell;
 	QLineEdit *command;
@@ -41,6 +43,8 @@ private:
 	QLineEdit *dxvkEdit;
 	QLineEdit *galliumEdit;
 	QLineEdit *mangoEdit;
+	QString fixShortcut(QString);
+	bool findShortcut(QString);
 
 private slots:
 	void ok_slot();

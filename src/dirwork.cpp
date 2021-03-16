@@ -34,7 +34,7 @@ void dirWork::copyTarget() {
 		if(!close_t){
 			if( !QFileInfo(dir_target + "/" + get<0>(files.at(i))).isDir() ){
 				if(!QDir().mkpath(dir_target + "/" + get<0>(files.at(i)))){
-					emit msg("Ошибка создания папки: " + dir_target + "/" + get<0>(files.at(i)));
+					emit msg(tr("err_create_dir") + dir_target + "/" + get<0>(files.at(i)));
 					close_t = true;continue;
 				}
 			}
@@ -42,7 +42,7 @@ void dirWork::copyTarget() {
 				filesystem::copy_symlink(filesystem::path(QString(dir_source.path() + "/" + get<0>(files.at(i)) + "/" + get<1>(files.at(i))).toStdString()),
 										 filesystem::path(QString(dir_target + "/" + get<0>(files.at(i)) + "/" + get<1>(files.at(i))).toStdString()));
 				if(!QFileInfo(dir_target + "/" + get<0>(files.at(i)) + "/" + get<1>(files.at(i))).isSymLink()){
-					emit msg("Ошибка создания ссылки: " +  dir_source.path() + "/" + get<0>(files.at(i)) + "/" + get<1>(files.at(i)) + " >> "
+					emit msg(tr("err_create_ln") +  dir_source.path() + "/" + get<0>(files.at(i)) + "/" + get<1>(files.at(i)) + " >> "
 												+ dir_target + "/" + get<0>(files.at(i)) + "/" + get<1>(files.at(i)));
 					close_t = true;continue;
 				}else{continue;}
@@ -50,7 +50,7 @@ void dirWork::copyTarget() {
 			if(QFileInfo(dir_source.path() + "/" + get<0>(files.at(i)) + "/" + get<1>(files.at(i))).isDir()){
 				if(!QFileInfo(dir_target + "/" + get<0>(files.at(i)) + "/" + get<1>(files.at(i))).isDir()){
 					if(!QDir().mkpath(dir_target + "/" + get<0>(files.at(i)) + "/" + get<1>(files.at(i)))){
-						emit msg("Ошибка создания папки: " + dir_target + "/" + get<0>(files.at(i)) + "/" + get<1>(files.at(i)));
+						emit msg(tr("err_create_dir") + dir_target + "/" + get<0>(files.at(i)) + "/" + get<1>(files.at(i)));
 						close_t = true;continue;
 					}
 				}
@@ -60,7 +60,7 @@ void dirWork::copyTarget() {
 									 filesystem::path(QString(dir_target + "/" + get<0>(files.at(i)) + "/" + get<1>(files.at(i))).toStdString()));
 			if(!QFileInfo(dir_target + "/" + get<0>(files.at(i)) + "/" + get<1>(files.at(i))).isFile())
 			{
-				emit msg("Ошибка создания файла: " + dir_source.path() + "/" + get<0>(files.at(i)) + "/" + get<1>(files.at(i)) + " >> "
+				emit msg(tr("err_create_file") + dir_source.path() + "/" + get<0>(files.at(i)) + "/" + get<1>(files.at(i)) + " >> "
 													+ dir_target + "/" + get<0>(files.at(i)) + "/" + get<1>(files.at(i)));
 				close_t = true;continue;
 			}
@@ -68,7 +68,7 @@ void dirWork::copyTarget() {
 			emit update_bar(size);
 		}else{
 			if( QFileInfo(dir_target).isDir() ){
-				emit msg("Очистка созданных файлов...");
+				emit msg(tr("cleaning_files"));
 				QDir(dir_target).removeRecursively();
 			}
 			break;

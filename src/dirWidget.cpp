@@ -6,13 +6,13 @@ dirWidget::dirWidget(dirWork *w, QWidget *parent) : QWidget(parent)
 	hbox_bar = new QHBoxLayout(this);
 	status = new QStatusBar(this);
 	bar = new QProgressBar(this);bar->setHidden(true);
-	close = new QToolButton(this);close->setText("Отмена");
+	close = new QToolButton(this);close->setText(tr("close"));
 	vbox->addWidget(status);
 	vbox->addLayout(hbox_bar);
 	hbox_bar->addWidget(bar);
 	hbox_bar->addWidget(close);
 	setLayout(vbox);
-	status->showMessage("Поиск файлов...");
+	status->showMessage(tr("find_files"));
 	connect( work, &dirWork::msg , this , &dirWidget::updateStatus );
 	connect( work, &dirWork::create_bar , this , &dirWidget::createBar );
 	connect( work, &dirWork::update_bar , this , &dirWidget::updateBar );

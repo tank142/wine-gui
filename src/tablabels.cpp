@@ -250,7 +250,7 @@ void tabLabels::del_desktop_slot(){
 			 QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)).rm();
 }
 void tabLabels::add_slot(){
-	file = new fileDesktopWidget(prefixPath(), "");
+	file = new fileDesktopWidget(prefixPath(), "", target);
 	vbox->addWidget(file);
 	connect(file, &fileDesktopWidget::shortcuts_update , this , &tabLabels::shortcuts);
 	disconnect(labels,	&QTreeView::customContextMenuRequested, this, &tabLabels::rightClicked);
@@ -258,7 +258,7 @@ void tabLabels::add_slot(){
 	emit hide();
 }
 void tabLabels::editor_slot(){
-	file = new fileDesktopWidget(prefixPath(), model->item(labels->currentIndex().row(),1)->text());
+	file = new fileDesktopWidget(prefixPath(), model->item(labels->currentIndex().row(),1)->text(),target);
 	vbox->addWidget(file);
 	connect(file, &fileDesktopWidget::shortcuts_update , this , &tabLabels::shortcuts);
 	disconnect(labels,	&QTreeView::customContextMenuRequested, this, &tabLabels::rightClicked);

@@ -14,9 +14,9 @@
 #include <QRegularExpression>
 #include <iostream>
 using namespace std;
-fileDesktopWidget::fileDesktopWidget(QString t,QString f,QWidget *parent) : QWidget(parent)
+fileDesktopWidget::fileDesktopWidget(QString t,QString f,main_target *T,QWidget *parent) : QWidget(parent)
 {
-	prefix = t;shortcuts = f;
+	prefix = t;shortcuts = f; Target = T;
 	QVBoxLayout *main = new QVBoxLayout(this);
 	main->addWidget(new QSplitter(Qt::Vertical,this));
 
@@ -173,7 +173,28 @@ void fileDesktopWidget::set_dir(){
 		name->setText(d.right(d.size() - d.lastIndexOf("/")-1));
 		icon->setText(name->text().left( name->text().lastIndexOf(".")));
 		wmclass->setText(icon->text());
-		shortcut->setText(wmclass->text());
+		shortcut->setText(fixShortcut(wmclass->text()));
 		name->setText(icon->text());
 	}
+}
+QString fileDesktopWidget::fixShortcut(QString name){
+	if(findShortcut(name)){
+		quint16 n = 0;
+		while(findShortcut(name + "." + QString::number(n))){n++;}
+		return name + "." + QString::number(n);
+	}else{return name;}
+}
+bool fileDesktopWidget::findShortcut(QString name){
+	for(quint16 i=0;Target->storages.size() > i;i++){
+		QDir dir(get<2>(Target->storages.at(i)));
+		dir.setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
+			foreach(QString s,dir.entryList()){
+				QDir shortcuts(get<2>(Target->storages.at(i)) + "/" + s + "/shortcuts");
+				shortcuts.setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
+				foreach(QString n,shortcuts.entryList()){
+					if(n == name){return true;}
+				}
+			}
+	}
+	return false;
 }

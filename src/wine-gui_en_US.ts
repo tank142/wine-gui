@@ -2,6 +2,43 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
+    <name>dirMove</name>
+    <message>
+        <source>del_original</source>
+        <translation>Deleting the original...</translation>
+    </message>
+</context>
+<context>
+    <name>dirWidget</name>
+    <message>
+        <source>close</source>
+        <translation>Сancel</translation>
+    </message>
+    <message>
+        <source>find_files</source>
+        <translation>Search for files...</translation>
+    </message>
+</context>
+<context>
+    <name>dirWork</name>
+    <message>
+        <source>err_create_dir</source>
+        <translation>Folder creation error: </translation>
+    </message>
+    <message>
+        <source>err_create_ln</source>
+        <translation>Link creation error: </translation>
+    </message>
+    <message>
+        <source>err_create_file</source>
+        <translation>File creation error: </translation>
+    </message>
+    <message>
+        <source>cleaning_files</source>
+        <translation>Cleaning up created files...</translation>
+    </message>
+</context>
+<context>
     <name>mainwindow</name>
     <message>
         <source>add</source>

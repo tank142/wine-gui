@@ -3,6 +3,7 @@
 #include "settings.h"
 #include "prefixadd.h"
 #include "prefixdel.h"
+#include "findlink.h"
 #include <QtWidgets>
 #include <QDir>
 #include <QFileSystemModel>
@@ -115,6 +116,16 @@ void mainwindow::storage_edit(){
 	if(edit_create == true){
 		if(edit_target_wineprefix != ""){
 			if(edit_target_wineprefix != edit->text()){
+				findLink ln(target->model_storages.at(edit_target) + "/" + edit_target_wineprefix + "/shortcuts",
+							QDir::homePath() + "/.local/share/applications");
+				ln.lnFindRc();
+				ln.lnMove(target->model_storages.at(edit_target) + "/" + edit->text() + "/shortcuts");
+				ln.dir = QDir::homePath() + "/.local/share/icons";
+				ln.lnFindRc();
+				ln.lnMove(target->model_storages.at(edit_target) + "/" + edit->text() + "/shortcuts");
+				ln.dir = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+				ln.lnFind();
+				ln.lnMove(target->model_storages.at(edit_target) + "/" + edit->text() + "/shortcuts");
 				QFile::rename(QString(target->model_storages.at(edit_target) + "/" + edit_target_wineprefix),
 							  QString(target->model_storages.at(edit_target) + "/" + edit->text()));
 				int i = target->storage;

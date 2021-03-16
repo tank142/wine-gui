@@ -14,7 +14,6 @@ void dirMove::run(){
 	emit create_bar(sizeAll);
 	copyTarget();
 	emit closeBar();
-	emit msg("Обработка ярлыков...");
 	findLink ln(dir_source.path() + "/shortcuts",QDir::homePath() + "/.local/share/applications");
 	ln.lnFindRc();
 	ln.lnMove(dir_target + "/shortcuts");
@@ -24,7 +23,7 @@ void dirMove::run(){
 	ln.dir = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
 	ln.lnFind();
 	ln.lnMove(dir_target + "/shortcuts");
-	emit msg("Удаление оригинала...");
+	emit msg(tr("del_original"));
 	QDir(dir_source.path()).removeRecursively();
 	emit exit();
 	this->deleteLater();
