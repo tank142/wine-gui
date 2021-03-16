@@ -188,13 +188,18 @@ bool fileDesktopWidget::findShortcut(QString name){
 	for(quint16 i=0;Target->storages.size() > i;i++){
 		QDir dir(get<2>(Target->storages.at(i)));
 		dir.setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
-			foreach(QString s,dir.entryList()){
-				QDir shortcuts(get<2>(Target->storages.at(i)) + "/" + s + "/shortcuts");
-				shortcuts.setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
-				foreach(QString n,shortcuts.entryList()){
-					if(n == name){return true;}
-				}
+		foreach(QString s,dir.entryList()){
+			QDir shortcuts(get<2>(Target->storages.at(i)) + "/" + s + "/shortcuts");
+			shortcuts.setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
+			foreach(QString n,shortcuts.entryList()){
+				if(n == name){return true;}
 			}
+		}
+		QDir home(Target->home + "/.wine/shortcuts");
+		home.setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
+		foreach(QString n,home.entryList()){
+			if(n == name){return true;}
+		}
 	}
 	return false;
 }

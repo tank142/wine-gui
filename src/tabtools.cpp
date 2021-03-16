@@ -142,6 +142,7 @@ void tabTools::updateWineVer(QString t){
 void tabTools::updateWineDir(){
 	wine->clear();
 	wine->addItem("System");
+	if(target->WINE_VER.size() < 1){return;}
 	QDir dir(target->WINE_VER);dir.setFilter(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Hidden);
 	foreach(QString x, dir.entryList() ){
 		wine->addItem(x);
