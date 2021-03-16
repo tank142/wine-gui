@@ -270,9 +270,11 @@ void settings::save_conf(QVector<QString> *icons){
 	conf.setValue("main/wine",target->WINE_VER);
 	conf.setValue("main/dark_theme",dark_theme->isChecked());
 	for (int i = 0; i < s_ui->count(); i++){
-		conf.setValue("storage_" + QString::number(i) + "/icon",get<1>(s_ui->at(i))->currentText());
-		conf.setValue("storage_" + QString::number(i) + "/name",find_name(get<2>(s_ui->at(i))->text()));
-		conf.setValue("storage_" + QString::number(i) + "/path",get<2>(s_ui->at(i))->text());
+		if(get<2>(s_ui->at(i))->text() != ""){
+			conf.setValue("storage_" + QString::number(i) + "/icon",get<1>(s_ui->at(i))->currentText());
+			conf.setValue("storage_" + QString::number(i) + "/name",find_name(get<2>(s_ui->at(i))->text()));
+			conf.setValue("storage_" + QString::number(i) + "/path",get<2>(s_ui->at(i))->text());
+		}
 	}
 	conf.sync();
 	icons->~QVector<QString>();
@@ -314,8 +316,10 @@ void settings::storages_update(){
 		target->storages.removeLast();
 	}
 	for (int i = 0; i < s_ui->size(); i++){
-		target->storages.append(tuple(get<1>(s_ui->at(i))->currentText(),
-									  find_storage_name(&paths,&names,get<2>(s_ui->at(i))->text()),
-									  get<2>(s_ui->at(i))->text()));
+		if(get<2>(s_ui->at(i))->text() != ""){
+			target->storages.append(tuple(get<1>(s_ui->at(i))->currentText(),
+										  find_storage_name(&paths,&names,get<2>(s_ui->at(i))->text()),
+										  get<2>(s_ui->at(i))->text()));
+		}
 	}
 }
