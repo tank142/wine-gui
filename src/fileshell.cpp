@@ -151,7 +151,7 @@ void fileShell::write(){
 		list.insert(0,list2.at(0));
 		list2.removeAt(0);
 	}
-	list.append("export WINEPREFIX=\"${DIRSTACK%/*/*}\"");
+	list.append("export WINEPREFIX=\"${PWD%/*/*}\"");
 	list.append("WORKDIR=\"" + WORKDIR + QString("\""));
 	list.append("cd " + QString("\"") + "$WORKDIR" + QString("\""));
 	if(WINE.size() > 0 ){
