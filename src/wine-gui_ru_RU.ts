@@ -2,6 +2,17 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
+    <name>mainwindow</name>
+    <message>
+        <source>add</source>
+        <translation>Добавить</translation>
+    </message>
+    <message>
+        <source>del</source>
+        <translation>Удалить</translation>
+    </message>
+</context>
+<context>
     <name>openEXE</name>
     <message>
         <source>debug</source>

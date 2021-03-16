@@ -31,8 +31,8 @@ mainwindow::mainwindow(main_target *t,QWidget *parent) : QWidget(parent)
 	target->CONF = target->home + "/.config/wine-gui.conf";
 	target->model_storages.append("");
 	target->prefix_path = target->home + "/.wine";
-	button = new QPushButton("Добавить");
-	button2 = new QPushButton("Удалить");
+	button = new QPushButton(tr("add"));
+	button2 = new QPushButton(tr("del"));
 	button3 = new QToolButton;button3->setText("...");
 	table = new prefixTable(target,this);
 	if(QFile::exists(target->CONF)){
