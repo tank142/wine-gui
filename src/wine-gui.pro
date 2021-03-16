@@ -71,7 +71,8 @@ HEADERS += \
 
 FORMS +=
 
-TRANSLATIONS += wine-gui_ru_RU.ts wine-gui_en_US.ts
+TRANSLATIONS += \
+    wine-gui_ru_RU.ts wine-gui_en_US.ts
 
 LIBS +=
 
@@ -81,7 +82,7 @@ qnx: target.path = /tmp/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    wine-gui_en_US.ts
+    wine-gui_ru_RU.ts wine-gui_en_US.ts
 
 RESOURCES += \
     icons/icons.qrc

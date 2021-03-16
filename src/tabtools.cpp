@@ -2,7 +2,6 @@
 #include "shelloutput.h"
 #include <QPushButton>
 #include <QToolButton>
-#include <QFileSystemWatcher>
 #include <QSettings>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -29,7 +28,7 @@ tabTools::tabTools(main_target *t,QWidget *parent) : QWidget(parent)
 	QPushButton *installFonts = new QPushButton(tr("install_fonts"));installFonts->setFont(font);//"Установка шрифтов"
 	QHBoxLayout *hbox2 = new QHBoxLayout;
 	wine = new QComboBox(this);updateWineDir();
-	QFileSystemWatcher *wineD = new QFileSystemWatcher(this);
+	wineD = new QFileSystemWatcher(this);
 	wineD->addPath(target->WINE_VER);
 	QToolButton *wineButton = new QToolButton(this);
 	wineButton->setIcon(QIcon::fromTheme("folder"));
@@ -67,6 +66,10 @@ tabTools::tabTools(main_target *t,QWidget *parent) : QWidget(parent)
 	connect(wineButton, &QPushButton::clicked , this , &tabTools::openWineDir);
 	connect(installComponents, &QPushButton::clicked , this , &tabTools::installComponents_slot);
 	connect(installFonts, &QPushButton::clicked , this , &tabTools::installFonts_slot);
+}
+void tabTools::wineDir(){
+	wineD->addPath(target->WINE_VER);
+	updateWineDir();
 }
 void tabTools::installComponents_slot(){
 	shellOutputDebugging *winetricks = new shellOutputDebugging("wine",QStringList() << "-q" << "dlls");

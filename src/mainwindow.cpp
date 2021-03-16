@@ -107,6 +107,7 @@ void mainwindow::settings_slot(){
 	settings *s = new settings(table->model,target);
 	connect(s, &settings::model_update , table , &prefixTable::model_update);
 	connect(s, &settings::destroyed , this , &mainwindow::settingsEnabled);
+	connect(s, &settings::destroyed , tab->tools->t , &tabTools::wineDir);
 	s->show();
 }
 void mainwindow::settingsEnabled(){button3->setEnabled(true);}

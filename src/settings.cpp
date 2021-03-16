@@ -30,7 +30,6 @@ settings::settings(QStandardItemModel *m, main_target *t, QWidget *parent) : QWi
 	target = t;
 	model = m;
 	setMinimumWidth(690);
-	this->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
 	setWindowFlags(Qt::Window | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint);
 
 	s_ui = new QVector<tuple<QHBoxLayout*,QComboBox *,QPushButton *,QToolButton *,QToolButton *,QToolButton *>>;
@@ -46,8 +45,8 @@ settings::settings(QStandardItemModel *m, main_target *t, QWidget *parent) : QWi
 	dxvk_b = new QPushButton();
 	nine_b = new QPushButton();
 	dark_theme = new QCheckBox(tr("dark_theme"));
-	QVBoxLayout *nine_l = new QVBoxLayout(this);
-	storage_vbox2 = new QVBoxLayout(this);
+	QVBoxLayout *nine_l = new QVBoxLayout;
+	storage_vbox2 = new QVBoxLayout;
 	QHBoxLayout *hbox = new QHBoxLayout();
 	QHBoxLayout *hbox2 = new QHBoxLayout();
 	QVBoxLayout *storage_vbox = new QVBoxLayout();
@@ -243,11 +242,11 @@ void settings::ok_s(){
 	target->WINE_VER = winever->text();
 	target->DXVK = dxvk_b->text();
 	target->NINE = nine_b->text();
-	QVector<QString> icons;
+	QVector<QString> *icons = new QVector<QString>;
 	for (int i = 0; i < s_ui->size(); i++){
-		icons.append(get<1>(s_ui->at(i))->currentText());
+		icons->append(get<1>(s_ui->at(i))->currentText());
 	}
-	save_conf(&icons);
+	save_conf(icons);
 	storages_update();
 	emit model_update();
 	deleteLater();

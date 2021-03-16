@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QComboBox>
 #include <QGridLayout>
+#include <QFileSystemWatcher>
 #include "main_target.h"
 class tabTools : public QWidget
 {
@@ -16,6 +17,9 @@ private:
 	main_target *target;
 	QString prefix();
 	QGridLayout *gbox;
+	QFileSystemWatcher *wineD;
+public slots:
+	void wineDir();
 private slots:
 	void regedit();
 	void winecfg();
