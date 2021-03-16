@@ -30,6 +30,7 @@ class settings : public QWidget {
 		~settings();
 	public slots:
 		void ok_s();
+		void resizeHeight();
 	private slots:
 		void storage_add();
 		void winever_s();

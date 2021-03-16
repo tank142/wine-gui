@@ -30,8 +30,9 @@ settings::settings(QStandardItemModel *m, main_target *t, QWidget *parent) : QWi
 	target = t;
 	model = m;
 	setMinimumWidth(690);
-	this->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+	this->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
 	setWindowFlags(Qt::Window | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint);
+
 	s_ui = new QVector<tuple<QHBoxLayout*,QComboBox *,QPushButton *,QToolButton *,QToolButton *,QToolButton *>>;
 	QGroupBox *storage = new QGroupBox(this);
 	QVBoxLayout *vbox = new QVBoxLayout(this);
@@ -144,6 +145,11 @@ settings::settings(QStandardItemModel *m, main_target *t, QWidget *parent) : QWi
 settings::~settings(){
 	sizeWin(this,"winSettings").save();
 }
+void settings::resizeHeight(){
+	if(windowState() == 0){
+		resize(width(),0);
+	}
+}
 void settings::del(){
 	short int size = s_ui->size();
 	if(size > 0){
@@ -181,6 +187,7 @@ void settings::storage_add(){
 	connect(up, &QPushButton::clicked , slot , &settings_storage_slots::move_up);
 	connect(down, &QPushButton::clicked , slot , &settings_storage_slots::move_down);
 	connect(storage_button_del, &QPushButton::clicked , slot , &settings_storage_slots::del);
+	connect(hbox, &QHBoxLayout::destroyed , this , &settings::resizeHeight);
 	storage_vbox2->addLayout(hbox);
 	down->setHidden(true);
 	if( storage_vbox2->indexOf(hbox) == 0 ) {
