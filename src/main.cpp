@@ -26,8 +26,9 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 	QTranslator translator;
-	if(!translator.load("wine-gui_" + QLocale::system().name(),QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation).at(2) + "/lang")){
-		if(!translator.load("wine-gui_en_US",QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation).at(2) + "/lang")){
+	//QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation).at(2) + "/lang")
+	if(!translator.load("wine-gui_" + QLocale::system().name(),"/usr/share/wine-gui/lang")){
+		if(!translator.load("wine-gui_en_US","/usr/share/wine-gui/lang")){
 			QMessageBox *err = new QMessageBox;
 			err->setWindowTitle("Attention");
 			err->setText("Localization loading error!");
