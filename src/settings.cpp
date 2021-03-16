@@ -34,24 +34,24 @@ settings::settings(QStandardItemModel *m, main_target *t, QWidget *parent) : QWi
 	setWindowFlags(Qt::Window | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint);
 
 	s_ui = new QVector<tuple<QHBoxLayout*,QComboBox *,QPushButton *,QToolButton *,QToolButton *,QToolButton *>>;
-	QGroupBox *storage = new QGroupBox(this);
-	QVBoxLayout *vbox = new QVBoxLayout(this);
-	QGroupBox *wine_vers = new QGroupBox(this);
-	QGroupBox *nine = new QGroupBox(this);
-	QHBoxLayout *wine_vers_hbox = new QHBoxLayout(this);
-	QGroupBox *dxvk = new QGroupBox(this);
-	QVBoxLayout *dxvk_vbox = new QVBoxLayout(this);
-	winever = new QPushButton(this);
-	ok = new QToolButton(this);
-	dxvk_b = new QPushButton(this);
-	nine_b = new QPushButton(this);
-	dark_theme = new QCheckBox(tr("dark_theme"),this);
+	QGroupBox *storage = new QGroupBox();
+	QVBoxLayout *vbox = new QVBoxLayout();
+	QGroupBox *wine_vers = new QGroupBox();
+	QGroupBox *nine = new QGroupBox();
+	QHBoxLayout *wine_vers_hbox = new QHBoxLayout();
+	QGroupBox *dxvk = new QGroupBox();
+	QVBoxLayout *dxvk_vbox = new QVBoxLayout();
+	winever = new QPushButton();
+	ok = new QToolButton();
+	dxvk_b = new QPushButton();
+	nine_b = new QPushButton();
+	dark_theme = new QCheckBox(tr("dark_theme"));
 	QVBoxLayout *nine_l = new QVBoxLayout(this);
 	storage_vbox2 = new QVBoxLayout(this);
-	QHBoxLayout *hbox = new QHBoxLayout(this);
-	QHBoxLayout *hbox2 = new QHBoxLayout(this);
-	QVBoxLayout *storage_vbox = new QVBoxLayout(this);
-	QPushButton *storage_button_add = new QPushButton(tr("add"),this);
+	QHBoxLayout *hbox = new QHBoxLayout();
+	QHBoxLayout *hbox2 = new QHBoxLayout();
+	QVBoxLayout *storage_vbox = new QVBoxLayout();
+	QPushButton *storage_button_add = new QPushButton(tr("add"));
 	dxvk_b->setText(target->DXVK);
 	nine_b->setText(target->NINE);
 	winever->setText(target->WINE_VER);
@@ -159,12 +159,12 @@ void settings::del(){
 	}
 }
 void settings::storage_add(){
-	QHBoxLayout *hbox = new QHBoxLayout(this);
+	QHBoxLayout *hbox = new QHBoxLayout();
 	QComboBox *icon = icons(target->ICON);
-	QToolButton *storage_button_del = new QToolButton(this);
-	QPushButton *dir = new QPushButton(directory,this);
-	QToolButton *up = new QToolButton(this);
-	QToolButton *down = new QToolButton(this);
+	QToolButton *storage_button_del = new QToolButton();
+	QPushButton *dir = new QPushButton(directory);
+	QToolButton *up = new QToolButton();
+	QToolButton *down = new QToolButton();
 	up->setIcon(style()->standardIcon(QStyle::SP_ArrowUp));
 	down->setIcon(style()->standardIcon(QStyle::SP_ArrowDown));
 	storage_button_del->setText(tr("delete"));
@@ -202,7 +202,7 @@ void settings::storage_add(){
 }
 QComboBox* settings::icons(QString directory){
 	QDir dir;dir.setPath(directory);
-	QComboBox* icons = new QComboBox(this);
+	QComboBox* icons = new QComboBox();
 	dir.setFilter(QDir::NoDotAndDotDot | QDir::Files);dir.setSorting(QDir::Name);
 	QFileInfoList list = dir.entryInfoList();
 	for (int i = 0; i < list.size(); ++i) {
@@ -248,9 +248,10 @@ void settings::ok_s(){
 		icons->append(get<1>(s_ui->at(i))->currentText());
 	}
 	save_conf(icons);
+	icons->~QVector();
 	storages_update();
 	emit model_update();
-	this->deleteLater();
+	deleteLater();
 }
 QString settings::find_name(QString path){
 	for(quint16 I = 0; target->model_storages.count() > I ;I++){
