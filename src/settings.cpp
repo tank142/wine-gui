@@ -243,12 +243,11 @@ void settings::ok_s(){
 	target->WINE_VER = winever->text();
 	target->DXVK = dxvk_b->text();
 	target->NINE = nine_b->text();
-	QVector<QString> *icons = new QVector<QString>;
+	QVector<QString> icons;
 	for (int i = 0; i < s_ui->size(); i++){
-		icons->append(get<1>(s_ui->at(i))->currentText());
+		icons.append(get<1>(s_ui->at(i))->currentText());
 	}
-	save_conf(icons);
-	icons->~QVector();
+	save_conf(&icons);
 	storages_update();
 	emit model_update();
 	deleteLater();
