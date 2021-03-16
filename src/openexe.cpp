@@ -32,13 +32,12 @@ openEXE::openEXE(main_target *t,QStringList arg,QWidget *parent) : QWidget(paren
 	QVBoxLayout *VBOX = new QVBoxLayout(this);
 	table = new prefixTable(target,this);
 	QHBoxLayout *hbox = new QHBoxLayout();
-	debug = new QCheckBox("Отладка",this);
+	debug = new QCheckBox(tr("debug"),this);
 	debug->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
 	hbox->addWidget(open);
 	hbox->addWidget(debug);
 	VBOX->addLayout(hbox);
 	VBOX->addWidget(table->treeView);
-	table->model->setHorizontalHeaderLabels(QStringList() << "Префиксы" << "Wine" );
 	table->treeView->header()->setStretchLastSection(false);
 	table->treeView->header()->setSectionResizeMode(0,QHeaderView::Stretch);
 	table->model_update();
@@ -86,7 +85,7 @@ void openEXE::tableRestore(){
 }
 void openEXE::exe(){
 	QString d=(QFileDialog::getOpenFileName(this,
-				QString::fromUtf8("Выбор файла"),
+				tr("file_selection"),
 				open->text()));
 	if(d!=""){open->setText(d);};
 }

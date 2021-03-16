@@ -26,10 +26,10 @@ prefixDel::prefixDel(threadDel*,QString text,QWidget *parent) : QWidget(parent)
 {
 	vbox = new QVBoxLayout(this);
 	hbox = new QHBoxLayout(this);
-	vbox->addWidget(new QLabel("Удаление: " + text,this));
+	vbox->addWidget(new QLabel(tr("del") + text,this));
 	vbox->addLayout(hbox);
-	ok = new QPushButton("Ок",this);
-	QPushButton *cancel = new QPushButton("Отмена",this);
+	ok = new QPushButton(tr("ok"),this);
+	QPushButton *cancel = new QPushButton(tr("cancel"),this);
 	hbox->addWidget(ok);hbox->addWidget(cancel);
 	setLayout(vbox);
 	connect(ok, &QPushButton::clicked , this , &prefixDel::ok_slot);

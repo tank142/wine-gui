@@ -30,7 +30,8 @@ settings::settings(QStandardItemModel *m, main_target *t, QWidget *parent) : QWi
 	target = t;
 	model = m;
 	setMinimumWidth(690);
-	setFixedHeight(452);
+	this->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+	setWindowFlags(Qt::Window | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint);
 	s_ui = new QVector<tuple<QHBoxLayout*,QComboBox *,QPushButton *,QToolButton *,QToolButton *,QToolButton *>>;
 	QGroupBox *storage = new QGroupBox(this);
 	QVBoxLayout *vbox = new QVBoxLayout(this);
@@ -43,21 +44,21 @@ settings::settings(QStandardItemModel *m, main_target *t, QWidget *parent) : QWi
 	ok = new QToolButton(this);
 	dxvk_b = new QPushButton(this);
 	nine_b = new QPushButton(this);
-	dark_theme = new QCheckBox("Тёмное оформление",this);
+	dark_theme = new QCheckBox(tr("dark_theme"),this);
 	QVBoxLayout *nine_l = new QVBoxLayout(this);
 	storage_vbox2 = new QVBoxLayout(this);
 	QHBoxLayout *hbox = new QHBoxLayout(this);
 	QHBoxLayout *hbox2 = new QHBoxLayout(this);
 	QVBoxLayout *storage_vbox = new QVBoxLayout(this);
-	QPushButton *storage_button_add = new QPushButton("Добавить",this);
+	QPushButton *storage_button_add = new QPushButton(tr("add"),this);
 	dxvk_b->setText(target->DXVK);
 	nine_b->setText(target->NINE);
 	winever->setText(target->WINE_VER);
 	ok->setText("ОК");
-	storage->setTitle("Расположения префиксов");
-	wine_vers->setTitle("Расположение верcий Wine");
-	dxvk->setTitle("Расположение dxvk");
-	nine->setTitle("Расположение Gallium Nine");
+	storage->setTitle(tr("prefix_paths"));
+	wine_vers->setTitle(tr("wine_path"));
+	dxvk->setTitle(tr("dxvk_path"));
+	nine->setTitle(tr("nine_path"));
 	vbox->addWidget(storage);
 	vbox->addWidget(dark_theme);
 	vbox->addWidget(wine_vers);
@@ -84,7 +85,7 @@ settings::settings(QStandardItemModel *m, main_target *t, QWidget *parent) : QWi
 	nine->setLayout(nine_l);
 	hbox2->addWidget(dxvk);
 	setLayout(vbox);
-	setWindowTitle(tr("Wine"));
+	setWindowTitle(tr("settings"));
 	hbox2->addWidget(ok);
 	ok->setFixedSize(70,70);
 	if(QFile::exists(target->CONF)){
@@ -160,7 +161,7 @@ void settings::storage_add(){
 	QToolButton *down = new QToolButton(this);
 	up->setIcon(style()->standardIcon(QStyle::SP_ArrowUp));
 	down->setIcon(style()->standardIcon(QStyle::SP_ArrowDown));
-	storage_button_del->setText("Удалить");
+	storage_button_del->setText(tr("delete"));
 	icon->setMaximumWidth(43);
 	hbox->addWidget(icon);
 	hbox->addWidget(dir);
@@ -168,7 +169,7 @@ void settings::storage_add(){
 		if(QFile::exists(directory)){
 			dir->setText(directory);
 		}else{
-			dir->setText(directory + " (Не найдено)");
+			dir->setText(directory + tr("not_fount"));
 		}
 	}
 	hbox->addWidget(up);
@@ -215,7 +216,7 @@ void settings::check(){
 }
 void settings::setdir(QPushButton *b){
 	QString d=(QFileDialog::getExistingDirectory(this,
-				QString::fromUtf8("Выбор папки"),
+				tr("set_dir"),
 				QDir::homePath() + "/.local",
 				QFileDialog::ShowDirsOnly));
 	if(d != "" ){

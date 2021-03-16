@@ -30,7 +30,7 @@ void shellOutputErrCk::output(QProcess *proc){
 		vbox->addWidget(l);
 		text->setText(proc->readAllStandardOutput());
 		vbox->addWidget(text);
-		setWindowTitle("Ошибка");
+		setWindowTitle(tr("err"));
 		this->show();
 	}else{
 		this->deleteLater();
@@ -50,7 +50,7 @@ void shellOutputDebugging::start(){
 	text = new QTextEdit(this);
 	text->setTextInteractionFlags(Qt::TextSelectableByMouse);
 	vbox->addWidget(text);
-	setWindowTitle("Отладка");
+	setWindowTitle(tr("debug"));
 	setLayout(vbox);
 	this->show();
 	connect(exec->proc, &QProcess::readyRead , this , &shellOutputDebugging::addText);
@@ -63,6 +63,6 @@ void shellOutputDebugging::addText(){
 	text->moveCursor(QTextCursor::End);
 }
 void shellOutputDebugging::exit(int code){
-	text->insertPlainText("Код завершения: " + QString::number(code));
+	text->insertPlainText(tr("exit_code") + QString::number(code));
 	text->moveCursor(QTextCursor::End);
 }

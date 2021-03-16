@@ -19,7 +19,7 @@ tabLabels::tabLabels(main_target *t,QWidget *parent) : QWidget(parent)
 	target = t;
 	vbox = new QVBoxLayout(this);
 	model = new QStandardItemModel;
-	model->setHorizontalHeaderLabels(QStringList() << "Имя" << "Ярлык" );
+	model->setHorizontalHeaderLabels(QStringList() << tr("name") << tr("shortcut") );
 	labels = new QTreeView(this);
 	labels->setModel(model);
 	labels->header()->setStretchLastSection(false);
@@ -38,41 +38,41 @@ void tabLabels::rightClicked()
 {
 	QMenu *m_menu = new QMenu("&SubMenu",this);
 	if(labels->currentIndex().row() > -1){
-		QAction *actionDebugging = new QAction("Отладка",m_menu);
+		QAction *actionDebugging = new QAction(tr("debug"),m_menu);
 		m_menu->addAction(actionDebugging);
 		connect(actionDebugging, &QAction::triggered, this, &tabLabels::runDebugging);
-		QAction *actionOpen = new QAction("Открыть папку",m_menu);
+		QAction *actionOpen = new QAction(tr("open"),m_menu);
 		m_menu->addAction(actionOpen);
 		connect(actionOpen, &QAction::triggered, this, &tabLabels::runOpen);
-		QAction *editorOpen = new QAction("Редактировать",m_menu);
+		QAction *editorOpen = new QAction(tr("edit"),m_menu);
 		m_menu->addAction(editorOpen);
 		connect(editorOpen, &QAction::triggered, this, &tabLabels::editor_slot);
 		if(!findLink(prefixPath() + + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text(),
 					target->home + "/.local/share/applications/").ckRc()){
-			QAction *action = new QAction("Добавить в главное меню");
+			QAction *action = new QAction(tr("add_main_menu"));
 			connect(action, &QAction::triggered , this , &tabLabels::add_menu_slot);
 			m_menu->addAction(action);
 		}else{
-			QAction *action = new QAction("Удалить из главного меню");
+			QAction *action = new QAction(tr("del_main_menu"));
 			connect(action, &QAction::triggered , this , &tabLabels::del_menu_slot);
 			m_menu->addAction(action);
 		}
 		if(!findLink(prefixPath() + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text(),
 					QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)).ck()){
-			QAction *action = new QAction("Добавить на рабочий стол");
+			QAction *action = new QAction(tr("add_desktop"));
 			connect(action, &QAction::triggered , this , &tabLabels::add_desktop_slot);
 			m_menu->addAction(action);
 		}else{
-			QAction *action = new QAction("Удалить с рабочего стола");
+			QAction *action = new QAction(tr("del_desktop"));
 			connect(action, &QAction::triggered , this , &tabLabels::del_desktop_slot);
 			m_menu->addAction(action);
 		}
-		QAction *del = new QAction("Удалить");
+		QAction *del = new QAction(tr("del"));
 		connect(del, &QAction::triggered , this , &tabLabels::del_slot);
 		m_menu->addAction(del);
 		m_menu->addSeparator();
 	}
-	QAction *add = new QAction("Создать");
+	QAction *add = new QAction(tr("create"));
 	connect(add, &QAction::triggered , this , &tabLabels::add_slot);
 	m_menu->addAction(add);
 	m_menu->popup(QCursor::pos());
@@ -187,9 +187,9 @@ bool tabLabels::fileExists(QString s,QString f){
 		if(fileInf.symLinkTarget() == s){return true;}
 	}
 	QMessageBox msgBox(this);
-	msgBox.setText("Файл cуществует: \"" + f +  "\"\nПерезаписать?");
-	QAbstractButton *Yes = msgBox.addButton(tr("Да"), QMessageBox::YesRole);
-	msgBox.addButton(tr("Нет"), QMessageBox::NoRole);
+	msgBox.setText(tr("file_exists") + "\"" + f +  "\"\n" + tr("overwrite"));
+	QAbstractButton *Yes = msgBox.addButton(tr("yes"), QMessageBox::YesRole);
+	msgBox.addButton(tr("no"), QMessageBox::NoRole);
 	msgBox.exec();
 	if(msgBox.clickedButton()==Yes){
 		file.remove();

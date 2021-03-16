@@ -13,27 +13,27 @@ tabTools::tabTools(main_target *t,QWidget *parent) : QWidget(parent)
 
 	QVBoxLayout *vbox = new QVBoxLayout;vbox->setAlignment(Qt::AlignTop);
 	gbox = new QGridLayout;gbox->setAlignment(Qt::AlignTop);
-	QPushButton *button0 = new QPushButton("Редактор реестра");
+	QPushButton *button0 = new QPushButton(tr("regedit"));//"Редактор реестра"
 	QFont font = button0->font();
 	font.setPointSize(9);button0->setFont(font);
-	QPushButton *button1 = new QPushButton("Настройка Wine");button1->setFont(font);
-	QPushButton *button2 = new QPushButton("Панель управления");button2->setFont(font);
-	QPushButton *button10 = new QPushButton("Терминал");button10->setFont(font);
-	QPushButton *button11 = new QPushButton("Диспетчер задач");button11->setFont(font);
-	QPushButton *button12 = new QPushButton("Завершить процессы");button12->setFont(font);
-	QPushButton *button20 = new QPushButton("Открыть");button20->setFont(font);
-	QPushButton *button21 = new QPushButton("Обновить");button21->setFont(font);
-	QPushButton *button22 = new QPushButton("Очистить");button22->setFont(font);
+	QPushButton *button1 = new QPushButton(tr("winecfg"));button1->setFont(font);//"Настройка Wine"
+	QPushButton *button2 = new QPushButton(tr("control"));button2->setFont(font);//"Панель управления"
+	QPushButton *button10 = new QPushButton(tr("cmd"));button10->setFont(font);//"Терминал"
+	QPushButton *button11 = new QPushButton(tr("taskmgr"));button11->setFont(font);//"Диспетчер задач"
+	QPushButton *button12 = new QPushButton(tr("kill"));button12->setFont(font);//"Завершить процессы"
+	QPushButton *button20 = new QPushButton(tr("open"));button20->setFont(font);//"Открыть"
+	QPushButton *button21 = new QPushButton(tr("update"));button21->setFont(font);//"Обновить"
+	QPushButton *button22 = new QPushButton(tr("clear"));button22->setFont(font);//"Очистить"
 	QHBoxLayout *hbox = new QHBoxLayout;
-	QPushButton *installComponents = new QPushButton("Установка компонентов");installComponents->setFont(font);
-	QPushButton *installFonts = new QPushButton("Установка шрифтов");installFonts->setFont(font);
+	QPushButton *installComponents = new QPushButton(tr("install_сomponents"));installComponents->setFont(font);//"Установка компонентов"
+	QPushButton *installFonts = new QPushButton(tr("install_fonts"));installFonts->setFont(font);//"Установка шрифтов"
 	QHBoxLayout *hbox2 = new QHBoxLayout;
 	wine = new QComboBox(this);updateWineDir();
 	QFileSystemWatcher *wineD = new QFileSystemWatcher(this);
 	wineD->addPath(target->WINE_VER);
 	QToolButton *wineButton = new QToolButton(this);
 	wineButton->setIcon(QIcon::fromTheme("folder"));
-	QLabel *x = new QLabel("Версия Wine");
+	QLabel *x = new QLabel(tr("wine_ver"));//"Версия Wine"
 	x->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
 	hbox2->addWidget(x);
 	hbox2->addWidget(wine);

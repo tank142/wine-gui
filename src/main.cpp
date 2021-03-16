@@ -18,10 +18,17 @@
 #include "main_target.h"
 #include "storageread.h"
 #include <QStyleFactory>
+#include <QTranslator>
+#include <QStandardPaths>
 using namespace std;
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+	QTranslator translator;
+	if(!translator.load("wine-gui_" + QLocale::system().name(),QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation).at(2) + "/lang")){
+		translator.load("wine-gui_en_US",QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation).at(2) + "/lang");
+	}
+	a.installTranslator(&translator);
 	qApp->setWindowIcon(QIcon::fromTheme("wine"));
 	main_target *target = new main_target;
 	target->home = QDir::homePath();

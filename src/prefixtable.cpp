@@ -13,6 +13,7 @@ prefixTable::prefixTable(main_target *t,QObject *parent) : QObject(parent)
 	model->appendRow(new QStandardItem("System"));
 	treeView = new QTreeView();
 	treeView->setModel(model);
+	model->setHorizontalHeaderLabels(QStringList() << tr("prefix") << "Wine" );
 }
 prefixTable::~prefixTable(){
 	treeView->deleteLater();

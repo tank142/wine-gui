@@ -1,268 +1,268 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru_RU">
+<TS version="2.1" language="en_US">
 <context>
     <name>openEXE</name>
     <message>
         <source>debug</source>
-        <translation>Отладка</translation>
+        <translation>Debugging</translation>
     </message>
     <message>
         <source>file_selection</source>
-        <translation>Выбор файла</translation>
+        <translation>File selection</translation>
     </message>
 </context>
 <context>
     <name>prefixAdd</name>
     <message>
         <source>create</source>
-        <translation>Создать</translation>
+        <translation>Create</translation>
     </message>
     <message>
         <source>cancel</source>
-        <translation>Отмена</translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <source>move</source>
-        <translation>Переместить</translation>
+        <translation>Move</translation>
     </message>
     <message>
         <source>copy</source>
-        <translation>Скопировать</translation>
+        <translation>Copy</translation>
     </message>
     <message>
         <source>create_new</source>
-        <translation>Создать новый</translation>
+        <translation>Create new</translation>
     </message>
 </context>
 <context>
     <name>prefixDel</name>
     <message>
         <source>del</source>
-        <translation>Удаление: </translation>
+        <translation>Deleting: </translation>
     </message>
     <message>
         <source>ok</source>
-        <translation>Ок</translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>cancel</source>
-        <translation>Отмена</translation>
+        <translation>Cancel</translation>
     </message>
 </context>
 <context>
     <name>prefixTab</name>
     <message>
         <source>tools</source>
-        <translation>Инструменты</translation>
+        <translation>Tools</translation>
     </message>
     <message>
         <source>settings</source>
-        <translation>Настройки</translation>
+        <translation>Settings</translation>
     </message>
 </context>
 <context>
     <name>prefixTable</name>
     <message>
         <source>prefix</source>
-        <translation>Префикс</translation>
+        <translation>Prefix</translation>
     </message>
 </context>
 <context>
     <name>settings</name>
     <message>
         <source>dark_theme</source>
-        <translation>Тёмное оформление</translation>
+        <translation>Dark theme</translation>
     </message>
     <message>
         <source>add</source>
-        <translation>Добавить</translation>
+        <translation>Append</translation>
     </message>
     <message>
         <source>prefix_paths</source>
-        <translation>Расположения префиксов</translation>
+        <translation>Prefix locations</translation>
     </message>
     <message>
         <source>wine_path</source>
-        <translation>Расположение верcий Wine</translation>
+        <translation>Wine version locations</translation>
     </message>
     <message>
         <source>dxvk_path</source>
-        <translation>Расположение DXVK</translation>
+        <translation>DXVK location</translation>
     </message>
     <message>
         <source>nine_path</source>
-        <translation>Расположение Gallium Nine</translation>
+        <translation>Gallium Nine location</translation>
     </message>
     <message>
         <source>settings</source>
-        <translation>Настройки</translation>
+        <translation>Settings</translation>
     </message>
     <message>
         <source>delete</source>
-        <translation>Удалить</translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <source>not_fount</source>
-        <translation> (Не найдено)</translation>
+        <translation> (Not found)</translation>
     </message>
     <message>
         <source>set_dir</source>
-        <translation>Выбор папки</translation>
+        <translation>Folder selection</translation>
     </message>
 </context>
 <context>
     <name>shellOutputDebugging</name>
     <message>
         <source>debug</source>
-        <translation>Отладка</translation>
+        <translation>Debugging</translation>
     </message>
     <message>
         <source>exit_code</source>
-        <translation>Код завершения: </translation>
+        <translation>Exit code: </translation>
     </message>
 </context>
 <context>
     <name>shellOutputErrCk</name>
     <message>
         <source>err</source>
-        <translation>Ошибка</translation>
+        <translation>Error</translation>
     </message>
 </context>
 <context>
     <name>storageRead</name>
     <message>
         <source>loading</source>
-        <translation> Загрузка...</translation>
+        <translation> Loading...</translation>
     </message>
 </context>
 <context>
     <name>tabLabels</name>
     <message>
         <source>name</source>
-        <translation>Имя</translation>
+        <translation>Name</translation>
     </message>
     <message>
         <source>shortcut</source>
-        <translation>Ярлык</translation>
+        <translation>Shortcut</translation>
     </message>
     <message>
         <source>debug</source>
-        <translation>Отладка</translation>
+        <translation>Debugging</translation>
     </message>
     <message>
         <source>open</source>
-        <translation>Открыть папку</translation>
+        <translation>Open folder</translation>
     </message>
     <message>
         <source>edit</source>
-        <translation>Редактировать</translation>
+        <translation>Edit</translation>
     </message>
     <message>
         <source>add_main_menu</source>
-        <translation>Добавить в главное меню</translation>
+        <translation>Add to main menu</translation>
     </message>
     <message>
         <source>del_main_menu</source>
-        <translation>Удалить из главного меню</translation>
+        <translation>Remove from main menu</translation>
     </message>
     <message>
         <source>add_desktop</source>
-        <translation>Добавить на рабочий стол</translation>
+        <translation>Add to desktop</translation>
     </message>
     <message>
         <source>del_desktop</source>
-        <translation>Удалить с рабочего стола</translation>
+        <translation>Remove from desktop</translation>
     </message>
     <message>
         <source>del</source>
-        <translation>Удалить</translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <source>create</source>
-        <translation>Создать</translation>
+        <translation>Create</translation>
     </message>
     <message>
         <source>file_exists</source>
-        <translation>Файл cуществует: </translation>
+        <translation>File exists: </translation>
     </message>
     <message>
         <source>overwrite</source>
-        <translation>Перезаписать?</translation>
+        <translation>Overwrite?</translation>
     </message>
     <message>
         <source>yes</source>
-        <translation>Да</translation>
+        <translation>Yes</translation>
     </message>
     <message>
         <source>no</source>
-        <translation>Нет</translation>
+        <translation>No</translation>
     </message>
 </context>
 <context>
     <name>tabSettings</name>
     <message>
         <source>regedit</source>
-        <translation>Редактор реестра</translation>
+        <translation>Registry editor</translation>
     </message>
     <message>
         <source>cancel</source>
-        <translation>Отмена</translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <source>ok</source>
-        <translation>Применить</translation>
+        <translation>Apply</translation>
     </message>
 </context>
 <context>
     <name>tabTools</name>
     <message>
         <source>regedit</source>
-        <translation>Редактор реестра</translation>
+        <translation>Registry editor</translation>
     </message>
     <message>
         <source>winecfg</source>
-        <translation>Настройка Wine</translation>
+        <translation>Wine setup</translation>
     </message>
     <message>
         <source>control</source>
-        <translation>Панель управления</translation>
+        <translation>Control panel</translation>
     </message>
     <message>
         <source>cmd</source>
-        <translation>Терминал</translation>
+        <translation>Terminal</translation>
     </message>
     <message>
         <source>taskmgr</source>
-        <translation>Диспетчер задач</translation>
+        <translation>Task manager</translation>
     </message>
     <message>
         <source>kill</source>
-        <translation>Завершить процессы</translation>
+        <translation>End processes</translation>
     </message>
     <message>
         <source>open</source>
-        <translation>Открыть</translation>
+        <translation>Open</translation>
     </message>
     <message>
         <source>update</source>
-        <translation>Обновить</translation>
+        <translation>Refresh</translation>
     </message>
     <message>
         <source>clear</source>
-        <translation>Очистить</translation>
+        <translation>Clear</translation>
     </message>
     <message>
         <source>install_сomponents</source>
-        <translation>Установка компонентов</translation>
+        <translation>Installing components</translation>
     </message>
     <message>
         <source>install_fonts</source>
-        <translation>Установка шрифтов</translation>
+        <translation>Installing fonts</translation>
     </message>
     <message>
         <source>wine_ver</source>
-        <translation>Версия Wine</translation>
+        <translation>Wine version</translation>
     </message>
 </context>
 </TS>

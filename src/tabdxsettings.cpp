@@ -7,12 +7,12 @@ tabdxSettings::tabdxSettings(main_target *t)
 {
 	target = t;
 	// DX9
-	dx9wine = new QRadioButton(tr("Wine"));
+	dx9wine = new QRadioButton("Wine");
 	QFont font = dx9wine->font();
 	font.setPointSize(9);dx9wine->setFont(font);
-	dx9nine = new QRadioButton(tr("Gallium-nine"));dx9nine->setFont(font);
-	dx9dxvk = new QRadioButton(tr("DXVK"));dx9dxvk->setFont(font);
-	QGroupBox *dx9 = new QGroupBox(tr("DirectX9"));
+	dx9nine = new QRadioButton("Gallium-nine");dx9nine->setFont(font);
+	dx9dxvk = new QRadioButton("DXVK");dx9dxvk->setFont(font);
+	QGroupBox *dx9 = new QGroupBox("DirectX9");
 	QVBoxLayout *DX9 = new QVBoxLayout;
 	dx9->setMaximumHeight(100);
 	//dx9nine->setEnabled(false);
@@ -22,9 +22,9 @@ tabdxSettings::tabdxSettings(main_target *t)
 	dx9->setLayout(DX9);
 	addWidget(dx9);
 	//DX11
-	dx11wine = new QRadioButton(tr("Wine"));dx11wine->setFont(font);
-	dx11dxvk = new QRadioButton(tr("DXVK"));dx11dxvk->setFont(font);
-	QGroupBox *dx11 = new QGroupBox(tr("DirectX11"));
+	dx11wine = new QRadioButton("Wine");dx11wine->setFont(font);
+	dx11dxvk = new QRadioButton("DXVK");dx11dxvk->setFont(font);
+	QGroupBox *dx11 = new QGroupBox("DirectX11");
 	QVBoxLayout *DX11 = new QVBoxLayout;
 	dx11->setMaximumHeight(100);
 	DX11->addWidget(dx11wine);

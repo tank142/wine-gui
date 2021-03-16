@@ -7,12 +7,12 @@ prefixTab::prefixTab(main_target *t,QWidget *parent) : QWidget(parent){
 	target = t;
 	tabWidget = new QTabWidget(this);
 	tools = new ToolsTab(target,this);
-	tabWidget->addTab(tools, tr("Инструменты"));
+	tabWidget->addTab(tools, tr("tools"));
 	settingsTab *aTab = new settingsTab(target,reg,this);
 	DX = aTab->settings->DX;
 	regExist = false;
 	//dllTab *bTab = new dllTab(this);
-	tabWidget->addTab(aTab, tr("Настройки"));
+	tabWidget->addTab(aTab, tr("settings"));
 	//abWidget->addTab(bTab, tr("Библиотеки"));
 	connect(aTab->settings , &tabSettings::write , this, &prefixTab::write );
 	//connect(bTab->dll , &tabDll::write , this, &prefixTab::write );

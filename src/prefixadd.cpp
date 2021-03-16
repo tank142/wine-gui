@@ -56,8 +56,8 @@ prefixAdd::prefixAdd(QIcon i,QStandardItemModel *m,main_target *t,QWidget *paren
 	model = m;target = t;
 	storage = target->storage;
 	storage_target = target->storage;
-	button = new QPushButton("Создать",this);
-	QPushButton *button2 = new QPushButton("Отмена",this);
+	button = new QPushButton(tr("create"),this);
+	QPushButton *button2 = new QPushButton(tr("cancel"),this);
 	main = new QVBoxLayout(this);
 	box_storage = new QHBoxLayout(this);box_storage->setAlignment(Qt::AlignLeft);
 	edit = new QLineEdit(this);
@@ -68,9 +68,9 @@ prefixAdd::prefixAdd(QIcon i,QStandardItemModel *m,main_target *t,QWidget *paren
 	QGridLayout *gbox_l = new QGridLayout(this);
 	bit = new QComboBox(this);
 	bit->insertItem(0,"64bit");bit->insertItem(1,"32bit");
-	move = new QRadioButton(tr("Переместить"),this);
-	copy = new QRadioButton(tr("Скопировать"),this);
-	create = new QRadioButton(tr("Создать новый"),this);
+	move = new QRadioButton(tr("move"),this);
+	copy = new QRadioButton(tr("copy"),this);
+	create = new QRadioButton(tr("create_new"),this);
 	wine_ver = new QComboBox(this);
 	box_storage->addWidget(icon);
 	box_storage->addWidget(text);

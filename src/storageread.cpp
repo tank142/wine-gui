@@ -4,7 +4,7 @@
 storageRead::storageRead(QStandardItem *b,QString d)
 {branch = b; directory = d;}
 void storageRead::run(){
-	QString text = branch->text();branch->setText(text + " Загрузка...");
+	QString text = branch->text();branch->setText(text + tr("loading"));
 	QDir dir;dir.setPath(directory);dir.setFilter(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Hidden);dir.setSorting(QDir::Name);
 	foreach (QFileInfo fileInfo,dir.entryInfoList()) {
 		QList<QStandardItem *> *item = new QList<QStandardItem *>;

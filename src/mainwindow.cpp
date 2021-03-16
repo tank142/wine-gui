@@ -45,8 +45,6 @@ mainwindow::mainwindow(main_target *t,QWidget *parent) : QWidget(parent)
 	HBOX1 = new QHBoxLayout;
 	QHBoxLayout *HBOX = new QHBoxLayout;
 
-	table->model->setHorizontalHeaderLabels(QStringList() << "Префикс" << "Wine" );
-
 	//table->treeView->setModel(model);
 	VBOX->addWidget(table->treeView);
 	HBOX1->addWidget(button);
@@ -61,7 +59,7 @@ mainwindow::mainwindow(main_target *t,QWidget *parent) : QWidget(parent)
 	tab->tabWidget->setFixedWidth(450);
 	setLayout(HBOX);
 
-	setWindowTitle(tr("Wine GUI"));
+	setWindowTitle("Wine GUI");
 	connect(button, &QPushButton::clicked , this , &mainwindow::button_slot);
 	connect(button2, &QPushButton::clicked , this , &mainwindow::button2_slot);
 	connect(button3, &QPushButton::clicked , this , &mainwindow::settings_slot);

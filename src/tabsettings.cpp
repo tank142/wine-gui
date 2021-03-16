@@ -8,8 +8,7 @@ tabSettings::tabSettings(main_target *t,QWidget *parent) : QWidget(parent)
 	target = t;
 	QVBoxLayout *MAIN = new QVBoxLayout;
 	DX = new tabdxSettings(target);
-	//Найстройки реестра
-	QGroupBox *regedit = new QGroupBox(tr("Реестр"));
+	QGroupBox *regedit = new QGroupBox(tr("regedit"));
 	regedit->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
 	REGEDIT = new QVBoxLayout;REGEDIT->setAlignment(Qt::AlignTop);
 	Direct3D_l = new QVBoxLayout;REGEDIT->setAlignment(Qt::AlignTop);
@@ -17,16 +16,16 @@ tabSettings::tabSettings(main_target *t,QWidget *parent) : QWidget(parent)
 	MAIN->addLayout(DX);
 	MAIN->addWidget(regedit);
 	setLayout(MAIN);
-	QGroupBox *Direct3D = new QGroupBox(tr("Direct3D"));
+	QGroupBox *Direct3D = new QGroupBox("Direct3D");
 	Direct3D->setLayout(Direct3D_l);
 	REGEDIT->addWidget(Direct3D);
-	QGroupBox *DirectInput = new QGroupBox(tr("DirectInput"));
+	QGroupBox *DirectInput = new QGroupBox("DirectInput");
 	DirectInput_l = new QVBoxLayout;DirectInput_l->setAlignment(Qt::AlignTop);
 	DirectInput->setLayout(DirectInput_l);
 	REGEDIT->addWidget(DirectInput);
 	QHBoxLayout *b = new QHBoxLayout;
-	cancel = new QPushButton("Отмена");cancel->setHidden(true);
-	ok = new QPushButton("Применить");ok->setHidden(true);
+	cancel = new QPushButton(tr("cancel"));cancel->setHidden(true);
+	ok = new QPushButton(tr("ok"));ok->setHidden(true);
 	b->addWidget(cancel);b->addWidget(ok);
 	MAIN->addLayout(b);
 	connect(cancel,	&QPushButton::clicked , this , &tabSettings::cancel_slot);

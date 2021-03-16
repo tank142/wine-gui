@@ -3,9 +3,6 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
-#CONFIG += static
-#QMAKE_CFLAGS += -static
-#QMAKE_LFLAGS += -static -static-libgcc
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000   # disables all the APIs deprecated before Qt 6.0.0
@@ -74,8 +71,7 @@ HEADERS += \
 
 FORMS +=
 
-TRANSLATIONS += \
-    wine-gui_ru_RU.ts
+TRANSLATIONS += wine-gui_ru_RU.ts wine-gui_en_US.ts
 
 LIBS +=
 
@@ -84,7 +80,8 @@ qnx: target.path = /tmp/$${TARGET}/bin
 #else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES +=
+DISTFILES += \
+    wine-gui_en_US.ts
 
 RESOURCES += \
     icons/icons.qrc
@@ -107,5 +104,11 @@ unix:!macx {
     icon_raid.path =  $$quote($$PREFIX/share/wine-gui/icons)
     icon_ssd.files = icons/ssd.png
     icon_ssd.path =  $$quote($$PREFIX/share/wine-gui/icons)
-    INSTALLS += target desktop icon_hdd icon_m2_ssd icon_pcie_ssd icon_raid icon_ssd
+
+    wine-gui_ru_RU.files = wine-gui_ru_RU.qm
+    wine-gui_ru_RU.path =  $$quote($$PREFIX/share/wine-gui/lang)
+    wine-gui_en_US.files = wine-gui_en_US.qm
+    wine-gui_en_US.path =  $$quote($$PREFIX/share/wine-gui/lang)
+    INSTALLS += target desktop icon_hdd icon_m2_ssd icon_pcie_ssd icon_raid icon_ssd \
+    wine-gui_ru_RU wine-gui_en_US
 }
