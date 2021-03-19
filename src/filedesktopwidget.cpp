@@ -171,10 +171,10 @@ void fileDesktopWidget::set_dir(){
 			path->setText(d.left(d.lastIndexOf("/")));
 		}
 		name->setText(d.right(d.size() - d.lastIndexOf("/")-1));
-		icon->setText(name->text().left( name->text().lastIndexOf(".")));
-		wmclass->setText(icon->text());
+		wmclass->setText(name->text().left( name->text().lastIndexOf(".")));
 		shortcut->setText(fixShortcut(wmclass->text()));
-		name->setText(icon->text());
+		icon->setText(shortcut->text());
+		name->setText(wmclass->text());
 	}
 }
 QString fileDesktopWidget::fixShortcut(QString name){

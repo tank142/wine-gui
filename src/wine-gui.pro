@@ -105,11 +105,13 @@ unix:!macx {
     icon_raid.path =  $$quote($$PREFIX/share/wine-gui/icons)
     icon_ssd.files = icons/ssd.png
     icon_ssd.path =  $$quote($$PREFIX/share/wine-gui/icons)
+    icon_wine.files = icons/wine.svg
+    icon_wine.path =  $$quote($$PREFIX/share/wine-gui/icons)
 
     wine-gui_ru_RU.files = wine-gui_ru_RU.qm
     wine-gui_ru_RU.path =  $$quote($$PREFIX/share/wine-gui/lang)
     wine-gui_en_US.files = wine-gui_en_US.qm
     wine-gui_en_US.path =  $$quote($$PREFIX/share/wine-gui/lang)
-    INSTALLS += target desktop icon_hdd icon_m2_ssd icon_pcie_ssd icon_raid icon_ssd \
+    INSTALLS += target desktop icon_hdd icon_m2_ssd icon_pcie_ssd icon_raid icon_ssd icon_wine \
     wine-gui_ru_RU wine-gui_en_US
 }

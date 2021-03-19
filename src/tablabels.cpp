@@ -1,7 +1,6 @@
 #include "findlink.h"
 #include "shortcutread.h"
 #include "tablabels.h"
-#include "shell.h"
 #include "shelloutput.h"
 #include <QGridLayout>
 #include <QDir>
@@ -198,15 +197,15 @@ bool tabLabels::fileExists(QString s,QString f){
 	return false;
 }
 void tabLabels::add_menu_slot(){
-	if(!QDir(target->home + "/.local/share/applications/wine/Programs/").exists()){
-		QDir().mkpath(target->home + "/.local/share/applications/wine/Programs");
+	if(!QDir(target->home + "/.local/share/applications/").exists()){
+		QDir().mkpath(target->home + "/.local/share/applications");
 	}
 	QString prefix = prefixPath();
 	QDir d(prefix + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/icon");
 	QDir().mkpath(target->home + "/.local/share/icons/hicolor");
 	d.setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
 	foreach(QString dir,d.entryList()){
-		QDir().mkpath(target->home + "/.local/share/icons/hicolor/" + dir);
+		QDir().mkpath(target->home + "/.local/share/icons/hicolor/" + dir + "/apps");
 		QString name = QDir(d.path() + "/" + dir ).entryList().at(2);
 		QFile file(d.path() + "/" + dir + "/" + name);
 		QFile l(target->home + "/.local/share/icons/hicolor/" + dir + "/apps/" + name);
@@ -215,10 +214,14 @@ void tabLabels::add_menu_slot(){
 					   target->home + "/.local/share/icons/hicolor/" + dir + "/apps/" + name)){return;}
 		file.link(target->home + "/.local/share/icons/hicolor/" + dir + "/apps/" + name);
 	}
+	updateIcon();
 	if(!fileExists(prefix + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/exec.desktop",
-				target->home + "/.local/share/applications/wine/Programs/" + model->item(labels->currentIndex().row(),1)->text() + ".desktop")){return;}
+				target->home + "/.local/share/applications/" + model->item(labels->currentIndex().row(),1)->text() + ".desktop")){return;}
 	QFile::link(prefix + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/exec.desktop",
-				target->home + "/.local/share/applications/wine/Programs/" + model->item(labels->currentIndex().row(),1)->text() + ".desktop");
+				target->home + "/.local/share/applications/" + model->item(labels->currentIndex().row(),1)->text() + ".desktop");
+
+	shell *update_menu = new shell("xdg-desktop-menu",QStringList() << "forceupdate" );
+	update_menu->start();update_menu->wait(-1);
 }
 void tabLabels::add_desktop_slot(){
 	if(!QDir(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)).exists()){
@@ -229,17 +232,38 @@ void tabLabels::add_desktop_slot(){
 	QDir().mkpath(target->home + "/.local/share/icons/hicolor");
 	d.setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
 	foreach(QString dir,d.entryList()){
-		QDir().mkpath(target->home + "/.local/share/icons/hicolor/" + dir);
+		QDir().mkpath(target->home + "/.local/share/icons/hicolor/" + dir + "/apps/");
 		QString name = QDir(d.path() + "/" + dir ).entryList().at(2);
 		QFile file(d.path() + "/" + dir + "/" + name);
 		if(!fileExists(d.path() + "/" + dir + "/" + name,
 					   target->home + "/.local/share/icons/hicolor/" + dir + "/apps/" + name)){return;}
 		file.link(target->home + "/.local/share/icons/hicolor/" + dir + "/apps/" + name);
 	}
+	updateIcon();
 	if(!fileExists(prefix + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/exec.desktop",
 				   QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/" + model->item(labels->currentIndex().row(),1)->text() + ".desktop")){return;}
 	QFile::link(prefix + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/exec.desktop",
 				QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/" + model->item(labels->currentIndex().row(),1)->text() + ".desktop");
+	shell *fix1 = new shell("chmod",QStringList() << "a+x"
+	<< model->item(labels->currentIndex().row(),1)->text() + ".desktop" );
+	fix1->proc->setWorkingDirectory(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation));
+	fix1->start();fix1->wait(-1);
+	shell *fix2 = new shell("gio",QStringList()
+	<< "set"
+	<< model->item(labels->currentIndex().row(),1)->text() + ".desktop" 
+	<< "metadata::trusted"
+	<< "true");
+	fix2->proc->setWorkingDirectory(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation));
+	fix2->start();fix2->wait(-1);
+	QProcess *touch = new QProcess();
+	touch->setWorkingDirectory(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation));
+	touch->setProgram("touch");
+	touch->setArguments(QStringList() << "--no-dereference" << "./" + model->item(labels->currentIndex().row(),1)->text() + ".desktop" );
+	update_file *t = new update_file(touch);t->start();
+}
+void tabLabels::updateIcon(){
+	shell *update_icon = new shell("xdg-icon-resource",QStringList() << "forceupdate" );
+	update_icon->start();update_icon->wait(-1);
 }
 void tabLabels::del_menu_slot(){
 	findLink(prefixPath() + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text(),
@@ -275,4 +299,11 @@ void tabLabels::del_slot(){
 			 QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)).rm();
 	QDir(prefix + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text()).removeRecursively();
 	shortcuts();
+}
+void update_file::run(){
+	update->start();update->waitForFinished(-1);
+	sleep(2);
+	update->start();update->waitForFinished(-1);
+	update->deleteLater();
+	deleteLater();
 }

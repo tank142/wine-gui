@@ -3,12 +3,13 @@
 
 #include "main_target.h"
 #include "filedesktopwidget.h"
+#include "shell.h"
 #include <QVBoxLayout>
 #include <QTreeView>
 #include <QStandardItemModel>
 #include <QPushButton>
 #include <QWidget>
-
+#include <QThread>
 class tabLabels : public QWidget
 {
 	Q_OBJECT
@@ -24,6 +25,7 @@ private:
 	QString read_name(QString);
 	QString prefixPath();
 	bool fileExists(QString,QString);
+	void updateIcon();
 private slots:
 	void clicked2();
 	void runOpen();
@@ -42,5 +44,13 @@ public slots:
 signals:
 	void hide();
 };
-
+class update_file : public QThread
+{
+	Q_OBJECT
+public:
+	explicit update_file(QProcess *proc){update = proc;};
+		QProcess *update;
+private:
+		void run() override;
+};
 #endif // TABLABELS_H
