@@ -14,7 +14,7 @@ build() {
   rm -rf "$srcdir/wine-gui/src/build"
   mkdir "$srcdir/wine-gui/src/build"
   cd "$srcdir/wine-gui/src/build"
-  qmake-qt6 ..
+  qmake6 ..
   make
 }
 
