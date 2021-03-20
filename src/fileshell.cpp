@@ -163,22 +163,22 @@ void fileShell::write(){
 	if(WINEESYNC){list.append("export WINEESYNC=1");}
 	if(WINEFSYNC){list.append("export WINEFSYNC=1");}
 	if(DXVK_HUD_enable){list.append("export DXVK_HUD=" + DXVK_HUD);}else{
-		if(DXVK_HUD != ""){
+		if(DXVK_HUD.size() > 0){
 			list.append("#export DXVK_HUD=" + DXVK_HUD);
 		}
 	}
 	if(GALLIUM_HUD_enable){list.append("export GALLIUM_HUD=" + GALLIUM_HUD);}else{
-		if(GALLIUM_HUD != ""){
+		if(GALLIUM_HUD.size() > 0){
 			list.append("#export GALLIUM_HUD=" + GALLIUM_HUD);
 		}
 	}
 	if(MANGOHUD_CONFIG_enable){list.append("export MANGOHUD_CONFIG=" + MANGOHUD_CONFIG);}else{
-		if(MANGOHUD_CONFIG != ""){
+		if(MANGOHUD_CONFIG.size() > 0){
 			list.append("#export MANGOHUD_CONFIG=" + MANGOHUD_CONFIG);
 		}
 	}
 	if(STRANGLE_enable){list.append("export " + STRANGLE + " #STRANGLE");}else{
-		if(STRANGLE != ""){
+		if(STRANGLE.size() > 0){
 			list.append("#export " + STRANGLE + " #STRANGLE");
 		}
 	}
