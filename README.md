@@ -28,6 +28,6 @@ https://wiki.winehq.org/Winetricks
 # Donate
 VISA: 4890494710845090
 
-YooMoney: 4100112399871490
-
 Bitcoin: 38AhGAuBf8hmgXMUsuQVtDFGDF6eUmHJdF
+
+[![Юmoney](https://i.imgur.com/KrkyEbB.png)](https://yoomoney.ru/to/4100112399871490)
