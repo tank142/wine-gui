@@ -162,23 +162,31 @@ void fileShell::write(){
 	list.append("EXE=" + QString("\"") + EXE + QString("\""));
 	if(WINEESYNC){list.append("export WINEESYNC=1");}
 	if(WINEFSYNC){list.append("export WINEFSYNC=1");}
-	if(DXVK_HUD_enable){list.append("export DXVK_HUD=" + DXVK_HUD);}else{
-		if(DXVK_HUD.size() > 0){
+	if(DXVK_HUD.size() > 0){
+		if(DXVK_HUD_enable){
+			list.append("export DXVK_HUD=" + DXVK_HUD);
+		}else{
 			list.append("#export DXVK_HUD=" + DXVK_HUD);
 		}
 	}
-	if(GALLIUM_HUD_enable){list.append("export GALLIUM_HUD=" + GALLIUM_HUD);}else{
-		if(GALLIUM_HUD.size() > 0){
+	if(GALLIUM_HUD.size() > 0){
+		if(GALLIUM_HUD_enable){
+			list.append("export GALLIUM_HUD=" + GALLIUM_HUD);
+		}else{
 			list.append("#export GALLIUM_HUD=" + GALLIUM_HUD);
 		}
 	}
-	if(MANGOHUD_CONFIG_enable){list.append("export MANGOHUD_CONFIG=" + MANGOHUD_CONFIG);}else{
-		if(MANGOHUD_CONFIG.size() > 0){
+	if(MANGOHUD_CONFIG.size() > 0){
+		if(MANGOHUD_CONFIG_enable){
+			list.append("export MANGOHUD_CONFIG=" + MANGOHUD_CONFIG);
+		}else{
 			list.append("#export MANGOHUD_CONFIG=" + MANGOHUD_CONFIG);
 		}
 	}
-	if(STRANGLE_enable){list.append("export " + STRANGLE + " #STRANGLE");}else{
-		if(STRANGLE.size() > 0){
+	if(STRANGLE.size() > 0){
+		if(STRANGLE_enable){
+			list.append("export " + STRANGLE + " #STRANGLE");
+		}else{
 			list.append("#export " + STRANGLE + " #STRANGLE");
 		}
 	}
@@ -191,7 +199,6 @@ void fileShell::write(){
 	foreach(QString l,list2){if(l != ""){
 		file.operator<<(QString::fromUtf8( l.toUtf8() + "\n" ));}}
 	file.operator<<( "exec " + exec + EXEC + "\n");
-
 	FILE->close();
 	FILE->setPermissions(FILE->permissions() | QFileDevice::ExeOwner | QFileDevice::ExeUser | QFileDevice::ExeGroup | QFileDevice::ExeOther);
 }
