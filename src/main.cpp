@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 	target->model_storages.append("");
 	QApplication::setStyle(QStyleFactory::create("Fusion"));
 	if(QFile::exists(target->CONF)){
-		QSettings settings_conf(target->CONF,QSettings::IniFormat);settings_conf.setIniCodec("UTF-8");
+		QSettings settings_conf(target->CONF,QSettings::IniFormat);
 		target->DXVK = settings_conf.value("main/dxvk").toString();
 		target->NINE = settings_conf.value("main/nine").toString();
 		target->WINE_VER = settings_conf.value("main/wine").toString();
@@ -74,9 +74,9 @@ int main(int argc, char *argv[])
 		for (int i = 0; i < wine_storages.size(); i++){
 			if (wine_storages.at(i) != "main"){
 				if(settings_conf.contains(wine_storages.at(i) + "/path")){
-					target->storages.append(tuple(settings_conf.value(wine_storages.at(i) + "/icon").toString(),
-												  settings_conf.value(wine_storages.at(i) + "/name").toString(),
-												  settings_conf.value(wine_storages.at(i) + "/path").toString()));
+					target->storages.append(tuple(settings_conf.value(wine_storages.at(i) + "/icon").toString().toUtf8(),
+												  settings_conf.value(wine_storages.at(i) + "/name").toString().toUtf8(),
+												  settings_conf.value(wine_storages.at(i) + "/path").toString().toUtf8()));
 				}
 			}
 		}

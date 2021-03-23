@@ -6,7 +6,6 @@ sizeWin::sizeWin(QWidget *w,QString n){win = w;name = n;
 	settings_conf = new QSettings(
 				QStandardPaths::standardLocations(QStandardPaths::ConfigLocation).at(0) + "/wine-gui.conf",
 				QSettings::IniFormat);
-	settings_conf->setIniCodec("UTF-8");
 }
 sizeWin::~sizeWin(){
 	settings_conf->sync();

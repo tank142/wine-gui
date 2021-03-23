@@ -40,7 +40,7 @@ void prefixTable::model_update(){
 	QList<QStandardItem *> *item = new QList<QStandardItem *>;
 	item->append(new QStandardItem("System"));
 	if(QFile::exists(target->home + "/.wine/WINE.cfg")){
-		QSettings settings(target->home + "/.wine/WINE.cfg", QSettings::IniFormat);settings.setIniCodec("UTF-8");
+		QSettings settings(target->home + "/.wine/WINE.cfg", QSettings::IniFormat);
 		item->append(new QStandardItem(settings.value("WINE").toString()));
 	}else{
 		item->append(new QStandardItem("System"));

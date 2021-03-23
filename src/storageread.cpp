@@ -10,7 +10,7 @@ void storageRead::run(){
 		QList<QStandardItem *> *item = new QList<QStandardItem *>;
 		item->append(new QStandardItem(fileInfo.fileName()));
 		if(QFile::exists(directory + "/" + fileInfo.fileName() + "/WINE.cfg")){
-			QSettings settings(directory + "/" + fileInfo.fileName() + "/WINE.cfg", QSettings::IniFormat);settings.setIniCodec("UTF-8");
+			QSettings settings(directory + "/" + fileInfo.fileName() + "/WINE.cfg", QSettings::IniFormat);
 			item->append(new QStandardItem(settings.value("WINE").toString()));
 		}else{
 			item->append(new QStandardItem("System"));
