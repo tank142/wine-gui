@@ -25,7 +25,7 @@ void shell::wait(int t){
 	proc->waitForFinished(t);
 }
 void shell::envSetup(main_target *target){
-	if(target->storage > 0 && target->prefix != ""){
+	if(target->storage > 0 && target->prefix.size() > 0){
 		env->insert("WINEPREFIX",get<2>(target->storages.at(target->storage - 1)) + "/" + target->prefix);
 		if(target->arch != ""){
 			env->insert("WINEARCH",target->arch);
@@ -34,9 +34,9 @@ void shell::envSetup(main_target *target){
 		env->insert("WINEPREFIX",target->home + "/.wine");
 	}
 	if(QFile(env->value("WINEPREFIX") + "/WINE.cfg").exists()){
-		QSettings conf(env->value("WINEPREFIX") + "/WINE.cfg",QSettings::IniFormat);
+		QSettings conf(env->value("WINEPREFIX") + "/WINE.cfg",QSettings::IniFormat);conf.setIniCodec("UTF-8");
 		QString v = conf.value("WINE").toString();
-		if(v != "System" && v != ""){
+		if(v != "System" && v.size() > 0){
 			exec = target->WINE_VER + "/" + v + "/bin/" + exec;
 			return;
 		}

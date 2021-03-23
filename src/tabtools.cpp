@@ -134,7 +134,7 @@ void tabTools::updateWineVer(QString t){
 	}else{
 		prefix = (target->home + "/.wine/");
 	}
-	QSettings conf(prefix + "/WINE.cfg",QSettings::IniFormat);
+	QSettings conf(prefix + "/WINE.cfg",QSettings::IniFormat);conf.setIniCodec("UTF-8");
 	conf.setValue("WINE",t);
 	conf.sync();
 	emit WineVer(t);
@@ -160,7 +160,7 @@ void tabTools::updateWine(){
 		prefix = (target->home + "/.wine/");
 	}
 	if(QFile(prefix + "/WINE.cfg").exists()){
-		QSettings conf(prefix + "/WINE.cfg",QSettings::IniFormat);
+		QSettings conf(prefix + "/WINE.cfg",QSettings::IniFormat);conf.setIniCodec("UTF-8");
 		QString w = conf.value("WINE").toString();
 		if(w != "" && w != "System"){
 			wine->setCurrentText(w);

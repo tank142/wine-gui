@@ -25,6 +25,12 @@ using namespace std;
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+	if(qApp->arguments().size() > 1 && qApp->arguments().at(1) == "-h"){
+		cout << "Usage: wine-gui [option] [exe]" << endl
+			 << "This information : -h" << endl
+			 << "Debug window     : --wine-debug" << endl;
+		return 0;
+	}
 	QTranslator translator;
 	//QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation).at(2) + "/lang")
 	if(!translator.load("wine-gui_" + QLocale::system().name(),"/usr/share/wine-gui/lang")){
@@ -43,7 +49,7 @@ int main(int argc, char *argv[])
 	target->model_storages.append("");
 	QApplication::setStyle(QStyleFactory::create("Fusion"));
 	if(QFile::exists(target->CONF)){
-		QSettings settings_conf(target->CONF,QSettings::IniFormat);
+		QSettings settings_conf(target->CONF,QSettings::IniFormat);settings_conf.setIniCodec("UTF-8");
 		target->DXVK = settings_conf.value("main/dxvk").toString();
 		target->NINE = settings_conf.value("main/nine").toString();
 		target->WINE_VER = settings_conf.value("main/wine").toString();
@@ -76,9 +82,10 @@ int main(int argc, char *argv[])
 		}
 	}
 	if(argc > 1){
-		openEXE *open = new openEXE(target,qApp->arguments());
-		open->show();
-
+		if(!EXEinStorages(target,qApp->arguments()).exec()){
+			openEXE *open = new openEXE(target,qApp->arguments());
+			open->show();
+		}
 	}else{
 		mainwindow *main = new mainwindow(target);
 		main->show();

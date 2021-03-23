@@ -2,9 +2,12 @@
 #include "shelloutput.h"
 #include <iostream>
 #include <QRegularExpression>
+#include <QHBoxLayout>
 using namespace std;
 tabdxSettings::tabdxSettings(main_target *t)
 {
+	QHBoxLayout *hbox = new QHBoxLayout;
+	QHBoxLayout *hbox2 = new QHBoxLayout;
 	target = t;
 	// DX9
 	dx9wine = new QRadioButton("Wine");
@@ -20,7 +23,7 @@ tabdxSettings::tabdxSettings(main_target *t)
 	DX9->addWidget(dx9nine);
 	DX9->addWidget(dx9dxvk);
 	dx9->setLayout(DX9);
-	addWidget(dx9);
+	hbox->addWidget(dx9);
 	//DX11
 	dx11wine = new QRadioButton("Wine");dx11wine->setFont(font);
 	dx11dxvk = new QRadioButton("DXVK");dx11dxvk->setFont(font);
@@ -30,7 +33,11 @@ tabdxSettings::tabdxSettings(main_target *t)
 	DX11->addWidget(dx11wine);
 	DX11->addWidget(dx11dxvk);
 	dx11->setLayout(DX11);
-	addWidget(dx11);
+	addLayout(hbox);
+	addLayout(hbox2);
+	hbox->addWidget(dx11);
+	dxgi = new QCheckBox("Использовать dxgi.dll из DXVK");
+	hbox2->addWidget(dxgi);
 	if(QFile(target->NINE + "/lib/wine/d3d9-nine.dll.so").exists()){
 		nine = target->NINE + "/lib/wine/d3d9-nine.dll.so";
 		if(QFile(target->NINE + "/lib32/wine/d3d9-nine.dll.so").exists()){
@@ -52,16 +59,33 @@ tabdxSettings::tabdxSettings(main_target *t)
 	if(QFile(target->DXVK + "/x64/d3d11.dll").exists()){
 		dx11dxvk->setEnabled(true);
 	}else{dx11dxvk->setEnabled(false);}
+	if(QFile(target->DXVK + "/x64/dxgi.dll").exists() || QFile(target->DXVK + "/x32/dxgi.dll").exists()){
+		dxgi->setEnabled(true);
+	}else{dxgi->setEnabled(false);}
 	connect(dx9wine, &QRadioButton::clicked , this , &tabdxSettings::setDX9wine);
 	connect(dx9nine, &QRadioButton::clicked , this , &tabdxSettings::setDX9nine);
 	connect(dx9dxvk, &QRadioButton::clicked , this , &tabdxSettings::setDX9dxvk);
 	connect(dx11wine, &QRadioButton::clicked , this , &tabdxSettings::setDX11wine);
 	connect(dx11dxvk, &QRadioButton::clicked , this , &tabdxSettings::setDX11dxvk);
+	connect(dxgi, &QCheckBox::stateChanged , this , &tabdxSettings::setDXGI);
 }
 void tabdxSettings::update(){
+	disconnect(dx9wine, &QRadioButton::clicked , this , &tabdxSettings::setDX9wine);
+	disconnect(dx9nine, &QRadioButton::clicked , this , &tabdxSettings::setDX9nine);
+	disconnect(dx9dxvk, &QRadioButton::clicked , this , &tabdxSettings::setDX9dxvk);
+	disconnect(dx11wine, &QRadioButton::clicked , this , &tabdxSettings::setDX11wine);
+	disconnect(dx11dxvk, &QRadioButton::clicked , this , &tabdxSettings::setDX11dxvk);
+	disconnect(dxgi, &QCheckBox::stateChanged , this , &tabdxSettings::setDXGI);
 	updateDX9();
 	updateDX11();
+	updateDXGI();
 	check64();
+	connect(dx9wine, &QRadioButton::clicked , this , &tabdxSettings::setDX9wine);
+	connect(dx9nine, &QRadioButton::clicked , this , &tabdxSettings::setDX9nine);
+	connect(dx9dxvk, &QRadioButton::clicked , this , &tabdxSettings::setDX9dxvk);
+	connect(dx11wine, &QRadioButton::clicked , this , &tabdxSettings::setDX11wine);
+	connect(dx11dxvk, &QRadioButton::clicked , this , &tabdxSettings::setDX11dxvk);
+	connect(dxgi, &QCheckBox::stateChanged , this , &tabdxSettings::setDXGI);
 }
 void tabdxSettings::check64(){
 	QFile *reg = new QFile(target->prefix_path + "/user.reg");
@@ -70,7 +94,6 @@ void tabdxSettings::check64(){
 		QTextStream t(reg);
 		QString line = t.readLine();
 		QRegularExpression a("^#arch=win64");
-		QRegularExpression b("^#arch=win32");
 		while(!t.atEnd()){
 			if(a.match(line).hasMatch()){
 				x64 = true;
@@ -119,6 +142,16 @@ void tabdxSettings::updateDX11(){
 		dx11dxvk->setChecked(false);
 	}
 }
+void tabdxSettings::updateDXGI(){
+	QString link = QFile(target->prefix_path + "/drive_c/windows/system32/dxgi.dll").symLinkTarget();
+	if(link != ""){
+		if(link.indexOf(target->DXVK) > -1){
+			dxgi->setChecked(true);
+		}
+	}else{
+		dxgi->setChecked(false);
+	}
+}
 void tabdxSettings::setDX9wine(bool enable){
 	if(!enable){return;}
 	shell *wine = new shell("wineserver",QStringList() << "-k" << "-w");
@@ -127,6 +160,7 @@ void tabdxSettings::setDX9wine(bool enable){
 	wine->start();
 	wine->wait(-1);
 	bool *winebootUpdate = new bool; *winebootUpdate = false;
+	if(!dx11dxvk->isChecked()){wineDll("dxgi.dll",winebootUpdate);}
 	wineDll("d3d9.dll",winebootUpdate);
 	if(*winebootUpdate){
 		shell *wine = new shell("wineboot",QStringList("-u"));
@@ -135,6 +169,7 @@ void tabdxSettings::setDX9wine(bool enable){
 	}
 	delete winebootUpdate;
 	fileRegistry reg( target->prefix_path + "/user.reg" ,QStringList()<< "\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]" );
+	if(!dx11dxvk->isChecked()){reg.remove("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","dxgi");}
 	reg.remove("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","d3d9");
 	reg.write();
 }
@@ -147,7 +182,7 @@ void tabdxSettings::setDX11wine(bool enable){
 	wine->wait(-1);
 
 	bool *winebootUpdate = new bool; *winebootUpdate = false;
-	wineDll("dxgi.dll",winebootUpdate);
+	if(!dx9dxvk->isChecked()){wineDll("dxgi.dll",winebootUpdate);}
 	wineDll("d3d10.dll",winebootUpdate);
 	wineDll("d3d10core.dll",winebootUpdate);
 	wineDll("d3d10_1.dll",winebootUpdate);
@@ -158,7 +193,7 @@ void tabdxSettings::setDX11wine(bool enable){
 		wine->start();
 	}
 	fileRegistry reg( target->prefix_path + "/user.reg" ,QStringList()<< "\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]" );
-	reg.remove("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","dxgi");
+	if(!dx9dxvk->isChecked()){reg.remove("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","dxgi");}
 	reg.remove("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","d3d10");
 	reg.remove("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","d3d10core");
 	reg.remove("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","d3d10_1");
@@ -251,6 +286,16 @@ void tabdxSettings::setDX9nine(bool enable){
 	wine->start();
 	wine->wait(-1);
 	old(target->prefix_path + "/drive_c/windows/system32/d3d9.dll");
+	if(!dx11dxvk->isChecked()){
+		bool *winebootUpdate = new bool; *winebootUpdate = false;
+		wineDll("dxgi.dll",winebootUpdate);
+		if(*winebootUpdate){
+			shell *wine = new shell("wineboot",QStringList("-u"));
+			wine->envSetup(target);
+			wine->start();
+		}
+		delete winebootUpdate;
+	}
 	if(x64){
 		QFile::link(nine,target->prefix_path + "/drive_c/windows/system32/d3d9.dll");
 		if(QDir(target->prefix_path + "/drive_c/windows/syswow64").exists()){
@@ -261,6 +306,7 @@ void tabdxSettings::setDX9nine(bool enable){
 		QFile::link(nine32,target->prefix_path + "/drive_c/windows/system32/d3d9.dll");
 	}
 	fileRegistry reg( target->prefix_path + "/user.reg" ,QStringList()<< "\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]" );
+	if(!dx11dxvk->isChecked()){reg.remove("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","dxgi");}
 	reg.setValue("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","d3d9","native");
 	reg.write();
 }
@@ -271,27 +317,32 @@ void tabdxSettings::setDX9dxvk(bool enable){
 	wine->exec = "wineserver";
 	wine->start();
 	wine->wait(-1);
+	fileRegistry reg( target->prefix_path + "/user.reg" ,QStringList()<< "\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]" );
 	if(x64){
+		if(dxgi->isChecked()){
+			reg.setValue("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","dxgi","native");
+			old(target->prefix_path + "/drive_c/windows/system32/dxgi.dll");
+			QFile::link(target->DXVK + "/x64/dxgi.dll",target->prefix_path + "/drive_c/windows/system32/dxgi.dll");
+			if(QDir(target->prefix_path + "/drive_c/windows/syswow64").exists()){
+				old(target->prefix_path + "/drive_c/windows/syswow64/dxgi.dll");
+				QFile::link(target->DXVK + "/x32/dxgi.dll",target->prefix_path + "/drive_c/windows/syswow64/dxgi.dll");
+			}
+		}
 		old(target->prefix_path + "/drive_c/windows/system32/d3d9.dll");
 		QFile::link(target->DXVK + "/x64/d3d9.dll",target->prefix_path + "/drive_c/windows/system32/d3d9.dll");
 		if(QDir(target->prefix_path + "/drive_c/windows/syswow64").exists()){
 			old(target->prefix_path + "/drive_c/windows/syswow64/d3d9.dll");
-			if(QFile(target->prefix_path + "/drive_c/windows/syswow64/d3d9.dll").exists() &&
-					QFile(target->prefix_path + "/drive_c/windows/syswow64/d3d9.dll").symLinkTarget() == ""){
-				if(QFile(target->prefix_path + "/drive_c/windows/syswow64/d3d9.dll.old").exists()){
-					QFile::remove(target->prefix_path + "/drive_c/windows/syswow64/d3d9.dll.old");
-				}
-				QFile::rename(target->prefix_path + "/drive_c/windows/syswow64/d3d9.dll",target->prefix_path + "/drive_c/windows/syswow64/d3d9.dll.old");
-			}else{
-				QFile::remove(target->prefix_path + "/drive_c/windows/syswow64/d3d9.dll");
-			}
 			QFile::link(target->DXVK + "/x32/d3d9.dll",target->prefix_path + "/drive_c/windows/syswow64/d3d9.dll");
 		}
 	}else{
+		if(dxgi->isChecked()){
+			reg.setValue("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","dxgi","native");
+			old(target->prefix_path + "/drive_c/windows/system32/dxgi.dll");
+			QFile::link(target->DXVK + "/x32/dxgi.dll",target->prefix_path + "/drive_c/windows/system32/dxgi.dll");
+		}
 		old(target->prefix_path + "/drive_c/windows/system32/d3d9.dll");
 		QFile::link(target->DXVK + "/x32/d3d9.dll",target->prefix_path + "/drive_c/windows/system32/d3d9.dll");
 	}
-	fileRegistry reg( target->prefix_path + "/user.reg" ,QStringList()<< "\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]" );
 	reg.setValue("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","d3d9","native");
 	reg.write();
 }
@@ -306,7 +357,8 @@ void tabdxSettings::setDX11dxvk(bool enable){
 	if(x64){
 		QDir dxvk64(target->DXVK + "/x64");dxvk64.setFilter(QDir::NoDotAndDotDot | QDir::Files);
 		foreach(QString file,dxvk64.entryList()){
-			if(file != "d3d9.dll" && file != "dxgi.dll"){
+			if(file != "d3d9.dll"){
+				if(!dxgi->isChecked()){if(file == "dxgi.dll"){continue;}}
 				old(target->prefix_path + "/drive_c/windows/system32/" + file);
 				QFile::link(target->DXVK + "/x64/" + file,target->prefix_path + "/drive_c/windows/system32/" + file);
 				reg.setValue("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]",file.remove(file.size() - 4,4),"native");
@@ -315,7 +367,8 @@ void tabdxSettings::setDX11dxvk(bool enable){
 		if(QDir(target->prefix_path + "/drive_c/windows/syswow64").exists()){
 			QDir dxvk32(target->DXVK + "/x32");dxvk32.setFilter(QDir::NoDotAndDotDot | QDir::Files);
 			foreach(QString file,dxvk32.entryList()){
-				if(file != "d3d9.dll" && file != "dxgi.dll"){
+				if(file != "d3d9.dll"){
+					if(!dxgi->isChecked()){if(file == "dxgi.dll"){continue;}}
 					old(target->prefix_path + "/drive_c/windows/syswow64/" + file);
 					QFile::link(target->DXVK + "/x32/" + file,target->prefix_path + "/drive_c/windows/syswow64/" + file);
 				}
@@ -332,4 +385,38 @@ void tabdxSettings::setDX11dxvk(bool enable){
 		}
 	}
 	reg.write();
+}
+void tabdxSettings::setDXGI(bool enable){
+	shell *wine = new shell("wineserver",QStringList() << "-k" << "-w");
+	wine->envSetup(target);
+	wine->exec = "wineserver";
+	wine->start();
+	wine->wait(-1);
+	fileRegistry reg( target->prefix_path + "/user.reg" ,QStringList()<< "\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]" );
+	if(enable){
+		if(x64){
+			old(target->prefix_path + "/drive_c/windows/system32/dxgi.dll");
+			QFile::link(target->DXVK + "/x64/dxgi.dll",target->prefix_path + "/drive_c/windows/system32/dxgi.dll");
+			if(QDir(target->prefix_path + "/drive_c/windows/syswow64").exists()){
+				old(target->prefix_path + "/drive_c/windows/syswow64/dxgi.dll");
+				QFile::link(target->DXVK + "/x32/dxgi.dll",target->prefix_path + "/drive_c/windows/syswow64/dxgi.dll");
+			}
+		}else{
+			old(target->prefix_path + "/drive_c/windows/system32/dxgi.dll");
+			QFile::link(target->DXVK + "/x32/dxgi.dll",target->prefix_path + "/drive_c/windows/system32/dxgi.dll");
+		}
+		reg.setValue("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","dxgi","native");
+		reg.write();
+	}else{
+		reg.remove("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]","dxgi");
+		reg.write();
+		bool *winebootUpdate = new bool; *winebootUpdate = false;
+		wineDll("dxgi.dll",winebootUpdate);
+		if(*winebootUpdate){
+			shell *wine = new shell("wineboot",QStringList("-u"));
+			wine->envSetup(target);
+			wine->start();
+		}
+		delete winebootUpdate;
+	}
 }

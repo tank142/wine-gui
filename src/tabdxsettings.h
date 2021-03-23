@@ -9,7 +9,8 @@
 #include <QDir>
 #include <QFile>
 #include <QTimer>
-class tabdxSettings : public QHBoxLayout
+#include <QCheckBox>
+class tabdxSettings : public QVBoxLayout
 {
 	Q_OBJECT
 public:
@@ -23,12 +24,14 @@ private:
 	void old(QString);
 	void updateDX9();
 	void updateDX11();
+	void updateDXGI();
 	main_target *target;
 	QRadioButton *dx9wine;
 	QRadioButton *dx9nine;
 	QRadioButton *dx9dxvk;
 	QRadioButton *dx11wine;
 	QRadioButton *dx11dxvk;
+	QCheckBox *dxgi;
 	bool x64;
 	QString nine;
 	QString nine32;
@@ -38,6 +41,7 @@ private slots:
 	void setDX9dxvk(bool);
 	void setDX11wine(bool);
 	void setDX11dxvk(bool);
+	void setDXGI(bool);
 };
 
 #endif // TABDXSETTINGS_H

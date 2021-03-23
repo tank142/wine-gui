@@ -12,22 +12,14 @@
 #include <QHeaderView>
 #include <iostream>
 using namespace std;
-openEXE::openEXE(main_target *t,QStringList arg,QWidget *parent) : QWidget(parent)
+openEXE::openEXE(main_target *t,QStringList a,QWidget *parent) : QWidget(parent)
 {
 	target = t;
 	Key_Return = new QShortcut(this);
 	Key_Return->setKey(Qt::Key_Return);
 	open = new QPushButton(this);
-	if(arg.size() > 0){
-		arg.removeAt(0);
-		QString argf;
-		foreach(QString a,arg){
-			argf = argf + a;
-		}
-		argf.replace(QRegularExpression("^~/"),QDir::homePath() + "/");
-		argf.replace(QRegularExpression("^./"),QDir::currentPath() + "/");
-		if(QFile(argf).exists()){open->setText(argf);}
-	}
+	QString argf(arg(a));
+	if(QFile(argf).exists()){open->setText(argf);}
 	setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding );
 	QVBoxLayout *VBOX = new QVBoxLayout(this);
 	table = new prefixTable(target,this);
@@ -52,11 +44,23 @@ openEXE::openEXE(main_target *t,QStringList arg,QWidget *parent) : QWidget(paren
 openEXE::~openEXE(){
 	sizeWin(this,"winOpenEXE").save();
 }
+QString openEXE::arg(QStringList arg){
+	if(arg.size() > 1){
+		if(arg.at(1) == "--wine-debug"){arg.removeAt(1);}
+		arg.removeAt(0);
+		QString argf;
+		foreach(QString a,arg){argf = argf + a;}
+		argf.replace(QRegularExpression("^~/"),QDir::homePath() + "/");
+		argf.replace(QRegularExpression("^./"),QDir::currentPath() + "/");
+		return argf;
+	}
+	return "";
+}
 void openEXE::key_return(){
 	run(table->treeView->currentIndex());
 }
 void openEXE::tableRestore(){
-	QSettings settings_conf(target->CONF,QSettings::IniFormat);
+	QSettings settings_conf(target->CONF,QSettings::IniFormat);settings_conf.setIniCodec("UTF-8");
 	debug->setChecked(settings_conf.value("main/saveDebug").toBool());
 	QStringList wine_storages = settings_conf.childGroups();
 	saveStorage = settings_conf.value("main/saveStorage").toString();
@@ -119,7 +123,7 @@ QString openEXE::findWinePrefix(QModelIndex storage_index){
 	return "";
 }
 void openEXE::run(QModelIndex storage_index){
-	QSettings settings_conf(target->CONF,QSettings::IniFormat);
+	QSettings settings_conf(target->CONF,QSettings::IniFormat);settings_conf.setIniCodec("UTF-8");
 	if(storage_index.parent().row() > -1){
 		settings_conf.setValue("main/saveStorage",get<2>(target->storages.at(storage_index.parent().row() - 1)));
 		settings_conf.setValue("main/savePrefix",table->model->item(storage_index.parent().row())->child(storage_index.row())->text());
@@ -135,14 +139,52 @@ void openEXE::run(QModelIndex storage_index){
 		shellOutputDebugging *wine = new shellOutputDebugging(wineBin,QStringList() << open->text());
 		wine->exec->env->insert("WINEPREFIX",findWinePrefix(storage_index));
 		wine->exec->env->insert("WINEDEBUG","");
+		wine->exec->proc->setWorkingDirectory(open->text().left(open->text().lastIndexOf("/")));
 		wine->start();
 	}else{
 		setAttribute(Qt::WA_QuitOnClose,false);
 		shell *wine = new shell(wineBin,QStringList() << open->text());
 		wine->env->insert("WINEPREFIX",findWinePrefix(storage_index));
 		wine->env->insert("WINEDEBUG","-all");
+		wine->proc->setWorkingDirectory(open->text().left(open->text().lastIndexOf("/")));
 		connect(wine, &shell::destroyed , qApp , &QApplication::quit);
 		wine->start();
 	}
 	this->deleteLater();
+}
+EXEinStorages::EXEinStorages(main_target *t,QStringList a,QObject *parent) : QObject(parent){
+	target = t;exe = openEXE::arg(a);
+	if(a.at(1) == "--wine-debug"){debug = true;}
+}
+bool EXEinStorages::exec(){
+	for (int i = 0; i < target->storages.size(); i++){
+		if(QRegularExpression("^" + get<2>(target->storages.at(i))).match(exe).hasMatch()){
+			QDir storage(get<2>(target->storages.at(i)));storage.setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
+			foreach(QString prefix,storage.entryList()){
+				if(QRegularExpression("^" + get<2>(target->storages.at(i)) + "/" + prefix).match(exe).hasMatch()){
+					target->storage = i + 1;
+					target->prefix = prefix;
+					if(debug){
+						shellOutputDebugging *wine = new shellOutputDebugging("wine",QStringList() << exe.right(exe.size() - exe.lastIndexOf("/") - 1));
+						connect(wine, &shell::destroyed , qApp , &QApplication::quit);
+						wine->exec->envSetup(target);
+						wine->exec->env->insert("WINEDEBUG","");
+						wine->exec->proc->setWorkingDirectory(exe.left(exe.lastIndexOf("/")));
+						wine->show();
+						wine->start();
+					}else{
+						shell *wine = new shell("wine",QStringList() << exe.right(exe.size() - exe.lastIndexOf("/") - 1));
+						connect(wine, &shell::destroyed , qApp , &QApplication::quit);
+						wine->envSetup(target);
+						wine->env->insert("WINEDEBUG","-all");
+						wine->proc->setWorkingDirectory(exe.left(exe.lastIndexOf("/")));
+						wine->start();
+					}
+					break;
+				}
+			}
+			return true;
+		}
+	}
+	return false;
 }

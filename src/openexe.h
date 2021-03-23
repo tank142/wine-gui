@@ -9,6 +9,7 @@
 #include <QShortcut>
 #include <QApplication>
 #include <QWidget>
+#include <QRegularExpression>
 
 class openEXE : public QWidget
 {
@@ -17,6 +18,7 @@ public:
 	explicit openEXE(main_target*,QStringList,QWidget *parent = nullptr);
 	~openEXE();
 	QTreeView *treeView;
+	static QString arg(QStringList);
 private:
 	QPushButton *open;
 	QCheckBox *debug;
@@ -36,5 +38,14 @@ private slots:
 signals:
 
 };
-
+class EXEinStorages  : public QObject
+{
+public:
+	explicit EXEinStorages(main_target*,QStringList,QObject *parent = nullptr);
+	bool exec();
+private:
+	main_target *target;
+	QString exe;
+	bool debug = false;
+};
 #endif // OPENEXE_H

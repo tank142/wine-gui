@@ -89,7 +89,7 @@ settings::settings(QStandardItemModel *m, main_target *t, QWidget *parent) : QWi
 	hbox2->addWidget(ok);
 	ok->setFixedSize(70,70);
 	if(QFile::exists(target->CONF)){
-		QSettings settings_conf(target->CONF,QSettings::IniFormat);
+		QSettings settings_conf(target->CONF,QSettings::IniFormat);settings_conf.setIniCodec("UTF-8");
 		QStringList wine_storages = settings_conf.childGroups();
 		for (int i = 0; i < wine_storages.size(); i++){
 			if (wine_storages.at(i) != "main"){
@@ -119,7 +119,7 @@ settings::settings(QStandardItemModel *m, main_target *t, QWidget *parent) : QWi
 			dxvk_b->setText("/usr/share/dxvk");
 		}
 	}
-	QSettings conf(target->CONF,QSettings::IniFormat);
+	QSettings conf(target->CONF,QSettings::IniFormat);conf.setIniCodec("UTF-8");
 	if(conf.value("main/dark_theme").toBool()){
 		QPalette darkPalette;
 		darkPalette.setColor(QPalette::Window, QColor(53,53,53));
@@ -262,7 +262,7 @@ QString settings::find_name(QString path){
 	return QFileInfo(path).baseName();
 }
 void settings::save_conf(QVector<QString> *icons){
-	QSettings conf(target->CONF,QSettings::IniFormat);
+	QSettings conf(target->CONF,QSettings::IniFormat);conf.setIniCodec("UTF-8");
 	conf.clear();
 	conf.setValue("main/dxvk",target->DXVK);
 	conf.setValue("main/nine",target->NINE);
