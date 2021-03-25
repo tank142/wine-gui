@@ -313,4 +313,11 @@
         <translation>Wine version</translation>
     </message>
 </context>
+<context>
+    <name>tabdxSettings</name>
+    <message>
+        <source>use_dxgu_dxvk</source>
+        <translation>Use dxgi.dll from DXVK </translation>
+    </message>
+</context>
 </TS>

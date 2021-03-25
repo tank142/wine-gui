@@ -313,4 +313,11 @@
         <translation>Версия Wine</translation>
     </message>
 </context>
+<context>
+    <name>tabdxSettings</name>
+    <message>
+        <source>use_dxgu_dxvk</source>
+        <translation>Использовать dxgi.dll из DXVK</translation>
+    </message>
+</context>
 </TS>

@@ -15,16 +15,15 @@ class tabdxSettings : public QVBoxLayout
 	Q_OBJECT
 public:
 	tabdxSettings(main_target *);
+	static QString winedirBit(QString,QString);
 public slots:
 	void update();
 private:
 	void check64();
-	void wineDll(QString,bool*);
-	QString winedirBit(QString,QString);
-	void old(QString);
 	void updateDX9();
 	void updateDX11();
 	void updateDXGI();
+	void old(QString);
 	main_target *target;
 	QRadioButton *dx9wine;
 	QRadioButton *dx9nine;
@@ -43,5 +42,18 @@ private slots:
 	void setDX11dxvk(bool);
 	void setDXGI(bool);
 };
-
+class returnDll : public QObject
+{
+	Q_OBJECT
+public:
+	returnDll(main_target *,QObject *parent = nullptr);
+	bool updateNeed;
+	void dll(QString);
+private:
+	bool x64;
+	main_target *target;
+	bool old(QString);
+	QString dll64;
+	QString dll32;
+};
 #endif // TABDXSETTINGS_H
