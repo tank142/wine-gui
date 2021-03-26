@@ -259,7 +259,8 @@ void tabLabels::add_desktop_slot(){
 	touch->setWorkingDirectory(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation));
 	touch->setProgram("touch");
 	touch->setArguments(QStringList() << "--no-dereference" << "./" + model->item(labels->currentIndex().row(),1)->text() + ".desktop" );
-	update_file *t = new update_file(touch);t->start();
+	touch->start();
+	//update_file *t = new update_file(touch);t->start();
 }
 void tabLabels::updateIcon(){
 	shell *update_icon = new shell("xdg-icon-resource",QStringList() << "forceupdate" );
