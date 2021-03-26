@@ -58,14 +58,14 @@ prefixAdd::prefixAdd(QIcon i,QStandardItemModel *m,main_target *t,QWidget *paren
 	storage_target = target->storage;
 	button = new QPushButton(tr("create"),this);
 	QPushButton *button2 = new QPushButton(tr("cancel"),this);
-	main = new QVBoxLayout(this);
-	box_storage = new QHBoxLayout(this);box_storage->setAlignment(Qt::AlignLeft);
+	main = new QVBoxLayout();
+	box_storage = new QHBoxLayout();box_storage->setAlignment(Qt::AlignLeft);
 	edit = new QLineEdit(this);
 	text = new QLabel(this);text->setText(model->item(storage_target,0)->text());
 	text_target = new QLabel(this);text_target->setText(target->prefix);
 	QLabel *icon = new QLabel(this);icon->setPixmap(i.pixmap(16,16));
 	QGroupBox *gbox = new QGroupBox(this);
-	QGridLayout *gbox_l = new QGridLayout(this);
+	QGridLayout *gbox_l = new QGridLayout();
 	bit = new QComboBox(this);
 	bit->insertItem(0,"64bit");bit->insertItem(1,"32bit");
 	move = new QRadioButton(tr("move"),this);
