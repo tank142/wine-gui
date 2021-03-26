@@ -7,6 +7,7 @@ using namespace std;
 threadDel::threadDel(QString d){
 	dir = new QDir;
 	dir->setPath(d);
+	connect(this, &threadDel::finished , this , &threadDel::deleteLater);
 }
 threadDel::~threadDel(){
 	dir->~QDir();
@@ -17,15 +18,14 @@ void threadDel::run(){
 	findLink(dir->path() + "/shortcuts/",QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)).rm();
 	dir->removeRecursively();
 	emit model_update();
-	this->deleteLater();
 }
 void threadDel::work(){
 	start();
 }
 prefixDel::prefixDel(threadDel*,QString text,QWidget *parent) : QWidget(parent)
 {
-	vbox = new QVBoxLayout(this);
-	hbox = new QHBoxLayout(this);
+	vbox = new QVBoxLayout();
+	hbox = new QHBoxLayout();
 	vbox->addWidget(new QLabel(tr("del") + text,this));
 	vbox->addLayout(hbox);
 	ok = new QPushButton(tr("ok"),this);
