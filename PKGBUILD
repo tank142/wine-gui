@@ -1,5 +1,5 @@
 pkgname=wine-gui
-pkgver=0.13alpha
+pkgver=0.14alpha
 pkgrel=1
 pkgdesc="GUI for managing Windows programs under linux"
 arch=('x86_64')

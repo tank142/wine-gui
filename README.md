@@ -1,7 +1,7 @@
 # wine-gui
 GUI for managing Windows programs under linux.
 
-Depends: qt>=5.15 winetricks icoutils imagemagick
+Depends: qt>=5.15 winetricks xdg-utils icoutils imagemagick
 
 ### Installation in Ubuntu 20.04
 Add repository with Qt 5.15
