@@ -105,7 +105,7 @@ unix:!macx {
     icon_raid.path =  $$quote($$PREFIX/share/wine-gui/icons)
     icon_ssd.files = icons/ssd.png
     icon_ssd.path =  $$quote($$PREFIX/share/wine-gui/icons)
-    icon_wine.files = icons/wine.svg
+    icon_wine.files = icons/wine-gui.svg
     icon_wine.path =  $$quote($$PREFIX/share/icons/hicolor/scalable/apps)
 
     wine-gui_ru_RU.files = wine-gui_ru_RU.qm

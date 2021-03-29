@@ -8,6 +8,6 @@
     </qresource>
     <qresource prefix="/app">
         <file>wine-gui.desktop</file>
-        <file>wine.svg</file>
+        <file>wine-gui.svg</file>
     </qresource>
 </RCC>
