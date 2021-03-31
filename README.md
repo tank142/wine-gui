@@ -2,11 +2,11 @@
 GUI for managing Windows programs under linux.
 
 Depends: qt>=5.15 winetricks xdg-utils icoutils imagemagick
-
-### Installation in Arch Linux
+## Installation
+### Arch Linux
 AUR: [wine-gui-git](https://aur.archlinux.org/packages/wine-gui-git)
 
-### Installation in Ubuntu 20.04
+### Ubuntu 20.04
 Add repository with Qt 5.15
 ```
 sudo add-apt-repository ppa:beineri/opt-qt-5.15.2-focal
