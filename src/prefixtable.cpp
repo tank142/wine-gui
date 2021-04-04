@@ -41,7 +41,12 @@ void prefixTable::model_update(){
 	item->append(new QStandardItem("System"));
 	if(QFile::exists(target->home + "/.wine/WINE.cfg")){
 		QSettings settings(target->home + "/.wine/WINE.cfg", QSettings::IniFormat);
-		item->append(new QStandardItem(settings.value("WINE").toString()));
+		QString wine = settings.value("WINE").toString();
+		if(wine.size() > 0 && wine != "System"){
+			item->append(new QStandardItem(wine));
+		}else{
+			item->append(new QStandardItem("System"));
+		}
 	}else{
 		item->append(new QStandardItem("System"));
 	}

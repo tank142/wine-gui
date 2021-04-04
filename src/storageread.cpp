@@ -11,7 +11,12 @@ void storageRead::run(){
 		item->append(new QStandardItem(fileInfo.fileName()));
 		if(QFile::exists(directory + "/" + fileInfo.fileName() + "/WINE.cfg")){
 			QSettings settings(directory + "/" + fileInfo.fileName() + "/WINE.cfg", QSettings::IniFormat);
-			item->append(new QStandardItem(settings.value("WINE").toString()));
+			QString wine = settings.value("WINE").toString();
+			if(wine.size() > 0 && wine != "System"){
+				item->append(new QStandardItem(wine));
+			}else{
+				item->append(new QStandardItem("System"));
+			}
 		}else{
 			item->append(new QStandardItem("System"));
 		}
