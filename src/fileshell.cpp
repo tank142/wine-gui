@@ -79,13 +79,16 @@ void fileShell::line(QString l){
 	if(QRegularExpression("^.*WORKDIR=").match(l).hasMatch()){
 		if(check(l)){
 			WORKDIR = l.remove(QRegularExpression("^.*WORKDIR="));
-			WORKDIR.remove(QRegularExpression("^\""));
 			WORKDIR.remove(QRegularExpression("\"$"));
 		}
 		return;
 	}
 	if(check(l) && QRegularExpression("^.*WINE").match(l).hasMatch()){
-		if(QRegularExpression("1").match(l).hasMatch()){WINE = l.remove("^.*WINE=");return;}
+		if(QRegularExpression("1").match(l).hasMatch()){
+			WINE = l.remove(QRegularExpression("^.*WINE"));
+			WINE.remove(QRegularExpression("\"$"));
+			return;
+		}
 	}
 	if(QRegularExpression("^.*DXVK_HUD=").match(l).hasMatch()){
 		if(check(l)){
