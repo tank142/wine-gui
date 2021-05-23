@@ -78,7 +78,7 @@ void fileShell::line(QString l){
 	}
 	if(QRegularExpression("^.*WORKDIR=").match(l).hasMatch()){
 		if(check(l)){
-			WORKDIR = l.remove(QRegularExpression("^.*WORKDIR="));
+			WORKDIR = l.remove(QRegularExpression("^.*WORKDIR=\""));
 			WORKDIR.remove(QRegularExpression("\"$"));
 		}
 		return;
