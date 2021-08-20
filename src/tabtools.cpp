@@ -72,14 +72,14 @@ void tabTools::wineDir(){
 	updateWineDir();
 }
 void tabTools::installComponents_slot(){
-	shellOutputDebugging *winetricks = new shellOutputDebugging("wine",QStringList() << "-q" << "dlls");
+	shellOutputDebugging *winetricks = new shellOutputDebugging("wine",QStringList() << "-q" << "-f" << "dlls");
 	winetricks->exec->envSetup(target);
 	winetricks->exec->env->insert("WINE",winetricks->exec->exec);
 	winetricks->exec->exec = "winetricks";
 	winetricks->start();
 }
 void tabTools::installFonts_slot(){
-	shellOutputDebugging *winetricks = new shellOutputDebugging("wine",QStringList() << "-q" << "fonts");
+	shellOutputDebugging *winetricks = new shellOutputDebugging("wine",QStringList() << "-q" << "-f" << "fonts");
 	winetricks->exec->envSetup(target);
 	winetricks->exec->env->insert("WINE",winetricks->exec->exec);
 	winetricks->exec->exec = "winetricks";
