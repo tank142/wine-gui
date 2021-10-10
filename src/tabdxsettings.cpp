@@ -40,8 +40,8 @@ tabdxSettings::tabdxSettings(main_target *t)
 	hbox2->addWidget(dxgi);
 	if(QFile(target->NINE + "/lib/wine/x86_64-unix/d3d9-nine.dll.so").exists()){
 		nine = target->NINE + "/lib/wine/x86_64-unix/d3d9-nine.dll.so";
-		if(QFile(target->NINE + "/lib32/wine/x86_64-unix/d3d9-nine.dll.so").exists()){
-			nine32 = target->NINE + "/lib32/wine/x86_64-unix/d3d9-nine.dll.so";
+		if(QFile(target->NINE + "/lib32/wine/i386-unix/d3d9-nine.dll.so").exists()){
+			nine32 = target->NINE + "/lib32/wine/i386-unix/d3d9-nine.dll.so";
 		}
 	}
 	if(nine == ""){
