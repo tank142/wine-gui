@@ -1,3 +1,2 @@
-
-src/wine-gui.pro.user
-*.user
+build-wine-gui-Desktop-Debug
+*.pro.user

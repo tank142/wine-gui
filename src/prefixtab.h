@@ -44,7 +44,7 @@ public slots:
 private:
 	fileRegistry *reg;
 };
-
+/*
 class TabDialog : public QDialog
 {
 	Q_OBJECT
@@ -55,7 +55,7 @@ public:
 private:
 	QTabWidget *tabWidget;
 };
-
+*/
 class prefixTab : public QWidget
 {
 	Q_OBJECT

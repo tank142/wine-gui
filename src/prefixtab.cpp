@@ -21,7 +21,7 @@ prefixTab::prefixTab(main_target *t,QWidget *parent) : QWidget(parent){
 	//connect(this , &prefixTab::updateReg , bTab->dll, &tabDll::updateReg );
 }
 prefixTab::~prefixTab(){
-	tabWidget->~QTabWidget();
+	//tabWidget->~QTabWidget();
 }
 void prefixTab::readReg(int i){
 	if(i == 1){
