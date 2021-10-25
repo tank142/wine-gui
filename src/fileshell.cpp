@@ -137,29 +137,44 @@ void fileShell::line(QString l){
 	return;
 }
 void fileShell::write(){
-	FILE->open(QFile::ReadWrite);QTextStream file(FILE);
 	QStringList list;
 	QStringList list2;
-	while(!file.atEnd()){
-		QString l = file.readLine();
-		if(	QRegularExpression("exec ").match(l).hasMatch() ||
-			QRegularExpression("export WINEPREFIX=").match(l).hasMatch() ||
-			QRegularExpression("WORKDIR=").match(l).hasMatch() ||
-			QRegularExpression("WINE=").match(l).hasMatch() ||
-			QRegularExpression("EXE=").match(l).hasMatch() ||
-			QRegularExpression("cd \"\\$WORKDIR\"").match(l).hasMatch() ||
-			QRegularExpression("WINEESYNC=").match(l).hasMatch() ||
-			QRegularExpression("WINEFSYNC=").match(l).hasMatch() ||
-			QRegularExpression("DXVK_HUD=").match(l).hasMatch() ||
-			QRegularExpression("GALLIUM_HUD=").match(l).hasMatch() ||
-			QRegularExpression("MANGOHUD_CONFIG=").match(l).hasMatch() ||
-			QRegularExpression("STRANGLE").match(l).hasMatch() ||
-			QRegularExpression("^.*\"\\$WINE\"").match(l).hasMatch()){
-			continue;
+	QTextStream file(FILE);
+	if(FILE->open(QFile::ReadWrite)){
+		QRegularExpression rx1("exec ");
+		QRegularExpression rx2("export WINEPREFIX=");
+		QRegularExpression rx3("WORKDIR=");
+		QRegularExpression rx4("WINE=");
+		QRegularExpression rx5("EXE=");
+		QRegularExpression rx6("cd \"\\$WORKDIR\"");
+		QRegularExpression rx7("WINEESYNC=");
+		QRegularExpression rx8("WINEFSYNC=");
+		QRegularExpression rx9("DXVK_HUD=");
+		QRegularExpression rx10("GALLIUM_HUD=");
+		QRegularExpression rx11("MANGOHUD_CONFIG=");
+		QRegularExpression rx12("STRANGLE");
+		QRegularExpression rx13("^.*\"\\$WINE\"");
+		while(!file.atEnd()){
+			QString l = file.readLine();
+			if(	rx1.match(l).hasMatch() ||
+				rx2.match(l).hasMatch() ||
+				rx3.match(l).hasMatch() ||
+				rx4.match(l).hasMatch() ||
+				rx5.match(l).hasMatch() ||
+				rx6.match(l).hasMatch() ||
+				rx7.match(l).hasMatch() ||
+				rx8.match(l).hasMatch() ||
+				rx9.match(l).hasMatch() ||
+				rx10.match(l).hasMatch() ||
+				rx11.match(l).hasMatch() ||
+				rx12.match(l).hasMatch() ||
+				rx13.match(l).hasMatch()) {
+				continue;
+			}
+			list2.append(l);
 		}
-		list2.append(l);
+		FILE->resize(0);
 	}
-	FILE->resize(0);
 	if(	list2.size() == 0 || !QRegularExpression("^#\\!").match(list2.at(0)).hasMatch() ){
 		list.insert(0,"#!/bin/sh");
 	}else{
