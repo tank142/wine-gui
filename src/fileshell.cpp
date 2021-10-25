@@ -12,6 +12,17 @@ fileShell::fileShell(QString f,QObject *parent) : QObject(parent)
 		while(!t.atEnd()){
 		  line(t.readLine());
 		}
+		if( EXEC.size() == 0 ){
+			t.seek(0);
+			QString l;
+			while(!t.atEnd()){
+				existsEXEC=false;
+				l = t.readLine();
+				if(QRegularExpression("^.*\"\\$WINE\"").match(l).hasMatch()){
+					EXEC = l.remove(QRegularExpression("^.*exec "));break;
+				}
+			}
+		}else{ existsEXEC=true; }
 		FILE->close();
 		QRegularExpression rx("gamemoderun ");
 		if(rx.match(EXEC).hasMatch()){
@@ -131,7 +142,7 @@ void fileShell::write(){
 	QStringList list2;
 	while(!file.atEnd()){
 		QString l = file.readLine();
-		if(	QRegularExpression("exec").match(l).hasMatch() ||
+		if(	QRegularExpression("exec ").match(l).hasMatch() ||
 			QRegularExpression("export WINEPREFIX=").match(l).hasMatch() ||
 			QRegularExpression("WORKDIR=").match(l).hasMatch() ||
 			QRegularExpression("WINE=").match(l).hasMatch() ||
@@ -142,7 +153,8 @@ void fileShell::write(){
 			QRegularExpression("DXVK_HUD=").match(l).hasMatch() ||
 			QRegularExpression("GALLIUM_HUD=").match(l).hasMatch() ||
 			QRegularExpression("MANGOHUD_CONFIG=").match(l).hasMatch() ||
-			QRegularExpression("STRANGLE").match(l).hasMatch()){
+			QRegularExpression("STRANGLE").match(l).hasMatch() ||
+			QRegularExpression("^.*\"\\$WINE\"").match(l).hasMatch()){
 			continue;
 		}
 		list2.append(l);
@@ -201,7 +213,11 @@ void fileShell::write(){
 	if(MANGOHUD_CONFIG_enable){exec.append("mangohud ");}
 	foreach(QString l,list2){if(l != ""){
 		file.operator<<(QString::fromUtf8( l.toUtf8() + "\n" ));}}
-	file.operator<<( "exec " + exec + EXEC + "\n");
+	if(existsEXEC){
+		file.operator<<( "exec " + exec + EXEC + "\n");
+	}else{
+		file.operator<<( exec + EXEC + "\n");
+	}
 	FILE->close();
 	FILE->setPermissions(FILE->permissions() | QFileDevice::ExeOwner | QFileDevice::ExeUser | QFileDevice::ExeGroup | QFileDevice::ExeOther);
 }

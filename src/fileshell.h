@@ -22,6 +22,7 @@ public:
 	QString STRANGLE;
 	bool STRANGLE_enable = false;
 	QString EXEC;
+	bool existsEXEC;
 	QString EXE;
 	QString WINE;
 	QString WORKDIR;
