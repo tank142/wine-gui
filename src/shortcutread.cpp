@@ -37,7 +37,7 @@ void shortcutRead::fixWinePath(QString dir,QString wine){
 					foreach(QString l,list){
 						t.operator<<(l + "\n");
 					}
-					FILE.close();
+					FILE.close();list.clear();
 					break;
 				}
 				FILE.close();list.clear();
@@ -69,7 +69,7 @@ void shortcutRead::fixWinePathDesktop(QString dir){
 					foreach(QString l,list){
 						t.operator<<(l + "\n");
 					}
-					FILE.close();
+					FILE.close();list.clear();
 					break;
 				}
 				FILE.close();list.clear();

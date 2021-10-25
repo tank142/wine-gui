@@ -61,7 +61,7 @@ tabTools::tabTools(main_target *t,QWidget *parent) : QWidget(parent)
 	connect(button20, &QPushButton::clicked , this , &tabTools::open);
 	connect(button21, &QPushButton::clicked , this , &tabTools::update);
 	connect(button22, &QPushButton::clicked , this , &tabTools::clear);
-	connect(wine, &QComboBox::currentTextChanged , this , &tabTools::updateWineVer);
+	connect(wine, &QComboBox::textActivated , this , &tabTools::updateWineVer);
 	connect(wineD, &QFileSystemWatcher::directoryChanged , this , &tabTools::updateWineDir);
 	connect(wineButton, &QPushButton::clicked , this , &tabTools::openWineDir);
 	connect(installComponents, &QPushButton::clicked , this , &tabTools::installComponents_slot);
@@ -122,12 +122,10 @@ QString tabTools::prefix(){
 	}
 	return (target->home + "/.wine/");
 }
+#include <iostream>
+using namespace std;
 void tabTools::updateWineVer(QString t){
-	shell *wineShell = new shell("wineserver",QStringList() << "-k" << "-w");
-	wineShell->envSetup(target);
-	wineShell->exec = "wineserver";
-	wineShell->start();
-	wineShell->wait(-1);
+	if(target->prefix_wine == t){return;}
 	QString prefix;
 	if(target->storage > 0 && target->prefix != ""){
 		prefix = (target->model_storages.at(target->storage) + "/" + target->prefix + "/");
@@ -137,6 +135,13 @@ void tabTools::updateWineVer(QString t){
 	QSettings conf(prefix + "/WINE.cfg",QSettings::IniFormat);
 	conf.setValue("WINE",t);
 	conf.sync();
+	target->prefix_wine = t;
+	shell *wineShell = new shell("wineserver",QStringList() << "-k" << "-w");
+	wineShell->envSetup(target);
+	wineShell->exec = "wineserver";
+	wineShell->start();
+	wineShell->wait(-1);
+	wineShell->deleteLater();
 	emit WineVer(t);
 }
 void tabTools::updateWineDir(){

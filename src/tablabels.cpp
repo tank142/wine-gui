@@ -162,8 +162,7 @@ void tabLabels::shortcuts(){
 	QDir d;d.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
 	QString prefix = prefixPath();
 	d.setPath(prefix + "/shortcuts");
-	QSettings conf(prefix + "/WINE.cfg",QSettings::IniFormat);
-	QString wine = conf.value("WINE").toString();
+	QString wine = QSettings(prefix + "/WINE.cfg",QSettings::IniFormat).value("WINE").toString();
 	if(wine == "System" || wine.size() == 0){
 		wine = "wine";
 	}else{
@@ -171,7 +170,6 @@ void tabLabels::shortcuts(){
 	}
 	foreach(QString s,d.entryList()){
 		shortcutRead( d.path() + "/" + s,wine,target);
-		conf.deleteLater();
 		QList<QStandardItem *> shortcut;
 		shortcut.append(new QStandardItem(find_icon(d.path() + "/" + s),read_name(d.path() + "/" + s)));
 		shortcut.append(new QStandardItem(s.right(s.size() - s.lastIndexOf("/")-1)));

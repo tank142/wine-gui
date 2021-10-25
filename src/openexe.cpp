@@ -161,7 +161,7 @@ bool EXEinStorages::exec(){
 		if(QRegularExpression("^" + get<2>(target->storages.at(i))).match(exe).hasMatch()){
 			QDir storage(get<2>(target->storages.at(i)));storage.setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
 			foreach(QString prefix,storage.entryList()){
-				if(QRegularExpression("^" + get<2>(target->storages.at(i)) + "/" + prefix).match(exe).hasMatch()){
+				if(QRegularExpression("^" + get<2>(target->storages.at(i)) + "/" + prefix + "/").match(exe).hasMatch()){
 					target->storage = i + 1;
 					target->prefix = prefix;
 					if(debug){
