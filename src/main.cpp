@@ -21,6 +21,7 @@
 #include <QTranslator>
 #include <QStandardPaths>
 #include <QMessageBox>
+#include <QRegularExpression>
 using namespace std;
 int main(int argc, char *argv[])
 {
@@ -72,11 +73,12 @@ int main(int argc, char *argv[])
 		}
 		QStringList wine_storages = settings_conf.childGroups();
 		for (int i = 0; i < wine_storages.size(); i++){
-			if (wine_storages.at(i) != "main"){
+			QRegularExpression rx("^storage_[0-9]*$");
+			if (rx.match(wine_storages.at(i)).hasMatch()){
 				if(settings_conf.contains(wine_storages.at(i) + "/path")){
-					target->storages.append(tuple(settings_conf.value(wine_storages.at(i) + "/icon").toString().toUtf8(),
-												  settings_conf.value(wine_storages.at(i) + "/name").toString().toUtf8(),
-												  settings_conf.value(wine_storages.at(i) + "/path").toString().toUtf8()));
+					target->storages.append(tuple(settings_conf.value(wine_storages.at(i) + "/icon").toString(),
+												  settings_conf.value(wine_storages.at(i) + "/name").toString(),
+												  settings_conf.value(wine_storages.at(i) + "/path").toString()));
 				}
 			}
 		}

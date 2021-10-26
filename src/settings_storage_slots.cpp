@@ -10,7 +10,6 @@
 #include <QHBoxLayout>
 #include <QVector>
 #include <tuple>
-using namespace std;
 void settings_storage_slots::set_dir(){
 	QString d=(QFileDialog::getExistingDirectory(this,
 				QString::fromUtf8("Выбор папки"),
@@ -22,9 +21,9 @@ void settings_storage_slots::set_dir(){
 	s->check();
 }
 void settings_storage_slots::move_up(){
-	unsigned short int index = (s->storage_vbox2->indexOf(hbox));
-	unsigned short int index_up = index - 1;
-	unsigned short int size = s->s_ui->size() - 1;
+	quint16 index = (s->storage_vbox2->indexOf(hbox));
+	quint16 index_up = index - 1;
+	quint16 size = s->s_ui->size() - 1;
 	s->s_ui->move(index,index_up);
 	s->storage_vbox2->removeItem(hbox);
 	s->storage_vbox2->insertLayout(index_up,hbox);
@@ -39,9 +38,9 @@ void settings_storage_slots::move_up(){
 	}
 }
 void settings_storage_slots::move_down(){
-	unsigned short int index = (s->storage_vbox2->indexOf(hbox));
-	unsigned short int index_d = index + 1;
-	unsigned short int size = s->s_ui->size() - 1;
+	quint16 index = (s->storage_vbox2->indexOf(hbox));
+	quint16 index_d = index + 1;
+	quint16 size = s->s_ui->size() - 1;
 	s->s_ui->move(index,index_d);
 	s->storage_vbox2->removeItem(hbox);
 	s->storage_vbox2->insertLayout(index_d,hbox);
@@ -55,7 +54,7 @@ void settings_storage_slots::move_down(){
 	}
 }
 void settings_storage_slots::del(){
-	unsigned short int index = s->storage_vbox2->indexOf(hbox);
+	quint16 index = s->storage_vbox2->indexOf(hbox);
 	if (s->s_ui->size() == 1){
 		get<3>(s->s_ui->at(0))->setHidden(true);
 		get<4>(s->s_ui->at(0))->setHidden(true);
