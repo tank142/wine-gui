@@ -21,12 +21,12 @@ https://wiki.winehq.org/Ubuntu
 https://wiki.winehq.org/Winetricks
 
 # Screenshots
-![Image alt](https://github.com/tank142/wine-gui/raw/qt6/screenshot1.jpg)
-![Image alt](https://github.com/tank142/wine-gui/raw/qt6/screenshot6.jpg)
-![Image alt](https://github.com/tank142/wine-gui/raw/qt6/screenshot3.jpg)
-![Image alt](https://github.com/tank142/wine-gui/raw/qt6/screenshot2.jpg)
-![Image alt](https://github.com/tank142/wine-gui/raw/qt6/screenshot4.jpg)
-![Image alt](https://github.com/tank142/wine-gui/raw/qt6/screenshot5.jpg)
+![Image alt](https://github.com/tank142/wine-gui/raw/master/screenshot1.jpg)
+![Image alt](https://github.com/tank142/wine-gui/raw/master/screenshot6.jpg)
+![Image alt](https://github.com/tank142/wine-gui/raw/master/screenshot3.jpg)
+![Image alt](https://github.com/tank142/wine-gui/raw/master/screenshot2.jpg)
+![Image alt](https://github.com/tank142/wine-gui/raw/master/screenshot4.jpg)
+![Image alt](https://github.com/tank142/wine-gui/raw/master/screenshot5.jpg)
 
 # Donate
 VISA: 4890494710845090
