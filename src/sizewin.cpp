@@ -43,7 +43,8 @@ void sizeWin::save(){
 				<< QString::number(size.at(3).toInt())
 				<< QString::number(win->windowState())
 			));
-		}else{
+			}
+	}else{
 			if( size.at(0) != win->pos().x() ||
 				size.at(1) != win->pos().y() ||
 				size.at(2) != win->size().width() ||
@@ -55,7 +56,6 @@ void sizeWin::save(){
 						<< QString::number(win->size().width())
 						<< QString::number(win->size().height())
 						<< QString::number(win->windowState())));
-			}
 		}
 	}
 }
