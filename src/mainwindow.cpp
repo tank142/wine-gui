@@ -78,8 +78,6 @@ mainwindow::mainwindow(main_target *t,QWidget *parent) : QWidget(parent)
 	target->prefix_wine = table->model->item(0,1)->text();
 	setAttribute(Qt::WA_DeleteOnClose);
 	sizeWin(this,"main").restore();
-	winetricksWidget *z = new winetricksWidget(target);
-	z->show();
 }
 mainwindow::~mainwindow(){
 	sizeWin(this,"main").save();
