@@ -45,17 +45,17 @@ void sizeWin::save(){
 			));
 			}
 	}else{
-			if( size.at(0) != win->pos().x() ||
-				size.at(1) != win->pos().y() ||
-				size.at(2) != win->size().width() ||
-				size.at(3) != win->size().height() ||
-				size.at(4).toShort() != win->windowState()){
-					settings_conf->setValue("win/" + name,QVariant(QStringList()
-						<< QString::number(win->pos().x())
-						<< QString::number(win->pos().y())
-						<< QString::number(win->size().width())
-						<< QString::number(win->size().height())
-						<< QString::number(win->windowState())));
+		if( size.at(0) != win->pos().x() ||
+			size.at(1) != win->pos().y() ||
+			size.at(2) != win->size().width() ||
+			size.at(3) != win->size().height() ||
+			size.at(4).toShort() != win->windowState()){
+				settings_conf->setValue("win/" + name,QVariant(QStringList()
+					<< QString::number(win->pos().x())
+					<< QString::number(win->pos().y())
+					<< QString::number(win->size().width())
+					<< QString::number(win->size().height())
+					<< QString::number(win->windowState())));
 		}
 	}
 }
