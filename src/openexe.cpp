@@ -10,8 +10,7 @@
 #include <QRegularExpression>
 #include <QModelIndex>
 #include <QHeaderView>
-#include <iostream>
-using namespace std;
+#include <QRegularExpression>
 openEXE::openEXE(main_target *t,QStringList a,QWidget *parent) : QWidget(parent)
 {
 	target = t;
@@ -38,11 +37,12 @@ openEXE::openEXE(main_target *t,QStringList a,QWidget *parent) : QWidget(parent)
 	connect(table, &prefixTable::readFinished , this , &openEXE::tableRestore);
 	connect(table->treeView, &QTreeView::clicked , this , &openEXE::run);
 	connect(Key_Return, &QShortcut::activated , this , &openEXE::key_return);
-	sizeWin(this,"winOpenEXE").restore();
+	setWindowTitle("Wine GUI");
+	sizeWin(this,"openEXE").restore();
 	setAttribute(Qt::WA_DeleteOnClose);
 }
 openEXE::~openEXE(){
-	sizeWin(this,"winOpenEXE").save();
+	sizeWin(this,"openEXE").save();
 }
 QString openEXE::arg(QStringList arg){
 	if(arg.size() > 1){
@@ -64,20 +64,23 @@ void openEXE::tableRestore(){
 	#if QT_VERSION < 0x060000
 		settings_conf.setIniCodec("UTF-8");
 	#endif
-	debug->setChecked(settings_conf.value("main/saveDebug").toBool());
+	debug->setChecked(settings_conf.value("open/debug").toBool());
 	QStringList wine_storages = settings_conf.childGroups();
-	saveStorage = settings_conf.value("main/saveStorage").toString();
+	saveStorage = settings_conf.value("open/storage").toString();
 	if(saveStorage == "0"){saveStorageIndex = 0;
 		QModelIndex indexFromModel = table->model->item(0)->index();
 		table->treeView->setCurrentIndex(indexFromModel);return;}
-	savePrefix = settings_conf.value("main/savePrefix").toString();
+	savePrefix = settings_conf.value("open/prefix").toString();
 	saveStorageIndex = -1;
 	if(saveStorage != ""){
-		for (int i = 0; i < wine_storages.size(); i++){
-			if (wine_storages.at(i) != "main"){
-				if(saveStorage == settings_conf.value(wine_storages.at(i) + "/path").toString()){
-					saveStorageIndex = i; break;
+		QRegularExpression rx("^storage_[0-9]*$");
+		quint16 index = 1;
+		foreach(QString storage,wine_storages){
+			if (rx.match(storage).hasMatch()){
+				if(saveStorage == settings_conf.value(storage + "/path").toString()){
+					saveStorageIndex = index; break;
 				}
+				index++;
 			}
 		}
 	}
@@ -131,13 +134,13 @@ void openEXE::run(QModelIndex storage_index){
 		settings_conf.setIniCodec("UTF-8");
 	#endif
 	if(storage_index.parent().row() > -1){
-		settings_conf.setValue("main/saveStorage",get<2>(target->storages.at(storage_index.parent().row() - 1)));
-		settings_conf.setValue("main/savePrefix",table->model->item(storage_index.parent().row())->child(storage_index.row())->text());
+		settings_conf.setValue("open/storage",get<2>(target->storages.at(storage_index.parent().row() - 1)));
+		settings_conf.setValue("open/prefix",table->model->item(storage_index.parent().row())->child(storage_index.row())->text());
 	}else{
 		if(storage_index.row() > 0){return;}
-		settings_conf.setValue("main/saveStorage",0);
+		settings_conf.setValue("open/storage",0);
 	}
-	settings_conf.setValue("main/saveDebug",debug->isChecked());
+	settings_conf.setValue("open/debug",debug->isChecked());
 	settings_conf.sync();settings_conf.deleteLater();
 	if(!QFile(open->text()).exists()){return;}
 	QString wineBin = findWineBin(storage_index);
@@ -160,7 +163,7 @@ void openEXE::run(QModelIndex storage_index){
 }
 EXEinStorages::EXEinStorages(main_target *t,QStringList a,QObject *parent) : QObject(parent){
 	target = t;exe = openEXE::arg(a);
-	if(a.at(1) == "--wine-debug"){debug = true;}
+	if( a.size() > 1  && a.at(1) == "--wine-debug"){debug = true;}
 }
 bool EXEinStorages::exec(){
 	for (int i = 0; i < target->storages.size(); i++){

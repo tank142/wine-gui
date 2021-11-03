@@ -3,9 +3,7 @@
 #include <QSettings>
 #include <QWidget>
 #include <QStandardPaths>
-
-class sizeWin
-{
+class sizeWin {
 public:
 	sizeWin(QWidget*,QString);
 	~sizeWin();

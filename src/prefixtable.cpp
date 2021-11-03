@@ -1,11 +1,9 @@
 #include "prefixtable.h"
 #include "storageread.h"
 #include <QStandardItem>
-#include <iostream>
 #include <QEventLoop>
 #include <QSettings>
 #include <QFile>
-using namespace std;
 prefixTable::prefixTable(main_target *t,QObject *parent) : QObject(parent)
 {
 	target = t;

@@ -2,8 +2,6 @@
 #include <QFile>
 #include <QTextStream>
 #include <QRegularExpression>
-#include <iostream>
-using namespace std;
 shortcutRead::shortcutRead(QString dir,QString wine,main_target *t,QObject *parent) : QObject(parent)
 {
 	target = t;
