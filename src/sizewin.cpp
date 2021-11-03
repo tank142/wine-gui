@@ -34,19 +34,28 @@ void sizeWin::restore(){
 }
 void sizeWin::save(){
 	QStringList size = settings_conf->value("win/" + name).toStringList();
-	if	(	size.size() == 5 &&
-			size.at(0) == win->pos().x() &&
-			size.at(1) == win->pos().y() &&
-			size.at(2) == win->size().width() &&
-			size.at(3) == win->size().height() &&
-			size.at(4).toUShort() == win->windowState()){
-		return;
+	if( size.size() == 5 && win->windowState() != 0){
+		if(size.at(4).toUShort() != win->windowState()){
+			settings_conf->setValue("win/" + name,QVariant(QStringList()
+				<< QString::number(size.at(0).toInt())
+				<< QString::number(size.at(1).toInt())
+				<< QString::number(size.at(2).toInt())
+				<< QString::number(size.at(3).toInt())
+				<< QString::number(win->windowState())
+			));
+		}else{
+			if( size.at(0) != win->pos().x() ||
+				size.at(1) != win->pos().y() ||
+				size.at(2) != win->size().width() ||
+				size.at(3) != win->size().height() ||
+				size.at(4).toShort() != win->windowState()){
+					settings_conf->setValue("win/" + name,QVariant(QStringList()
+						<< QString::number(win->pos().x())
+						<< QString::number(win->pos().y())
+						<< QString::number(win->size().width())
+						<< QString::number(win->size().height())
+						<< QString::number(win->windowState())));
+			}
+		}
 	}
-	settings_conf->setValue("win/" + name,QVariant(QStringList()
-		<< QString::number(win->pos().x())
-		<< QString::number(win->pos().y())
-		<< QString::number(win->size().width())
-		<< QString::number(win->size().height())
-		<< QString::number(win->windowState())
-	));
 }
