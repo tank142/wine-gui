@@ -143,6 +143,9 @@ void prefixAdd::create_slot(){
 	if(create->isChecked()){
 		shell *wine;
 		QSettings conf(target->model_storages.at(storage_target) + "/" + edit->text() + "/WINE.cfg",QSettings::IniFormat);
+		#if QT_VERSION < 0x060000
+			conf.setIniCodec("UTF-8");
+		#endif
 		if(wine_ver->currentIndex() == 0 ){
 			wine = new shell("wineboot",QStringList());
 		}else{

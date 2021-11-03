@@ -6,10 +6,8 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QDir>
-tabTools::tabTools(main_target *t,QWidget *parent) : QWidget(parent)
-{
+tabTools::tabTools(main_target *t,QWidget *parent) : QWidget(parent) {
 	target = t;
-
 	QVBoxLayout *vbox = new QVBoxLayout;vbox->setAlignment(Qt::AlignTop);
 	gbox = new QGridLayout;gbox->setAlignment(Qt::AlignTop);
 	QPushButton *button0 = new QPushButton(tr("regedit"));//"Редактор реестра"
@@ -133,6 +131,9 @@ void tabTools::updateWineVer(QString t){
 		prefix = (target->home + "/.wine/");
 	}
 	QSettings conf(prefix + "/WINE.cfg",QSettings::IniFormat);
+	#if QT_VERSION < 0x060000
+		conf.setIniCodec("UTF-8");
+	#endif
 	conf.setValue("WINE",t);
 	conf.sync();
 	target->prefix_wine = t;
@@ -166,6 +167,9 @@ void tabTools::updateWine(){
 	}
 	if(QFile(prefix + "/WINE.cfg").exists()){
 		QSettings conf(prefix + "/WINE.cfg",QSettings::IniFormat);
+		#if QT_VERSION < 0x060000
+			conf.setIniCodec("UTF-8");
+		#endif
 		QString w = conf.value("WINE").toString();
 		if(w != "" && w != "System"){
 			wine->setCurrentText(w);

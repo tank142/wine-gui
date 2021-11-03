@@ -35,6 +35,9 @@ void shell::envSetup(main_target *target){
 	}
 	if(QFile(env->value("WINEPREFIX") + "/WINE.cfg").exists()){
 		QSettings conf(env->value("WINEPREFIX") + "/WINE.cfg",QSettings::IniFormat);
+		#if QT_VERSION < 0x060000
+			conf.setIniCodec("UTF-8");
+		#endif
 		QString v = conf.value("WINE").toString();
 		if(v != "System" && v.size() > 0){
 			exec = target->WINE_VER + "/" + v + "/bin/" + exec;

@@ -38,6 +38,9 @@ mainwindow::mainwindow(main_target *t,QWidget *parent) : QWidget(parent)
 	table = new prefixTable(target,this);
 	if(QFile::exists(target->CONF)){
 		QSettings settings_conf(target->CONF,QSettings::IniFormat);
+		#if QT_VERSION < 0x060000
+			settings_conf.setIniCodec("UTF-8");
+		#endif
 		target->DXVK = settings_conf.value("main/dxvk").toString();
 		target->WINE_VER = settings_conf.value("main/wine").toString();
 	}
@@ -137,6 +140,9 @@ void mainwindow::storage_edit(){
 		}else{
 			if(table->model->item(edit_target)->text() != edit->text()){
 				QSettings conf(target->CONF,QSettings::IniFormat);
+				#if QT_VERSION < 0x060000
+					conf.setIniCodec("UTF-8");
+				#endif
 				conf.setValue("storage_" + QString::number(edit_target - 1) + "/name",edit->text());
 				QString icon = get<0>(target->storages.at(edit_target - 1));
 				QString path = get<2>(target->storages.at(edit_target - 1));

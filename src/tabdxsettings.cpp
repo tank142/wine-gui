@@ -1,9 +1,7 @@
 #include "tabdxsettings.h"
 #include "shelloutput.h"
-#include <iostream>
 #include <QRegularExpression>
 #include <QHBoxLayout>
-using namespace std;
 tabdxSettings::tabdxSettings(main_target *t)
 {
 	QHBoxLayout *hbox = new QHBoxLayout;

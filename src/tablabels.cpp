@@ -162,7 +162,11 @@ void tabLabels::shortcuts(){
 	QDir d;d.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
 	QString prefix = prefixPath();
 	d.setPath(prefix + "/shortcuts");
-	QString wine = QSettings(prefix + "/WINE.cfg",QSettings::IniFormat).value("WINE").toString();
+	#if QT_VERSION < 0x060000
+		QString wine = QString::fromUtf8(QSettings(prefix + "/WINE.cfg",QSettings::IniFormat).value("WINE").toByteArray());
+	#else
+		QString wine = QSettings(prefix + "/WINE.cfg",QSettings::IniFormat).value("WINE").toString();
+	#endif
 	if(wine == "System" || wine.size() == 0){
 		wine = "wine";
 	}else{

@@ -22,7 +22,6 @@
 #include <QStandardPaths>
 #include <QMessageBox>
 #include <QRegularExpression>
-using namespace std;
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
@@ -51,6 +50,9 @@ int main(int argc, char *argv[])
 	QApplication::setStyle(QStyleFactory::create("Fusion"));
 	if(QFile::exists(target->CONF)){
 		QSettings settings_conf(target->CONF,QSettings::IniFormat);
+		#if QT_VERSION < 0x060000
+			settings_conf.setIniCodec("UTF-8");
+		#endif
 		target->DXVK = settings_conf.value("main/dxvk").toString();
 		target->NINE = settings_conf.value("main/nine").toString();
 		target->WINE_VER = settings_conf.value("main/wine").toString();

@@ -48,9 +48,11 @@ class settings : public QWidget {
 		QCheckBox *dark_theme;
 		QPushButton *dxvk_b;
 		QPushButton *nine_b;
+		QPushButton *winetricks_b;
 		void storages_update();
 		QString find_storage_name(QStringList*,QStringList*,QString);
-	signals:
+		void winetricks_b_s();
+signals:
 		void model_update();
 };
 #endif // SETTINGS_H

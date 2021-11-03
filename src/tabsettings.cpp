@@ -1,8 +1,6 @@
 #include <QLabel>
 #include "tabsettings.h"
 #include "shell.h"
-#include <iostream>
-using namespace std;
 tabSettings::tabSettings(main_target *t,QWidget *parent) : QWidget(parent)
 {
 	target = t;
