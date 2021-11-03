@@ -1,5 +1,4 @@
 #include "mainwindow.h"
-#include "storageread.h"
 #include "settings.h"
 #include "prefixadd.h"
 #include "prefixdel.h"
@@ -78,10 +77,12 @@ mainwindow::mainwindow(main_target *t,QWidget *parent) : QWidget(parent)
 	button->setEnabled(false);button2->setEnabled(false);
 	target->prefix_wine = table->model->item(0,1)->text();
 	setAttribute(Qt::WA_DeleteOnClose);
-	sizeWin(this,"winMain").restore();
+	sizeWin(this,"main").restore();
+	winetricksWidget *z = new winetricksWidget(target);
+	z->show();
 }
 mainwindow::~mainwindow(){
-	sizeWin(this,"winMain").save();
+	sizeWin(this,"main").save();
 }
 void mainwindow::button_slot(){
 	if(table->treeView->currentIndex().parent().row() == -1 && table->treeView->currentIndex().row() < 1 ){return;};
