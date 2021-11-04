@@ -320,6 +320,14 @@ void tabdxSettings::setDX11dxvk(bool enable){
 					QFile::link(target->DXVK + "/x32/" + file,target->prefix_path + "/drive_c/windows/syswow64/" + file);
 				}
 			}
+			QDir dxvk86(target->DXVK + "/x86");dxvk86.setFilter(QDir::NoDotAndDotDot | QDir::Files);
+			foreach(QString file,dxvk86.entryList()){
+				if(file != "d3d9.dll" && rx.match(file).hasMatch()){
+					if(!dxgi->isChecked()){if(file == "dxgi.dll"){continue;}}
+					old(target->prefix_path + "/drive_c/windows/syswow64/" + file);
+					QFile::link(target->DXVK + "/x86/" + file,target->prefix_path + "/drive_c/windows/syswow64/" + file);
+				}
+			}
 		}
 	}else{
 		QDir dxvk32(target->DXVK + "/x32");dxvk32.setFilter(QDir::NoDotAndDotDot | QDir::Files);
@@ -328,6 +336,14 @@ void tabdxSettings::setDX11dxvk(bool enable){
 				old(target->prefix_path + "/drive_c/windows/system32/" + file);
 				QFile::link(target->DXVK + "/x32/" + file,target->prefix_path + "/drive_c/windows/system32/" + file);
 				reg.setValue("\\[Software\\\\\\\\Wine\\\\\\\\DllOverrides\\]",file.remove(file.size() - 4,4),"native");
+			}
+		}
+		QDir dxvk86(target->DXVK + "/x86");dxvk86.setFilter(QDir::NoDotAndDotDot | QDir::Files);
+		foreach(QString file,dxvk86.entryList()){
+			if(file != "d3d9.dll" && rx.match(file).hasMatch()){
+				if(!dxgi->isChecked()){if(file == "dxgi.dll"){continue;}}
+				old(target->prefix_path + "/drive_c/windows/syswow64/" + file);
+				QFile::link(target->DXVK + "/x86/" + file,target->prefix_path + "/drive_c/windows/syswow64/" + file);
 			}
 		}
 	}
