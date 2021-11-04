@@ -145,10 +145,10 @@ settings::settings(QStandardItemModel *m, main_target *t, QWidget *parent) : QWi
 		qApp->setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
 		dark_theme->setChecked(true);
 	}
-	sizeWin(this,"winSettings").restore();
+	sizeWin(this,"settings").restore();
 }
 settings::~settings(){
-	sizeWin(this,"winSettings").save();
+	sizeWin(this,"settings").save();
 }
 void settings::resizeHeight(){
 	if(windowState() == 0){
