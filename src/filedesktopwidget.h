@@ -34,6 +34,7 @@ private:
 	QCheckBox *esyncCheck;
 	QCheckBox *fsyncCheck;
 	QCheckBox *gamemodeCheck;
+	QCheckBox *vkBasaltCheck;
 	QCheckBox *libstrangleCheck;
 	QCheckBox *dxvkCheck;
 	QCheckBox *galliumCheck;

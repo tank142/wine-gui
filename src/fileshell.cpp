@@ -69,6 +69,14 @@ void fileShell::line(QString l){
 		}
 		return;
 	}
+	if(check(l) && QRegularExpression("^.*export ENABLE_VKBASALT=1").match(l).hasMatch()){
+		if(QRegularExpression("1").match(l).hasMatch()){
+			VKBASALT = true;
+		}else{
+			VKBASALT = false;
+		}
+		return;
+	}
 	if(QRegularExpression("#STRANGLE").match(l).hasMatch()){
 		if(check(l)){
 			STRANGLE_enable = true;
@@ -154,6 +162,7 @@ void fileShell::write(){
 		QRegularExpression rx11("MANGOHUD_CONFIG=");
 		QRegularExpression rx12("STRANGLE");
 		QRegularExpression rx13("^.*\"\\$WINE\"");
+		QRegularExpression rx14("export ENABLE_VKBASALT=1");
 		while(!file.atEnd()){
 			QString l = file.readLine();
 			if(	rx1.match(l).hasMatch() ||
@@ -168,7 +177,8 @@ void fileShell::write(){
 				rx10.match(l).hasMatch() ||
 				rx11.match(l).hasMatch() ||
 				rx12.match(l).hasMatch() ||
-				rx13.match(l).hasMatch()) {
+				rx13.match(l).hasMatch() ||
+				rx14.match(l).hasMatch()) {
 				continue;
 			}
 			list2.append(l);
@@ -192,6 +202,7 @@ void fileShell::write(){
 	list.append("EXE=" + QString("\"") + EXE + QString("\""));
 	if(WINEESYNC){list.append("export WINEESYNC=1");}
 	if(WINEFSYNC){list.append("export WINEFSYNC=1");}
+	if(VKBASALT){list.append("export ENABLE_VKBASALT=1");}
 	if(DXVK_HUD.size() > 0){
 		if(DXVK_HUD_enable){
 			list.append("export DXVK_HUD=" + DXVK_HUD);

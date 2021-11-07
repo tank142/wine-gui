@@ -12,6 +12,7 @@ public:
 	QFile *FILE;
 	bool WINEESYNC = false;
 	bool WINEFSYNC = false;
+	bool VKBASALT = false;
 	bool gamemoderun = false;
 	QString DXVK_HUD;
 	bool DXVK_HUD_enable = false;

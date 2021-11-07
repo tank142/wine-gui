@@ -4,6 +4,7 @@
 #include <QGridLayout>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
 #include <QDir>
@@ -12,8 +13,6 @@
 #include <QSplitter>
 #include <QAction>
 #include <QRegularExpression>
-#include <iostream>
-using namespace std;
 fileDesktopWidget::fileDesktopWidget(QString t,QString f,main_target *T,QWidget *parent) : QWidget(parent)
 {
 	prefix = t;shortcuts = f; Target = T;
@@ -23,13 +22,15 @@ fileDesktopWidget::fileDesktopWidget(QString t,QString f,main_target *T,QWidget 
 
 	QGroupBox *performance = new QGroupBox("Производительность",this);
 	QVBoxLayout *performanceV = new QVBoxLayout(performance);
-	QHBoxLayout *performanceL = new QHBoxLayout(performance);
+	QGridLayout *performanceL = new QGridLayout(performance);
 	gamemodeCheck = new QCheckBox("GameMode",performance);
 	esyncCheck = new QCheckBox("Esync",performance);
 	fsyncCheck = new QCheckBox("Fsync",performance);
-	performanceL->addWidget(esyncCheck);
-	performanceL->addWidget(fsyncCheck);
-	performanceL->addWidget(gamemodeCheck);
+	vkBasaltCheck = new QCheckBox("vkBasalt",performance);
+	performanceL->addWidget(esyncCheck,0,0);
+	performanceL->addWidget(fsyncCheck,0,1);
+	performanceL->addWidget(gamemodeCheck,1,0);
+	performanceL->addWidget(vkBasaltCheck,1,1);
 
 
 	QHBoxLayout *performanceLibstrangle = new QHBoxLayout(performance);
@@ -94,6 +95,7 @@ fileDesktopWidget::fileDesktopWidget(QString t,QString f,main_target *T,QWidget 
 		wmclass->setText(target->StartupWMClass);
 		esyncCheck->setChecked(shell->WINEESYNC);
 		fsyncCheck->setChecked(shell->WINEFSYNC);
+		vkBasaltCheck->setChecked(shell->VKBASALT);
 		gamemodeCheck->setChecked(shell->gamemoderun);
 		libstrangleEdit->setText(shell->STRANGLE);
 		libstrangleCheck->setChecked(shell->STRANGLE_enable);
@@ -138,6 +140,7 @@ void fileDesktopWidget::ok_slot(){
 	shell->gamemoderun = gamemodeCheck->isChecked();
 	shell->WINEESYNC = esyncCheck->isChecked();
 	shell->WINEFSYNC = fsyncCheck->isChecked();
+	shell->VKBASALT = vkBasaltCheck->isChecked();
 	shell->STRANGLE_enable = libstrangleCheck->isChecked();
 	shell->DXVK_HUD_enable = dxvkCheck->isChecked();
 	shell->GALLIUM_HUD_enable = galliumCheck->isChecked();
