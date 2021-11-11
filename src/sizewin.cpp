@@ -1,4 +1,6 @@
 #include "sizewin.h"
+#include <iostream>
+using namespace std;
 sizeWin::sizeWin(QWidget *w,QString n){win = w;name = n;
 	settings_conf = new QSettings(
 				QStandardPaths::standardLocations(QStandardPaths::ConfigLocation).at(0) + "/wine-gui.conf",
@@ -38,7 +40,7 @@ void sizeWin::restore(){
 void sizeWin::save(){
 	QStringList size = settings_conf->value("win/" + name).toStringList();
 	if( size.size() == 5 && win->windowState() != 0){
-		if(size.at(4).toUShort() != win->windowState()){
+		if(size.at(4) != QString::number(win->windowState())){
 			settings_conf->setValue("win/" + name,QVariant(QStringList()
 				<< QString::number(size.at(0).toInt())
 				<< QString::number(size.at(1).toInt())
@@ -51,7 +53,7 @@ void sizeWin::save(){
 				size.at(1) != QString::number(win->pos().y()) ||
 				size.at(2) != QString::number(win->size().width()) ||
 				size.at(3) != QString::number(win->size().height()) ||
-				size.at(4).toShort() != QString::number(win->windowState())){
+				size.at(4) != QString::number(win->windowState())){
 					settings_conf->setValue("win/" + name,QVariant(QStringList()
 						<< QString::number(win->pos().x())
 						<< QString::number(win->pos().y())
@@ -61,11 +63,17 @@ void sizeWin::save(){
 			}
 		}
 	}else{
-		settings_conf->setValue("win/" + name,QVariant(QStringList()
-			<< QString::number(win->pos().x())
-			<< QString::number(win->pos().y())
-			<< QString::number(win->size().width())
-			<< QString::number(win->size().height())
-			<< QString::number(win->windowState())));
+		if( size.at(0) != QString::number(win->pos().x()) ||
+			size.at(1) != QString::number(win->pos().y()) ||
+			size.at(2) != QString::number(win->size().width()) ||
+			size.at(3) != QString::number(win->size().height()) ||
+			size.at(4) != QString::number(win->windowState())){
+			settings_conf->setValue("win/" + name,QVariant(QStringList()
+				<< QString::number(win->pos().x())
+				<< QString::number(win->pos().y())
+				<< QString::number(win->size().width())
+				<< QString::number(win->size().height())
+				<< QString::number(win->windowState())));
+		}
 	}
 }
