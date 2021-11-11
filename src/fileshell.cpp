@@ -162,7 +162,7 @@ void fileShell::write(){
 		QRegularExpression rx11("MANGOHUD_CONFIG=");
 		QRegularExpression rx12("STRANGLE");
 		QRegularExpression rx13("^.*\"\\$WINE\"");
-		QRegularExpression rx14("export ENABLE_VKBASALT=1");
+		QRegularExpression rx14("export ENABLE_VKBASALT=");
 		while(!file.atEnd()){
 			QString l = file.readLine();
 			if(	rx1.match(l).hasMatch() ||
