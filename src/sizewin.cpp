@@ -24,6 +24,9 @@ void sizeWin::restore(){
 	case 2:
 		win->setWindowState(Qt::WindowState::WindowMaximized);
 	break;
+	case 4:
+		win->setWindowState(Qt::WindowState::WindowFullScreen);
+	break;
 	case 6:
 		win->setWindowState(Qt::WindowState::WindowFullScreen);
 	break;
