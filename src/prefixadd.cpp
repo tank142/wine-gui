@@ -11,7 +11,6 @@
 #include <QStringList>
 #include <fstream>
 #include <filesystem>
-#include <iostream>
 #include <QTimer>
 #include <QSettings>
 #include "shell.h"
@@ -19,7 +18,6 @@
 #include "dircopy.h"
 #include "dirWidget.h"
 #include <elf.h>
-#include <iostream>
 #if defined(__LP64__)
 #define ElfW(type) Elf64_ ## type
 #else

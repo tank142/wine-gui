@@ -69,7 +69,7 @@ void fileShell::line(QString l){
 		}
 		return;
 	}
-	if(check(l) && QRegularExpression("^.*export ENABLE_VKBASALT=1").match(l).hasMatch()){
+	if(check(l) && QRegularExpression("^.*export ENABLE_VKBASALT=").match(l).hasMatch()){
 		if(QRegularExpression("1").match(l).hasMatch()){
 			VKBASALT = true;
 		}else{
