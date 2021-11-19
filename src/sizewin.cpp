@@ -62,10 +62,15 @@ void sizeWin::save(){
 			}
 		}
 	}else{
-		if( size.at(0) != QString::number(win->pos().x()) ||
+		if(		size.size() < 1 ||
+			size.at(0) != QString::number(win->pos().x()) ||
+				size.size() < 2 ||
 			size.at(1) != QString::number(win->pos().y()) ||
+				size.size() < 3 ||
 			size.at(2) != QString::number(win->size().width()) ||
+				size.size() < 4 ||
 			size.at(3) != QString::number(win->size().height()) ||
+				size.size() < 5 ||
 			size.at(4) != QString::number(win->windowState())){
 			settings_conf->setValue("win/" + name,QVariant(QStringList()
 				<< QString::number(win->pos().x())

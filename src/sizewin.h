@@ -9,10 +9,10 @@ public:
 	~sizeWin();
 	void restore();
 	void save();
+	QSettings *settings_conf;
 private:
 	QWidget *win;
 	QString name;
-	QSettings *settings_conf;
 };
 
 #endif // SIZEWIN_H
