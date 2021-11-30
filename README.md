@@ -29,7 +29,7 @@ https://wiki.winehq.org/Winetricks
 ![Image alt](https://github.com/tank142/wine-gui/raw/master/screenshot5.jpg)
 
 # Donate
-VISA: 4890494710845090
+VISA: 4048 0250 0173 9112
 
 Bitcoin: 38AhGAuBf8hmgXMUsuQVtDFGDF6eUmHJdF
 
