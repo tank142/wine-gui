@@ -92,7 +92,7 @@ mainwindow::mainwindow(main_target *t,QWidget *parent) : QWidget(parent)
 }
 mainwindow::~mainwindow(){
 	sizeWin size(this,"main");
-	quint32 widthToolbar = tab->tabWidget->width();
+	quint32 widthToolbar = splitter->sizes().at(1);
 	if(size.settings_conf->value("win/toolbar").toUInt() != widthToolbar){
 		size.settings_conf->setValue("win/toolbar",widthToolbar);
 	}
