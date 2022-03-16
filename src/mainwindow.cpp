@@ -35,33 +35,28 @@ mainwindow::mainwindow(main_target *t,QWidget *parent) : QWidget(parent)
 	button2 = new QPushButton(tr("del"));
 	button3 = new QToolButton;button3->setText("...");
 	table = new prefixTable(target,this);
-	if(QFile::exists(target->CONF)){
-		QSettings settings_conf(target->CONF,QSettings::IniFormat);
-		#if QT_VERSION < 0x060000
-			settings_conf.setIniCodec("UTF-8");
-		#endif
-		target->DXVK = settings_conf.value("main/dxvk").toString();
-		target->WINE_VER = settings_conf.value("main/wine").toString();
-	}
 	table->model_update();
 	VBOX = new QVBoxLayout;
 	HBOX1 = new QHBoxLayout;
-	QHBoxLayout *HBOX = new QHBoxLayout;
-
-	//table->treeView->setModel(model);
+	QHBoxLayout *mainBOX = new QHBoxLayout;
 	VBOX->addWidget(table->treeView);
 	HBOX1->addWidget(button);
 	HBOX1->addWidget(button2);
 	HBOX1->addWidget(button3);
 	VBOX->addLayout(HBOX1);
-	HBOX->addLayout(VBOX);
+	VBOX->setContentsMargins(0,0,0,0);
 	tab = new prefixTab(target,this);
-	//treeView->expandAll();
 	table->treeView->setEditTriggers(QTreeView::NoEditTriggers);
-	HBOX->addWidget(tab->tabWidget);
-	tab->tabWidget->setFixedWidth(450);
-	setLayout(HBOX);
-
+	tab->tabWidget->setMinimumWidth(450);
+	mainBOX->setSpacing(0);
+	setLayout(mainBOX);
+	QFrame *widgetVBOX = new QFrame();
+	widgetVBOX->setLayout(VBOX);
+	splitter = new QSplitter(Qt::Horizontal);
+	splitter->addWidget(widgetVBOX);
+	splitter->addWidget(tab->tabWidget);
+	splitter->setChildrenCollapsible(false);
+	mainBOX->addWidget(splitter);
 	setWindowTitle("Wine GUI");
 	connect(button, &QPushButton::clicked , this , &mainwindow::button_slot);
 	connect(button2, &QPushButton::clicked , this , &mainwindow::button2_slot);
@@ -78,9 +73,28 @@ mainwindow::mainwindow(main_target *t,QWidget *parent) : QWidget(parent)
 	target->prefix_wine = table->model->item(0,1)->text();
 	setAttribute(Qt::WA_DeleteOnClose);
 	sizeWin(this,"main").restore();
+	if(QFile::exists(target->CONF)){
+		QSettings settings_conf(target->CONF,QSettings::IniFormat);
+		#if QT_VERSION < 0x060000
+			settings_conf.setIniCodec("UTF-8");
+		#endif
+		target->DXVK = settings_conf.value("main/dxvk").toString();
+		target->WINE_VER = settings_conf.value("main/wine").toString();
+		quint32 toolSize = settings_conf.value("win/toolbar").toUInt();
+		if(toolSize){
+			splitter->setSizes(QList<int>() << -1 << toolSize);
+		}else{
+			splitter->setSizes(QList<int>() << -1 << 450);
+		}
+	}else{
+		splitter->setSizes(QList<int>() << -1 << 450);
+	}
+	splitter->setStretchFactor(0, 1);
 }
 mainwindow::~mainwindow(){
-	sizeWin(this,"main").save();
+	sizeWin size(this,"main");
+	size.settings_conf->setValue("win/toolbar",tab->tabWidget->width());
+	size.save();
 }
 void mainwindow::button_slot(){
 	if(table->treeView->currentIndex().parent().row() == -1 && table->treeView->currentIndex().row() < 1 ){return;};
