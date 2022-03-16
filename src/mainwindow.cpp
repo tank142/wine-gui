@@ -48,7 +48,6 @@ mainwindow::mainwindow(main_target *t,QWidget *parent) : QWidget(parent)
 	tab = new prefixTab(target,this);
 	table->treeView->setEditTriggers(QTreeView::NoEditTriggers);
 	tab->tabWidget->setMinimumWidth(450);
-	mainBOX->setSpacing(0);
 	setLayout(mainBOX);
 	QFrame *widgetVBOX = new QFrame();
 	widgetVBOX->setLayout(VBOX);
@@ -81,7 +80,7 @@ mainwindow::mainwindow(main_target *t,QWidget *parent) : QWidget(parent)
 		target->DXVK = settings_conf.value("main/dxvk").toString();
 		target->WINE_VER = settings_conf.value("main/wine").toString();
 		quint32 toolSize = settings_conf.value("win/toolbar").toUInt();
-		if(toolSize){
+		if(toolSize >= 450){
 			splitter->setSizes(QList<int>() << -1 << toolSize);
 		}else{
 			splitter->setSizes(QList<int>() << -1 << 450);
@@ -93,7 +92,10 @@ mainwindow::mainwindow(main_target *t,QWidget *parent) : QWidget(parent)
 }
 mainwindow::~mainwindow(){
 	sizeWin size(this,"main");
-	size.settings_conf->setValue("win/toolbar",tab->tabWidget->width());
+	quint32 widthToolbar = tab->tabWidget->width();
+	if(size.settings_conf->value("win/toolbar").toUInt() != widthToolbar){
+		size.settings_conf->setValue("win/toolbar",widthToolbar);
+	}
 	size.save();
 }
 void mainwindow::button_slot(){
