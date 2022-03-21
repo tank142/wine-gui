@@ -1,12 +1,7 @@
 QT       += core gui
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
 CONFIG += c++17
-# You can make your code fail to compile if it uses deprecated APIs.
-# In order to do so, uncomment the following line.
-DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000   # disables all the APIs deprecated before Qt 6.0.0
-
+DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000 # disables all the APIs deprecated before Qt 6.0.0
 SOURCES += \
     dirWidget.cpp \
     dircopy.cpp \
@@ -18,6 +13,7 @@ SOURCES += \
     findlink.cpp \
     iconextract.cpp \
     main.cpp \
+    main_target.cpp \
     mainwindow.cpp \
     openexe.cpp \
     prefixadd.cpp \
@@ -36,6 +32,7 @@ SOURCES += \
     tablabels.cpp \
     tabsettings.cpp \
     tabsettingsregkey.cpp \
+    tabsyncsettings.cpp \
     tabtools.cpp
 
 HEADERS += \
@@ -67,7 +64,9 @@ HEADERS += \
     tablabels.h \
     tabsettings.h \
     tabsettingsregkey.h \
+    tabsyncsettings.h \
     tabtools.h
+
 
 FORMS +=
 
@@ -115,3 +114,4 @@ unix:!macx {
     INSTALLS += target desktop icon_hdd icon_m2_ssd icon_pcie_ssd icon_raid icon_ssd icon_wine \
     wine-gui_ru_RU wine-gui_en_US
 }
+CONFIG(debug){BUILD_FLAG = debug}
