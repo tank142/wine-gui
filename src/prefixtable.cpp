@@ -54,7 +54,7 @@ void prefixTable::model_update(){
 	model->appendRow(*item);
 	item->~QList();
 	for (int i = 0; i < target->storages.size(); i++){
-						QStandardItem *item = new QStandardItem(QIcon(target->ICON + get<0>(target->storages.at(i))),get<1>(target->storages.at(i)));
+			QStandardItem *item = new QStandardItem(QIcon(target->ICON + get<0>(target->storages.at(i))),get<1>(target->storages.at(i)));
 			storageRead *branch = new storageRead(item,get<2>(target->storages.at(i)));
 			target->model_storages.append(get<2>(target->storages.at(i)));
 			model->appendRow(item);

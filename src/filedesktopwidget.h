@@ -31,8 +31,6 @@ private:
 	QString prefix;
 	QString shortcuts;
 
-	QCheckBox *esyncCheck;
-	QCheckBox *fsyncCheck;
 	QCheckBox *gamemodeCheck;
 	QCheckBox *vkBasaltCheck;
 	QCheckBox *libstrangleCheck;

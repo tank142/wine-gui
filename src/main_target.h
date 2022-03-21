@@ -18,7 +18,10 @@ class main_target : public QObject {
 		QString CONF;
 		QString DXVK;
 		QString NINE;
+		QString WINE;
 		QString WINE_VER;
 		QVector<tuple<QString,QString,QString>> storages;
+		bool esync;
+		char sync;
 };
 #endif // MAIN_TARGET_H

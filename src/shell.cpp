@@ -33,16 +33,16 @@ void shell::envSetup(main_target *target){
 	}else{
 		env->insert("WINEPREFIX",target->home + "/.wine");
 	}
-	if(QFile(env->value("WINEPREFIX") + "/WINE.cfg").exists()){
-		QSettings conf(env->value("WINEPREFIX") + "/WINE.cfg",QSettings::IniFormat);
-		#if QT_VERSION < 0x060000
-			conf.setIniCodec("UTF-8");
-		#endif
-		QString v = conf.value("WINE").toString();
-		if(v != "System" && v.size() > 0){
-			exec = target->WINE_VER + "/" + v + "/bin/" + exec;
-			return;
-		}
+	if(target->WINE.size() > 0){
+		exec = target->WINE_VER + "/" + target->WINE + "/bin/" + exec;
+	}
+	switch (target->sync) {
+	case 1:
+		env->insert("WINEESYNC","1");
+	break;
+	case 2:
+		env->insert("WINEFSYNC","1");
+	break;
 	}
 }
 void shell::exitShell(){

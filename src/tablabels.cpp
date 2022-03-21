@@ -33,8 +33,7 @@ tabLabels::tabLabels(main_target *t,QWidget *parent) : QWidget(parent)
 void tabLabels::labels_connect(){
 	connect(labels,	&QTreeView::customContextMenuRequested, this, &tabLabels::rightClicked);
 }
-void tabLabels::rightClicked()
-{
+void tabLabels::rightClicked(){
 	QMenu *m_menu = new QMenu("&SubMenu",this);
 	if(labels->currentIndex().row() > -1){
 		QAction *actionDebugging = new QAction(tr("debug"),m_menu);

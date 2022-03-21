@@ -61,12 +61,12 @@ class prefixTab : public QWidget
 	Q_OBJECT
 public:
 	explicit prefixTab(main_target*,QWidget *parent = nullptr);
-	~prefixTab();
 	QTabWidget *tabWidget;
 	ToolsTab *tools;
 	main_target *target;
 	fileRegistry *reg;
 	tabdxSettings *DX;
+	tabsyncSettings *SYNC;
 private:
 	bool regExist;
 public slots:

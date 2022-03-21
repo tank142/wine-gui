@@ -10,6 +10,7 @@ prefixTab::prefixTab(main_target *t,QWidget *parent) : QWidget(parent){
 	tabWidget->addTab(tools, tr("tools"));
 	settingsTab *aTab = new settingsTab(target,reg,this);
 	DX = aTab->settings->DX;
+	SYNC = aTab->settings->SYNC;
 	regExist = false;
 	//dllTab *bTab = new dllTab(this);
 	tabWidget->addTab(aTab, tr("settings"));
@@ -20,12 +21,10 @@ prefixTab::prefixTab(main_target *t,QWidget *parent) : QWidget(parent){
 	connect(this , &prefixTab::updateReg , aTab->settings, &tabSettings::updateReg );
 	//connect(this , &prefixTab::updateReg , bTab->dll, &tabDll::updateReg );
 }
-prefixTab::~prefixTab(){
-	//tabWidget->~QTabWidget();
-}
 void prefixTab::readReg(int i){
 	if(i == 1){
 		DX->update();
+		SYNC->update();
 	}
 	deleteReg();
 	if(i > 0){
@@ -68,14 +67,12 @@ void ToolsTab::hide(){
 void ToolsTab::unhide(){
 	t->setHidden(false);l->labels->setHidden(false);
 }
-dllTab::dllTab(QWidget *parent) : QWidget(parent)
-{
+dllTab::dllTab(QWidget *parent) : QWidget(parent){
 	dll = new tabDll(this);
 	QVBoxLayout *vbox = new QVBoxLayout;vbox->setAlignment(Qt::AlignTop);
 	vbox->addWidget(dll);
 	setLayout(vbox);
 }
-
 settingsTab::settingsTab(main_target *target,fileRegistry *r,QWidget *parent) : QWidget(parent)
 {
 	reg = r;

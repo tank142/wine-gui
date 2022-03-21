@@ -1,9 +1,6 @@
 #include "filedesktop.h"
 #include <QRegularExpression>
 #include <QTextStream>
-//#include <QText
-#include <iostream>
-using namespace std;
 fileDesktop::fileDesktop(QString f,QObject *parent) : QObject(parent){
 	FILE = new QFile(f + "/exec.desktop",this);
 	if (FILE->exists()){

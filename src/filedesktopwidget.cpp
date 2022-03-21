@@ -24,11 +24,7 @@ fileDesktopWidget::fileDesktopWidget(QString t,QString f,main_target *T,QWidget 
 	QVBoxLayout *performanceV = new QVBoxLayout(performance);
 	QGridLayout *performanceL = new QGridLayout(performance);
 	gamemodeCheck = new QCheckBox("GameMode",performance);
-	esyncCheck = new QCheckBox("Esync",performance);
-	fsyncCheck = new QCheckBox("Fsync",performance);
 	vkBasaltCheck = new QCheckBox("vkBasalt",performance);
-	performanceL->addWidget(esyncCheck,0,0);
-	performanceL->addWidget(fsyncCheck,0,1);
 	performanceL->addWidget(gamemodeCheck,1,0);
 	performanceL->addWidget(vkBasaltCheck,1,1);
 
@@ -93,8 +89,6 @@ fileDesktopWidget::fileDesktopWidget(QString t,QString f,main_target *T,QWidget 
 		comment->setText(target->Comment);
 		path->setText(shell->WORKDIR);
 		wmclass->setText(target->StartupWMClass);
-		esyncCheck->setChecked(shell->WINEESYNC);
-		fsyncCheck->setChecked(shell->WINEFSYNC);
 		vkBasaltCheck->setChecked(shell->VKBASALT);
 		gamemodeCheck->setChecked(shell->gamemoderun);
 		libstrangleEdit->setText(shell->STRANGLE);
@@ -136,10 +130,22 @@ void fileDesktopWidget::ok_slot(){
 		target->Path = prefix + "/shortcuts/" + shortcut->text();
 		shell->EXE = exec->text().right(exec->text().size() - exec->text().lastIndexOf("/")-1);
 	}
+	switch (Target->sync) {
+	case 0:
+		shell->WINEESYNC=false;
+		shell->WINEFSYNC=false;
+	break;
+	case 1:
+		shell->WINEESYNC=true;
+		shell->WINEFSYNC=false;
+	break;
+	case 2:
+		shell->WINEESYNC=false;
+		shell->WINEFSYNC=true;
+	break;
+	}
 	shell->WORKDIR = path->text();
 	shell->gamemoderun = gamemodeCheck->isChecked();
-	shell->WINEESYNC = esyncCheck->isChecked();
-	shell->WINEFSYNC = fsyncCheck->isChecked();
 	shell->VKBASALT = vkBasaltCheck->isChecked();
 	shell->STRANGLE_enable = libstrangleCheck->isChecked();
 	shell->DXVK_HUD_enable = dxvkCheck->isChecked();

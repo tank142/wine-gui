@@ -53,7 +53,7 @@ bool fileShell::check(QString t){
 }
 void fileShell::line(QString l){
 	if( l == "" ){return;}
-	if(check(l) && QRegularExpression("WINEESYNC").match(l).hasMatch()){
+	if(check(l) && QRegularExpression("WINEESYNC=").match(l).hasMatch()){
 		if(QRegularExpression("1").match(l).hasMatch()){
 			WINEESYNC = true;
 		}else{
@@ -61,7 +61,7 @@ void fileShell::line(QString l){
 		}
 		return;
 	}
-	if(check(l) && QRegularExpression("WINEFSYNC").match(l).hasMatch()){
+	if(check(l) && QRegularExpression("WINEFSYNC=").match(l).hasMatch()){
 		if(QRegularExpression("1").match(l).hasMatch()){
 			WINEFSYNC = true;
 		}else{
@@ -69,7 +69,7 @@ void fileShell::line(QString l){
 		}
 		return;
 	}
-	if(check(l) && QRegularExpression("^.*export ENABLE_VKBASALT=").match(l).hasMatch()){
+	if(check(l) && QRegularExpression("^.*export ENABLE_VKBASALT=\"").match(l).hasMatch()){
 		if(QRegularExpression("1").match(l).hasMatch()){
 			VKBASALT = true;
 		}else{
@@ -90,24 +90,22 @@ void fileShell::line(QString l){
 		return;
 	}
 	if(QRegularExpression("^.*EXE=").match(l).hasMatch()){
-		EXE = l.remove(QRegularExpression("^.*EXE="));
+		EXE = l.remove(QRegularExpression("^.*EXE=\""));
 		EXE.remove(QRegularExpression("^\""));
 		EXE.remove(QRegularExpression("\"$"));
 		return;
 	}
-	if(QRegularExpression("^.*WORKDIR=").match(l).hasMatch()){
+	if(QRegularExpression("^.*WORKDIR=\"").match(l).hasMatch()){
 		if(check(l)){
 			WORKDIR = l.remove(QRegularExpression("^.*WORKDIR=\""));
 			WORKDIR.remove(QRegularExpression("\"$"));
 		}
 		return;
 	}
-	if(check(l) && QRegularExpression("^.*WINE").match(l).hasMatch()){
-		if(QRegularExpression("1").match(l).hasMatch()){
-			WINE = l.remove(QRegularExpression("^.*WINE"));
-			WINE.remove(QRegularExpression("\"$"));
-			return;
-		}
+	if(check(l) && QRegularExpression("^.*WINE=\"").match(l).hasMatch()){
+		WINE = l.remove(QRegularExpression("^.*WINE=\""));
+		WINE.remove(QRegularExpression("\"$"));
+		return;
 	}
 	if(QRegularExpression("^.*DXVK_HUD=").match(l).hasMatch()){
 		if(check(l)){

@@ -12,13 +12,14 @@
 #include "fileregistry.h"
 #include "tabsettingsregkey.h"
 #include "tabdxsettings.h"
-
+#include "tabsyncsettings.h"
 class tabSettings : public QWidget
 {
 	Q_OBJECT
 public:
 	explicit tabSettings(main_target *,QWidget *parent = nullptr);
 	tabdxSettings *DX;
+	tabsyncSettings *SYNC;
 public slots:
 	void updateReg(fileRegistry*);
 	void cancel_slot();

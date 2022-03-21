@@ -10,8 +10,7 @@
 #include <QFile>
 #include <QTimer>
 #include <QCheckBox>
-class tabdxSettings : public QVBoxLayout
-{
+class tabdxSettings : public QVBoxLayout {
 	Q_OBJECT
 public:
 	tabdxSettings(main_target *);
@@ -42,8 +41,7 @@ private slots:
 	void setDX11dxvk(bool);
 	void setDXGI(bool);
 };
-class returnDll : public QObject
-{
+class returnDll : public QObject {
 	Q_OBJECT
 public:
 	returnDll(main_target *,QObject *parent = nullptr);

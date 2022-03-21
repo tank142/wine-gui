@@ -6,12 +6,14 @@ tabSettings::tabSettings(main_target *t,QWidget *parent) : QWidget(parent)
 	target = t;
 	QVBoxLayout *MAIN = new QVBoxLayout;
 	DX = new tabdxSettings(target);
+	SYNC = new tabsyncSettings(target);
 	QGroupBox *regedit = new QGroupBox(tr("regedit"));
 	regedit->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
 	REGEDIT = new QVBoxLayout;REGEDIT->setAlignment(Qt::AlignTop);
 	Direct3D_l = new QVBoxLayout;REGEDIT->setAlignment(Qt::AlignTop);
 	regedit->setLayout(REGEDIT);
 	MAIN->addLayout(DX);
+	MAIN->addWidget(SYNC);
 	MAIN->addWidget(regedit);
 	setLayout(MAIN);
 	QGroupBox *Direct3D = new QGroupBox("Direct3D");
@@ -31,8 +33,7 @@ tabSettings::tabSettings(main_target *t,QWidget *parent) : QWidget(parent)
 }
 QVector<tabSettingsRegkey*> tabSettings::regSearch(QString branch,int size,fileRegistry *reg,QVector<tabSettingsRegkey*> regs, QStringList l ){
 	QMap<QString, QString>::iterator r = reg->registryBranchs.value(branch)->end();
-	for (QMap<QString, QString>::iterator i = reg->registryBranchs.value(branch)->begin();
-		 i != r;i++){
+	for (QMap<QString, QString>::iterator i = reg->registryBranchs.value(branch)->begin();i != r;i++){
 		bool find = false;
 		foreach(tabSettingsRegkey *x,regs){
 			if(x->key->text() == i.key()){

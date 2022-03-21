@@ -22,6 +22,17 @@
 #include <QStandardPaths>
 #include <QMessageBox>
 #include <QRegularExpression>
+#include <sys/resource.h>
+#include <QStandardPaths>
+void checkLimits(main_target *target){
+	struct rlimit limits;
+	getrlimit(RLIMIT_NOFILE,&limits);
+	if (limits.rlim_cur >= 1048576 && limits.rlim_max >= 1048576){
+		target->esync = true;
+	}else{
+		target->esync = false;
+	}
+}
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
@@ -32,18 +43,22 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 	QTranslator translator;
-	//QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation).at(2) + "/lang")
-	if(!translator.load("wine-gui_" + QLocale::system().name(),"/usr/share/wine-gui/lang")){
-		if(!translator.load("wine-gui_en_US","/usr/share/wine-gui/lang")){
-			QMessageBox *err = new QMessageBox;
-			err->setWindowTitle("Attention");
-			err->setText("Localization loading error!");
-			err->show();
+	const QStringList uiLanguages = QLocale::system().uiLanguages();
+	for (const QString &locale : uiLanguages) {
+		const QString baseName = "wine-gui_" + QLocale(locale).name();
+		#if BUILD_FLAG != debug
+		if (translator.load(baseName,QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(2) + "/lang")) {
+		#else
+		if (translator.load(baseName)){
+		#endif
+			a.installTranslator(&translator);
+			break;
 		}
 	}
 	a.installTranslator(&translator);
 	qApp->setWindowIcon(QIcon::fromTheme("wine"));
 	main_target *target = new main_target;
+	checkLimits(target);
 	target->home = QDir::homePath();
 	target->CONF = target->home + "/.config/wine-gui.conf";
 	target->model_storages.append("");

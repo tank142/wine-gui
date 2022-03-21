@@ -200,6 +200,7 @@ void mainwindow::storage_slot(QModelIndex storage_index){
 			button->setEnabled(false);
 			target->prefix_path = target->home + "/.wine";
 			target->prefix_wine = table->model->item(0,1)->text();
+			cfgUpdate();
 		}else{
 			button->setEnabled(true);
 		}
@@ -213,10 +214,33 @@ void mainwindow::storage_slot(QModelIndex storage_index){
 		target->prefix = table->model->item(storage_index.parent().row(),0)->child(storage_index.row(),0)->text();
 		target->prefix_path = get<2>(target->storages.at(target->storage - 1)) + "/" + target->prefix;
 		target->prefix_wine = table->model->item(storage_index.parent().row(),0)->child(storage_index.row(),1)->text();
+		cfgUpdate();
 	}
 	tab->tools->l->shortcuts();
 	tab->tools->t->updateWine();
 	tab->readReg(tab->tabWidget->currentIndex());
+}
+void mainwindow::cfgUpdate(){
+	QSettings conf(target->prefix_path + "/WINE.cfg",QSettings::IniFormat);
+	#if QT_VERSION < 0x060000
+		conf.setIniCodec("UTF-8");
+	#endif
+	QString SYNC = conf.value("SYNC").toString();
+	if(SYNC == "ESYNC"){
+		target->sync = 1;
+	}else{
+		if(SYNC == "FSYNC"){
+			target->sync = 2;
+		}else{
+			target->sync = 0;
+		}
+	}
+	QString v = conf.value("WINE").toString();
+	if(v != "System" && v.size() > 0){
+		target->WINE = v;
+	}else{
+		target->WINE.clear();
+	}
 }
 void mainwindow::main_tool_widget_hide(bool hidden){
 	table->model_update();

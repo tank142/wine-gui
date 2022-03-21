@@ -3,8 +3,6 @@
 #include <QProcess>
 #include <QDir>
 #include <QRegularExpression>
-#include <iostream>
-using namespace std;
 #include <QPixmap>
 iconExtract::iconExtract(QString n,QString s,QString d,QObject *parent) : QObject(parent)
 {

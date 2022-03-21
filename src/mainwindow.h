@@ -40,6 +40,7 @@ public:
 	QVBoxLayout *VBOX;
 private:
 	QSplitter *splitter;
+	void cfgUpdate();
 public slots:
 	void main_tool_widget_hide(bool hidden = true);
 	void model_add_prefix(QStandardItem*,QList<QStandardItem*>*);

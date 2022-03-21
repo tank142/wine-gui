@@ -139,6 +139,7 @@ void prefixAdd::create_slot(){
 	work = true;
 	QDir().mkpath(target->model_storages.at(storage_target) + "/" + edit->text());
 	if(create->isChecked()){
+		main->addWidget(new QLabel(tr("create_prefix")));
 		shell *wine;
 		QSettings conf(target->model_storages.at(storage_target) + "/" + edit->text() + "/WINE.cfg",QSettings::IniFormat);
 		#if QT_VERSION < 0x060000
@@ -157,6 +158,11 @@ void prefixAdd::create_slot(){
 				wine->env->insert("WINEARCH","win32");
 				conf.setValue("WINEARCH","win32");
 			}
+		}
+		if(target->esync){
+			conf.setValue("SYNC","ESYNC");
+		}else{
+			conf.setValue("SYNC","WINESERVER");
 		}
 		conf.sync();conf.deleteLater();
 		connect(wine, &shell::destroyed , this , &prefixAdd::cancel_slot);

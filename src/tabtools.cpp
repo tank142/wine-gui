@@ -124,13 +124,7 @@ QString tabTools::prefix(){
 using namespace std;
 void tabTools::updateWineVer(QString t){
 	if(target->prefix_wine == t){return;}
-	QString prefix;
-	if(target->storage > 0 && target->prefix != ""){
-		prefix = (target->model_storages.at(target->storage) + "/" + target->prefix + "/");
-	}else{
-		prefix = (target->home + "/.wine/");
-	}
-	QSettings conf(prefix + "/WINE.cfg",QSettings::IniFormat);
+	QSettings conf(target->prefix_path + "/WINE.cfg",QSettings::IniFormat);
 	#if QT_VERSION < 0x060000
 		conf.setIniCodec("UTF-8");
 	#endif
@@ -159,13 +153,8 @@ void tabTools::openWineDir(){
 	wine->start();
 }
 void tabTools::updateWine(){
-	QString prefix;
-	if(target->storage > 0 && target->prefix != ""){
-		prefix = (target->model_storages.at(target->storage) + "/" + target->prefix + "/");
-	}else{
-		prefix = (target->home + "/.wine/");
-	}
-	if(QFile(prefix + "/WINE.cfg").exists()){
+	QString prefix = target->prefix_path;
+	if(QFile(target->prefix_path + "/WINE.cfg").exists()){
 		QSettings conf(prefix + "/WINE.cfg",QSettings::IniFormat);
 		#if QT_VERSION < 0x060000
 			conf.setIniCodec("UTF-8");
@@ -180,11 +169,7 @@ void tabTools::updateWine(){
 	return;
 }
 void tabTools::open(){QStringList path;
-	if(target->storage > 0 && target->prefix != ""){
-		path.append(target->model_storages.at(target->storage) + "/" + target->prefix + "/drive_c");
-	}else{
-		path.append(target->home + "/.wine/drive_c");
-	}
+	path.append(target->prefix_path + "/drive_c");
 	shell *wine = new shell("xdg-open",path);
 	wine->start();
 }
@@ -199,11 +184,7 @@ void tabTools::update(){
 	wine2->start();
 }
 void tabTools::clear(){QString path;
-	if(target->storage > 0 && target->prefix != ""){
-		path.append(target->model_storages.at(target->storage) + "/" + target->prefix);
-	}else{
-		path.append(target->home + "/.wine");
-	}
+	path.append(target->prefix_path);
 	shell *wine = new shell("wineserver",QStringList() << "-k" << "-w");
 	wine->envSetup(target);
 	wine->exec = "wineserver";

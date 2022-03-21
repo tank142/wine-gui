@@ -144,17 +144,33 @@ void openEXE::run(QModelIndex storage_index){
 	settings_conf.sync();settings_conf.deleteLater();
 	if(!QFile(open->text()).exists()){return;}
 	QString wineBin = findWineBin(storage_index);
+	QString prefix = findWinePrefix(storage_index);
+	QString SYNC = QSettings(prefix + "/WINE.cfg",QSettings::IniFormat).value("SYNC").toString();
 	if(debug->isChecked()){
 		shellOutputDebugging *wine = new shellOutputDebugging(wineBin,QStringList() << open->text());
-		wine->exec->env->insert("WINEPREFIX",findWinePrefix(storage_index));
+		wine->exec->env->insert("WINEPREFIX",prefix);
 		wine->exec->env->insert("WINEDEBUG","");
+		if(SYNC == "ESYNC"){
+			wine->exec->env->insert("WINEESYNC","1");
+		}else{
+			if(SYNC == "FSYNC"){
+				wine->exec->env->insert("WINEFSYNC","1");
+			}
+		}
 		wine->exec->proc->setWorkingDirectory(open->text().left(open->text().lastIndexOf("/")));
 		wine->start();
 	}else{
 		setAttribute(Qt::WA_QuitOnClose,false);
 		shell *wine = new shell(wineBin,QStringList() << open->text());
-		wine->env->insert("WINEPREFIX",findWinePrefix(storage_index));
+		wine->env->insert("WINEPREFIX",prefix);
 		wine->env->insert("WINEDEBUG","-all");
+		if(SYNC == "ESYNC"){
+			wine->env->insert("WINEESYNC","1");
+		}else{
+			if(SYNC == "FSYNC"){
+				wine->env->insert("WINEFSYNC","1");
+			}
+		}
 		wine->proc->setWorkingDirectory(open->text().left(open->text().lastIndexOf("/")));
 		connect(wine, &shell::destroyed , qApp , &QApplication::quit);
 		wine->start();
