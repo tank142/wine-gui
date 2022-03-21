@@ -114,4 +114,3 @@ unix:!macx {
     INSTALLS += target desktop icon_hdd icon_m2_ssd icon_pcie_ssd icon_raid icon_ssd icon_wine \
     wine-gui_ru_RU wine-gui_en_US
 }
-CONFIG(debug){BUILD_FLAG = debug}

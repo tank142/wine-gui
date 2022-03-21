@@ -46,11 +46,7 @@ int main(int argc, char *argv[])
 	const QStringList uiLanguages = QLocale::system().uiLanguages();
 	for (const QString &locale : uiLanguages) {
 		const QString baseName = "wine-gui_" + QLocale(locale).name();
-		#if BUILD_FLAG != debug
 		if (translator.load(baseName,QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(2) + "/lang")) {
-		#else
-		if (translator.load(baseName)){
-		#endif
 			a.installTranslator(&translator);
 			break;
 		}
