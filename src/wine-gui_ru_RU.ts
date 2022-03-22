@@ -47,6 +47,14 @@
     </message>
 </context>
 <context>
+    <name>fileDesktopWidget</name>
+    <message>
+        <location filename="filedesktopwidget.cpp" line="23"/>
+        <source>performance</source>
+	<translation>Производительность</translation>
+    </message>
+</context>
+<context>
     <name>mainwindow</name>
     <message>
         <location filename="mainwindow.cpp" line="34"/>
@@ -102,7 +110,7 @@
     <message>
         <location filename="prefixadd.cpp" line="142"/>
         <source>create_prefix</source>
-	<translation>Создание префикса...</translation>
+        <translation>Создание префикса...</translation>
     </message>
 </context>
 <context>
@@ -229,77 +237,83 @@
 <context>
     <name>tabLabels</name>
     <message>
-        <location filename="tablabels.cpp" line="21"/>
+        <location filename="tablabels.cpp" line="22"/>
         <source>name</source>
         <translation>Имя</translation>
     </message>
     <message>
-        <location filename="tablabels.cpp" line="21"/>
+        <location filename="tablabels.cpp" line="22"/>
         <source>shortcut</source>
         <translation>Ярлык</translation>
     </message>
     <message>
-        <location filename="tablabels.cpp" line="39"/>
+        <location filename="tablabels.cpp" line="40"/>
         <source>debug</source>
         <translation>Отладка</translation>
     </message>
     <message>
-        <location filename="tablabels.cpp" line="42"/>
+        <location filename="tablabels.cpp" line="43"/>
         <source>open</source>
         <translation>Открыть папку</translation>
     </message>
     <message>
-        <location filename="tablabels.cpp" line="45"/>
+        <location filename="tablabels.cpp" line="46"/>
         <source>edit</source>
         <translation>Редактировать</translation>
     </message>
     <message>
-        <location filename="tablabels.cpp" line="50"/>
+        <location filename="tablabels.cpp" line="51"/>
         <source>add_main_menu</source>
         <translation>Добавить в главное меню</translation>
     </message>
     <message>
-        <location filename="tablabels.cpp" line="54"/>
+        <location filename="tablabels.cpp" line="55"/>
         <source>del_main_menu</source>
         <translation>Удалить из главного меню</translation>
     </message>
     <message>
-        <location filename="tablabels.cpp" line="60"/>
+        <location filename="tablabels.cpp" line="61"/>
         <source>add_desktop</source>
         <translation>Добавить на рабочий стол</translation>
     </message>
     <message>
-        <location filename="tablabels.cpp" line="64"/>
+        <location filename="tablabels.cpp" line="65"/>
         <source>del_desktop</source>
         <translation>Удалить с рабочего стола</translation>
     </message>
     <message>
-        <location filename="tablabels.cpp" line="68"/>
+        <location filename="tablabels.cpp" line="69"/>
+        <location filename="tablabels.cpp" line="301"/>
+        <source>change_icon</source>
+        <translation>Сменить значок</translation>
+    </message>
+    <message>
+        <location filename="tablabels.cpp" line="70"/>
         <source>del</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="tablabels.cpp" line="73"/>
+        <location filename="tablabels.cpp" line="77"/>
         <source>create</source>
         <translation>Создать</translation>
     </message>
     <message>
-        <location filename="tablabels.cpp" line="190"/>
+        <location filename="tablabels.cpp" line="184"/>
         <source>file_exists</source>
         <translation>Файл cуществует: </translation>
     </message>
     <message>
-        <location filename="tablabels.cpp" line="190"/>
+        <location filename="tablabels.cpp" line="184"/>
         <source>overwrite</source>
         <translation>Перезаписать?</translation>
     </message>
     <message>
-        <location filename="tablabels.cpp" line="191"/>
+        <location filename="tablabels.cpp" line="185"/>
         <source>yes</source>
         <translation>Да</translation>
     </message>
     <message>
-        <location filename="tablabels.cpp" line="192"/>
+        <location filename="tablabels.cpp" line="186"/>
         <source>no</source>
         <translation>Нет</translation>
     </message>
@@ -396,7 +410,7 @@
 <context>
     <name>tabsyncSettings</name>
     <message>
-        <location filename="tabsyncsettings.cpp" line="8"/>
+        <location filename="tabsyncsettings.cpp" line="10"/>
         <source>sync</source>
         <translation>Синхронизация</translation>
     </message>

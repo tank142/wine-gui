@@ -22,8 +22,7 @@ private:
 	QStandardItemModel *model;
 	main_target *target;
 	QIcon find_icon(QString);
-	QString read_name(QString);
-	QString prefixPath();
+	QString read_name(QString);;
 	bool fileExists(QString,QString);
 	void updateIcon();
 private slots:
@@ -37,6 +36,7 @@ private slots:
 	void del_desktop_slot();
 	void add_slot();
 	void editor_slot();
+	void change_icon_slot();
 	void del_slot();
 	void labels_connect();
 public slots:

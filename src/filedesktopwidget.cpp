@@ -20,7 +20,7 @@ fileDesktopWidget::fileDesktopWidget(QString t,QString f,main_target *T,QWidget 
 	main->addWidget(new QSplitter(Qt::Vertical,this));
 
 
-	QGroupBox *performance = new QGroupBox("Производительность",this);
+	QGroupBox *performance = new QGroupBox(tr("performance"),this);
 	QVBoxLayout *performanceV = new QVBoxLayout(performance);
 	QGridLayout *performanceL = new QGridLayout(performance);
 	gamemodeCheck = new QCheckBox("GameMode",performance);

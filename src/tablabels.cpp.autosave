@@ -304,10 +304,13 @@ void tabLabels::change_icon_slot(){
 		}
 		FILE.close();
 		if(icon.size()>0){
+			QS
+			findLink(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text(),
+					 target->home + "/.local/share/icons").rmRc();
 			QDir dir(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/icon");
 			dir.removeRecursively();
 			dir.mkpath(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/icon");
-			iconExtract(icon->text(), t , prefix + "/shortcuts/" + shortcut->text()).start();
+			iconExtract(icon->text(), icon , prefix + "/shortcuts/" + shortcut->text()).start();
 		}
 	}
 }
