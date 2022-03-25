@@ -1,3 +1,4 @@
 build-wine-gui-Desktop-Debug
 *.pro.user
+*.autosave
 src/wine-gui.pro.user
