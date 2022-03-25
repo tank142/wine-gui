@@ -10,12 +10,21 @@ public:
 	QString source;
 	QString dir;
 	QString name;
-	void start();
-private:
+	virtual void start();
+protected:
 	void move(QString);
 	void mv(QString,QString,QString);
+	void workPng();
 signals:
 	void exit();
+};
+
+class iconExtractIco : iconExtract
+{
+	Q_OBJECT
+public:
+	explicit iconExtractIco(QString a,QString b,QString c,QObject *parent = nullptr):iconExtract(a,b,c,parent){};
+	void start()override;
 };
 
 #endif // ICONEXTRACT_H

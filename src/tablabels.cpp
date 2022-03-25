@@ -287,10 +287,10 @@ void tabLabels::editor_slot(){
 void tabLabels::change_icon_slot(){
 	QFile FILE(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/exec.sh");
 	if (FILE.exists()){
-		QString icon;
 		FILE.open(QFile::ReadOnly);
 		QTextStream t(&FILE);
 		QRegularExpression rx("WORKDIR=");
+		QString icon;
 		while(!t.atEnd()){
 		  QString l = t.readLine();
 		  if(rx.match(l).hasMatch()){
@@ -304,10 +304,20 @@ void tabLabels::change_icon_slot(){
 		}
 		FILE.close();
 		if(icon.size()>0){
+			findLink(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text(),
+					 target->home + "/.local/share/icons").rmRc();
 			QDir dir(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/icon");
 			dir.removeRecursively();
 			dir.mkpath(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/icon");
-			iconExtract(icon->text(), t , prefix + "/shortcuts/" + shortcut->text()).start();
+			if(QRegularExpression("^.*.ico$").match(icon).hasMatch()){
+				iconExtractIco(fileDesktop(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text()).Icon, icon ,
+							   target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text()).start();
+			}else{
+				iconExtract(fileDesktop(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text()).Icon, icon ,
+							   target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text()).start();
+			}
+			model->item(labels->currentIndex().row(),0)->setIcon(find_icon(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text()));
+			updateIcon();
 		}
 	}
 }

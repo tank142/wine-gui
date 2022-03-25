@@ -34,6 +34,18 @@ void iconExtract::move(QString x){
 		}
 	}
 }
+void iconExtract::workPng(){
+	foreach(QString size,QStringList() << "256x256" << "192x192" << "160x160" << "150x150"
+			<< "128x128" << "96x96" << "80x80" << "72x72" << "64x64" << "60x60" << "48x96"
+			<< "48x48" << "41x47" << "40x40" << "36x36" << "32x32" << "24x24" << "22x22"
+			<< "20x20" << "16x16" << "14x14" << "13x256" << "13x13" << "10x10" << "8x8"){
+		move(size);
+	}
+	foreach(QString ico, QDir(dir).entryList(QDir::Files)){
+		QFile::remove(dir + ico);
+	}
+
+}
 void iconExtract::start(){
 	QDir d;d.mkpath(dir);d.setFilter(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Hidden);d.setPath(dir);
 	QProcess *proc = new QProcess(this);
@@ -47,13 +59,20 @@ void iconExtract::start(){
 		}
 	}
 	QFile(dir + "/icon.ico").remove();
-	foreach(QString size,QStringList() << "256x256" << "192x192" << "160x160" << "150x150"
-			<< "128x128" << "96x96" << "80x80" << "72x72" << "64x64" << "60x60" << "48x96"
-			<< "48x48" << "41x47" << "40x40" << "36x36" << "32x32" << "24x24" << "22x22"
-			<< "20x20" << "16x16" << "14x14" << "13x256" << "13x13" << "10x10" << "8x8"){
-		move(size);
+	workPng();
+}
+
+void iconExtractIco::start(){
+	QDir d;d.mkpath(dir);d.setFilter(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Hidden);d.setPath(dir);
+	QProcess *proc = new QProcess(this);
+	proc->setProcessEnvironment(QProcessEnvironment(QProcessEnvironment::systemEnvironment()));
+	proc->start("icotool",QStringList() << "-o" << dir << "-x" << source);proc->waitForFinished(-1);
+	if(proc->exitCode() == 1){
+		proc->start("convert",QStringList() << source << dir + "/icon.ico");proc->waitForFinished(-1);
+		if(proc->exitCode() == 0){
+			proc->start("icotool",QStringList() << "-o" << dir << "-x" << dir + "/icon.ico");proc->waitForFinished(-1);
+			QFile(dir + "/icon.ico").remove();
+		}
 	}
-	foreach(QString ico, QDir(dir).entryList(QDir::Files)){
-		QFile::remove(dir + ico);
-	}
+	workPng();
 }
