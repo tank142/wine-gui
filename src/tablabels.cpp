@@ -47,7 +47,8 @@ void tabLabels::rightClicked(){
 		QAction *editorOpen = new QAction(tr("edit"),m_menu);
 		m_menu->addAction(editorOpen);
 		connect(editorOpen, &QAction::triggered, this, &tabLabels::editor_slot);
-		if(!findLink(target->prefix_path + + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text(),
+		QString shortcut = model->item(labels->currentIndex().row(),1)->text();
+		if(!findLink(target->prefix_path + + "/shortcuts/" + shortcut,
 					target->home + "/.local/share/applications/").ckRc()){
 			QAction *action = new QAction(tr("add_main_menu"));
 			connect(action, &QAction::triggered , this , &tabLabels::add_menu_slot);
@@ -57,7 +58,7 @@ void tabLabels::rightClicked(){
 			connect(action, &QAction::triggered , this , &tabLabels::del_menu_slot);
 			m_menu->addAction(action);
 		}
-		if(!findLink(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text(),
+		if(!findLink(target->prefix_path + "/shortcuts/" + shortcut,
 					QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)).ck()){
 			QAction *action = new QAction(tr("add_desktop"));
 			connect(action, &QAction::triggered , this , &tabLabels::add_desktop_slot);
@@ -86,14 +87,16 @@ void tabLabels::clicked2(){
 	wine = new shell("wine",QStringList());
 	wine->envSetup(target);
 	wine->env->insert("WINEDEBUG","-all");
-	wine->proc->setWorkingDirectory(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text());
-	wine->exec = target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/exec.sh";
+	QString shortcut = model->item(labels->currentIndex().row(),1)->text();
+	wine->proc->setWorkingDirectory(target->prefix_path + "/shortcuts/" + shortcut);
+	wine->exec = target->prefix_path + "/shortcuts/" + shortcut + "/exec.sh";
 	wine->start();
 }
 void tabLabels::runDebugging(){
 	shellOutputDebugging *wine;
-	wine = new shellOutputDebugging(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/exec.sh",QStringList());
-	wine->exec->proc->setWorkingDirectory(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text());
+	QString shortcut = model->item(labels->currentIndex().row(),1)->text();
+	wine = new shellOutputDebugging(target->prefix_path + "/shortcuts/" + shortcut + "/exec.sh",QStringList());
+	wine->exec->proc->setWorkingDirectory(target->prefix_path + "/shortcuts/" + shortcut);
 	QProcessEnvironment env(QProcessEnvironment::systemEnvironment());
 	env.insert("WINEDEBUG","");
 	wine->exec->proc->setProcessEnvironment(env);
@@ -196,7 +199,8 @@ void tabLabels::add_menu_slot(){
 	if(!QDir(target->home + "/.local/share/applications/").exists()){
 		QDir().mkpath(target->home + "/.local/share/applications");
 	}
-	QDir d(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/icon");
+	QString shortcut = model->item(labels->currentIndex().row(),1)->text();
+	QDir d(target->prefix_path + "/shortcuts/" + shortcut + "/icon");
 	QDir().mkpath(target->home + "/.local/share/icons/hicolor");
 	d.setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
 	foreach(QString dir,d.entryList()){
@@ -210,10 +214,10 @@ void tabLabels::add_menu_slot(){
 		file.link(target->home + "/.local/share/icons/hicolor/" + dir + "/apps/" + name);
 	}
 	updateIcon();
-	if(!fileExists(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/exec.desktop",
-				target->home + "/.local/share/applications/" + model->item(labels->currentIndex().row(),1)->text() + ".desktop")){return;}
-	QFile::link(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/exec.desktop",
-				target->home + "/.local/share/applications/" + model->item(labels->currentIndex().row(),1)->text() + ".desktop");
+	if(!fileExists(target->prefix_path + "/shortcuts/" + shortcut + "/exec.desktop",
+				target->home + "/.local/share/applications/" + shortcut + ".desktop")){return;}
+	QFile::link(target->prefix_path + "/shortcuts/" + shortcut + "/exec.desktop",
+				target->home + "/.local/share/applications/" + shortcut + ".desktop");
 
 	shell *update_menu = new shell("xdg-desktop-menu",QStringList() << "forceupdate" );
 	update_menu->start();update_menu->wait(-1);
@@ -222,7 +226,8 @@ void tabLabels::add_desktop_slot(){
 	if(!QDir(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)).exists()){
 		QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation));
 	}
-	QDir d(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/icon");
+	QString shortcut = model->item(labels->currentIndex().row(),1)->text();
+	QDir d(target->prefix_path + "/shortcuts/" + shortcut + "/icon");
 	QDir().mkpath(target->home + "/.local/share/icons/hicolor");
 	d.setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
 	foreach(QString dir,d.entryList()){
@@ -234,17 +239,17 @@ void tabLabels::add_desktop_slot(){
 		file.link(target->home + "/.local/share/icons/hicolor/" + dir + "/apps/" + name);
 	}
 	updateIcon();
-	if(!fileExists(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/exec.desktop",
-				   QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/" + model->item(labels->currentIndex().row(),1)->text() + ".desktop")){return;}
-	QFile::link(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/exec.desktop",
-				QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/" + model->item(labels->currentIndex().row(),1)->text() + ".desktop");
+	if(!fileExists(target->prefix_path + "/shortcuts/" + shortcut + "/exec.desktop",
+				   QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/" + shortcut + ".desktop")){return;}
+	QFile::link(target->prefix_path + "/shortcuts/" + shortcut + "/exec.desktop",
+				QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/" + shortcut + ".desktop");
 	shell *fix1 = new shell("chmod",QStringList() << "a+x"
-	<< model->item(labels->currentIndex().row(),1)->text() + ".desktop" );
+	<< shortcut + ".desktop" );
 	fix1->proc->setWorkingDirectory(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation));
 	fix1->start();fix1->wait(-1);
 	shell *fix2 = new shell("gio",QStringList()
 	<< "set"
-	<< model->item(labels->currentIndex().row(),1)->text() + ".desktop" 
+	<< shortcut + ".desktop"
 	<< "metadata::trusted"
 	<< "true");
 	fix2->proc->setWorkingDirectory(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation));
@@ -252,7 +257,7 @@ void tabLabels::add_desktop_slot(){
 	QProcess *touch = new QProcess();
 	touch->setWorkingDirectory(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation));
 	touch->setProgram("touch");
-	touch->setArguments(QStringList() << "--no-dereference" << "./" + model->item(labels->currentIndex().row(),1)->text() + ".desktop" );
+	touch->setArguments(QStringList() << "--no-dereference" << "./" + shortcut + ".desktop" );
 	touch->start();
 	//update_file *t = new update_file(touch);t->start();
 }
@@ -285,7 +290,8 @@ void tabLabels::editor_slot(){
 	emit hide();
 }
 void tabLabels::change_icon_slot(){
-	QFile FILE(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/exec.sh");
+	QString shortcut = model->item(labels->currentIndex().row(),1)->text();
+	QFile FILE(target->prefix_path + "/shortcuts/" + shortcut + "/exec.sh");
 	if (FILE.exists()){
 		FILE.open(QFile::ReadOnly);
 		QTextStream t(&FILE);
@@ -299,36 +305,54 @@ void tabLabels::change_icon_slot(){
 			  l.replace(QRegularExpression("\\$WINEPREFIX"),target->prefix_path);
 			  l.remove(QRegularExpression("^\""));
 			  l.remove(QRegularExpression("\"$"));
-			  icon = QFileDialog::getOpenFileName(0, tr("change_icon"), l, "*.exe *.EXE *.ico");
+			  icon = QFileDialog::getOpenFileName(0, tr("change_icon"), l, "*.exe *.ico");
 		  }
 		}
 		FILE.close();
 		if(icon.size()>0){
-			findLink(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text(),
-					 target->home + "/.local/share/icons").rmRc();
-			QDir dir(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/icon");
+			findLink link(target->prefix_path + "/shortcuts/" + shortcut,
+					 target->home + "/.local/share/icons");
+			link.rmRc();
+			QDir dir(target->prefix_path + "/shortcuts/" + shortcut + "/icon");
 			dir.removeRecursively();
-			dir.mkpath(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text() + "/icon");
+			dir.mkpath(target->prefix_path + "/shortcuts/" + shortcut + "/icon");
 			if(QRegularExpression("^.*.ico$").match(icon).hasMatch()){
-				iconExtractIco(fileDesktop(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text()).Icon, icon ,
-							   target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text()).start();
+				iconExtractIco(fileDesktop(target->prefix_path + "/shortcuts/" + shortcut).Icon, icon ,
+							   target->prefix_path + "/shortcuts/" + shortcut).start();
 			}else{
-				iconExtract(fileDesktop(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text()).Icon, icon ,
-							   target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text()).start();
+				iconExtract(fileDesktop(target->prefix_path + "/shortcuts/" + shortcut).Icon, icon ,
+							   target->prefix_path + "/shortcuts/" + shortcut).start();
 			}
-			model->item(labels->currentIndex().row(),0)->setIcon(find_icon(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text()));
+			model->item(labels->currentIndex().row(),0)->setIcon(find_icon(target->prefix_path + "/shortcuts/" + shortcut));
+			if(link.links.size()>0){
+				QDir d(target->prefix_path + "/shortcuts/" + shortcut + "/icon");
+				QDir().mkpath(target->home + "/.local/share/icons/hicolor");
+				d.setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
+				foreach(QString dir,d.entryList()){
+					QDir().mkpath(target->home + "/.local/share/icons/hicolor/" + dir + "/apps");
+					QString name = QDir(d.path() + "/" + dir ).entryList().at(2);
+					QFile file(d.path() + "/" + dir + "/" + name);
+					QFile l(target->home + "/.local/share/icons/hicolor/" + dir + "/apps/" + name);
+					if(l.exists()){l.remove();}
+					if(!fileExists(d.path() + "/" + dir + "/" + name,
+								   target->home + "/.local/share/icons/hicolor/" + dir + "/apps/" + name)){return;}
+					file.link(target->home + "/.local/share/icons/hicolor/" + dir + "/apps/" + name);
+				}
+
+			}
 			updateIcon();
 		}
 	}
 }
 void tabLabels::del_slot(){
-	findLink(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text(),
+	QString shortcut = model->item(labels->currentIndex().row(),1)->text();
+	findLink(target->prefix_path + "/shortcuts/" + shortcut,
 			 target->home + "/.local/share/applications").rmRc();
-	findLink(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text(),
+	findLink(target->prefix_path + "/shortcuts/" + shortcut,
 			 target->home + "/.local/share/icons").rmRc();
-	findLink(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text(),
+	findLink(target->prefix_path + "/shortcuts/" + shortcut,
 			 QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)).rm();
-	QDir(target->prefix_path + "/shortcuts/" + model->item(labels->currentIndex().row(),1)->text()).removeRecursively();
+	QDir(target->prefix_path + "/shortcuts/" + shortcut).removeRecursively();
 	shortcuts();
 }
 void update_file::run(){
