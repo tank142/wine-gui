@@ -2,3 +2,4 @@ build-wine-gui-Desktop-Debug
 *.pro.user
 *.autosave
 src/wine-gui.pro.user
+src/tablabels.cpp.autosave
